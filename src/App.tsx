@@ -1,5 +1,5 @@
-import CConnectWallet from './Components/CConnetWallet';
-import MySorobanReactProvider from './Components/CConnetWallet/MySorobanReactProvider';
+import CConnectWallet from './Components/CConnectWallet';
+import SorobanProvider from './Components/CConnectWallet/SorobanProvider';
 
 export default function App() {
   return (
@@ -7,10 +7,11 @@ export default function App() {
       <h1 className="text-3xl font-normal">Wagent</h1>
       <h1 className="text-3xl font-medium">Wagent</h1>
       <h1 className="text-3xl font-semibold">Wagent</h1>
+
       <div className="w-[247px]">
-        <MySorobanReactProvider>
+        <SorobanProvider>
           <CConnectWallet />
-        </MySorobanReactProvider>
+        </SorobanProvider>
       </div>
     </>
   );
