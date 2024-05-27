@@ -34,6 +34,7 @@ const CRadioButtonGroup = ({ tabs, defaultSelectedTab, onChange }: CRadioButtonG
               id={tab.value}
               name="tabs"
               className="hidden"
+              aria-checked
               onChange={handleTabChange}
             />
 
