@@ -1,11 +1,5 @@
-import { MultiValue, SingleValue } from 'react-select';
-
-export interface ISelectItem<T> {
+export interface OptionType {
+  value: string;
   label: string;
-  value: T;
+  icon: string;
 }
-export type ISelectItemString = ISelectItem<string>;
-
-export type ReactSelectOnChangeType = (
-  newValue: MultiValue<ISelectItemString> | SingleValue<ISelectItemString>,
-) => void;

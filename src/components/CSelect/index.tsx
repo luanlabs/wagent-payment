@@ -3,18 +3,14 @@ import Select, { components, OptionProps } from 'react-select';
 
 import arrowLogo from '/images/arrow.svg';
 
+import { OptionType } from '../../models';
 import selectCustomStyles from './selectCustomStyles';
 
-interface OptionType {
-  value: string;
-  label: string;
-  icon: string;
-}
-
-interface CSelectProps {
+type CSelectProps = {
   placeholder?: string;
   className?: string;
-}
+  onChange?: (value: OptionType | null) => void;
+};
 
 const options: OptionType[] = [
   { value: 'xlm', label: 'xlm', icon: 'xlm.png' },
@@ -42,11 +38,15 @@ const Option = (props: OptionProps<OptionType>) => (
   </components.Option>
 );
 
-const CSelect = ({ placeholder, className }: CSelectProps) => {
+const CSelect = ({ placeholder, className, onChange }: CSelectProps) => {
   const [selectValue, setSelectValue] = useState<OptionType | null>(null);
 
-  const handleChange = (value: OptionType | null) => {
-    setSelectValue(value);
+  const handleChange = (item: OptionType | null) => {
+    setSelectValue(item);
+
+    if (onChange) {
+      onChange(item);
+    }
   };
 
   return (
