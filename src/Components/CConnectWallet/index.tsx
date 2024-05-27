@@ -1,87 +1,85 @@
-// ConnectButton.js
-import { Connector } from '@soroban-react/types';
-import { useSorobanReact } from '@soroban-react/core';
+import { useState } from 'react';
+
+import freighterApi from '@stellar/freighter-api';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
-import { ArrowLeftEndOnRectangleIcon, Square2StackIcon } from '@heroicons/react/16/solid';
 
 import CButton from '../CButton';
 import shortenAddress from '../../utils/shortenAddress';
 import copyToClipboard from '../../utils/copyToClipboard';
 
+import { ArrowRightStartOnRectangleIcon, SquareStackIcon } from './icons';
+
 const ConnectButton = () => {
-  const sorobanContext = useSorobanReact();
+  const [address, setAddress] = useState<string>('');
 
-  const { address, disconnect, setActiveConnectorAndConnect } = sorobanContext;
-  const activeAccount = address;
-  const browserWallets = sorobanContext.connectors;
+  const handleConnect = async () => {
+    if (address) {
+      return;
+    }
 
-  const handleConnect = (wallet: Connector) => {
+    freighterApi.isConnected().then((isConnected) => {
+      if (!isConnected) {
+        console.log('Freighter is not installed');
+      }
+    });
+
     try {
-      setActiveConnectorAndConnect && setActiveConnectorAndConnect(wallet);
+      await freighterApi.requestAccess();
+
+      const publicKey = await freighterApi.getPublicKey();
+      setAddress(publicKey);
     } catch {
-      console.log('error');
+      console.log('Freighter not connected');
     }
   };
 
-  const handleDisconnect = async () => {
-    await disconnect();
+  const handleDisconnect = () => {
+    setAddress('');
   };
 
   const handleCopy = () => {
-    if (activeAccount) {
-      copyToClipboard(address);
-    }
+    copyToClipboard(address);
   };
 
   const Btnstyle = `flex justify-between items-center hover:bg-[#fff] text-left`;
+  const shortAddress = shortenAddress(address, 5);
 
   return (
-    <div className="relative">
-      {!activeAccount ? (
-        <div>
-          {browserWallets.map((w) => (
-            <CButton
-              key={w.name}
-              text="Connect wallet"
-              variant="bordered"
-              onClick={() => handleConnect(w)}
-            />
-          ))}
-        </div>
+    <div>
+      {!address ? (
+        <CButton text="Connect wallet" variant="bordered" onClick={handleConnect} />
       ) : (
-        <div>
-          <Menu>
-            <MenuButton className={`w-full`}>
-              <CButton text={shortenAddress(address, 5)} variant="bordered" />
-            </MenuButton>
-            <Transition
-              enter="transition-opacity duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity duration-150"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
+        <Menu>
+          <MenuButton className="w-full">
+            <CButton text={shortAddress} variant="bordered" />
+          </MenuButton>
+          <Transition
+            enter="transition-opacity duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-150"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <MenuItems
+              anchor="right"
+              className="flex flex-col p-2 space-y-2 ml-3 mt-6 bg- w-[160px] text-left text-[12px] bg-[#f4f5f7b8] rounded-md"
             >
-              <MenuItems
-                anchor="right"
-                className="flex flex-col p-2 space-y-2 ml-3 mt-6 bg- w-[160px] text-left text-[12px] bg-[#f4f5f7b8] rounded-md"
-              >
-                <MenuItem>
-                  <CButton variant="simple" className={Btnstyle} onClick={handleCopy}>
-                    <p>Copy Address</p>
-                    <Square2StackIcon className="size-4 fill-black" />
-                  </CButton>
-                </MenuItem>
-                <MenuItem>
-                  <CButton variant="simple" onClick={handleDisconnect} className={Btnstyle}>
-                    Disconnect
-                    <ArrowLeftEndOnRectangleIcon className="size-4 fill-black" />
-                  </CButton>
-                </MenuItem>
-              </MenuItems>
-            </Transition>
-          </Menu>
-        </div>
+              <MenuItem>
+                <CButton variant="simple" className={Btnstyle} onClick={handleCopy}>
+                  <p>{shortAddress}</p>
+                  <SquareStackIcon fill="#000" />
+                </CButton>
+              </MenuItem>
+              <MenuItem>
+                <CButton variant="simple" className={Btnstyle} onClick={handleDisconnect}>
+                  Disconnect
+                  <ArrowRightStartOnRectangleIcon fill="#000" />
+                </CButton>
+              </MenuItem>
+            </MenuItems>
+          </Transition>
+        </Menu>
       )}
     </div>
   );
