@@ -1,17 +1,18 @@
 import { useState } from 'react';
+import clsx from 'clsx';
 
-export type CRadioTab = {
+export type CRadioButtonGroupType = {
   value: string;
   label: string;
 };
 
-interface CRadioTabsProps {
-  tabs: CRadioTab[];
+interface CRadioButtonGroupProps {
+  tabs: CRadioButtonGroupType[];
   defaultSelectedTab: string;
   onChange?: (value: string) => void;
 }
 
-const CRadioTab = ({ tabs, defaultSelectedTab, onChange }: CRadioTabsProps) => {
+const CRadioButtonGroup = ({ tabs, defaultSelectedTab, onChange }: CRadioButtonGroupProps) => {
   const [selectedTab, setSelectedTab] = useState<string>(defaultSelectedTab);
 
   const handleTabChange = (value: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,11 +38,17 @@ const CRadioTab = ({ tabs, defaultSelectedTab, onChange }: CRadioTabsProps) => {
             />
 
             <div
-              className={`py-2 cursor-pointer rounded-[10px] transition-all text-base border border-transparent ${
-                selectedTab === tab.value
-                  ? 'bg-white border border-1 !border-customGray'
-                  : 'text-lightGrayishBlue'
-              } ${tabs.length >= 2 ? 'w-full' : 'w-[116px]'} `}
+              className={clsx(
+                'py-2 cursor-pointer rounded-[10px] transition-all text-base border border-transparent',
+                {
+                  'bg-white border border-1 !border-customGray': selectedTab === tab.value,
+                  'text-lightGrayishBlue': selectedTab !== tab.value,
+                },
+                {
+                  'w-full': tabs.length >= 2,
+                  'w-[116px]': tabs.length < 2,
+                },
+              )}
             >
               {tab.label}
             </div>
@@ -52,4 +59,4 @@ const CRadioTab = ({ tabs, defaultSelectedTab, onChange }: CRadioTabsProps) => {
   );
 };
 
-export default CRadioTab;
+export default CRadioButtonGroup;
