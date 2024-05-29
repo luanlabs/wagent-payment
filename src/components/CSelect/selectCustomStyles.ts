@@ -1,16 +1,12 @@
 import { StylesConfig } from 'react-select';
-
-interface OptionType {
-  value: string;
-  label: string;
-  icon: string;
-}
+import { OptionType } from '../../models';
 
 const selectCustomStyles: StylesConfig<OptionType, false> = {
   option: (provided, state) => ({
     ...provided,
     color: state.isSelected ? '#039855' : 'black',
     display: 'flex',
+    borderRadius: '2px',
     alignItems: 'center',
     cursor: 'pointer',
     height: '40px',
@@ -27,6 +23,7 @@ const selectCustomStyles: StylesConfig<OptionType, false> = {
     height: '40px',
     borderRadius: '8px',
     fontSize: '16px',
+    fontWeight: 'bold',
     color: '#039855',
     padding: '0 7px',
     cursor: 'pointer',
@@ -51,6 +48,8 @@ const selectCustomStyles: StylesConfig<OptionType, false> = {
   menu: (defaultStyles) => ({
     ...defaultStyles,
     borderRadius: '8px',
+    border: '1px #D0D5DD solid',
+    boxShadow: 'none',
   }),
 
   placeholder: (defaultStyles) => ({ ...defaultStyles, color: '#98A2B3' }),

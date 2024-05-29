@@ -9,14 +9,9 @@ import selectCustomStyles from './selectCustomStyles';
 type CSelectProps = {
   placeholder?: string;
   className?: string;
+  options: OptionType[];
   onChange?: (value: OptionType | null) => void;
 };
-
-const options: OptionType[] = [
-  { value: 'xlm', label: 'xlm', icon: 'xlm.png' },
-  { value: 'usdc', label: 'usdc', icon: 'xlm.png' },
-  { value: 'else', label: 'else', icon: 'xlm.png' },
-];
 
 const DropdownIndicator = () => (
   <div className="mr-2">
@@ -26,19 +21,19 @@ const DropdownIndicator = () => (
 
 const CustomSingleValue = ({ data }: { data: OptionType }) => (
   <div className="flex items-center">
-    <img src={data.icon} alt={data.label} className="w-4 h-4 mr-2" />
+    <img src={data.logo} alt={data.label} className="w-4 h-4 mr-2" />
     {data.label}
   </div>
 );
 
 const Option = (props: OptionProps<OptionType>) => (
   <components.Option {...props}>
-    <img src={props.data.icon} width={20} height={20} alt={props.data.label} className="mr-2" />
+    <img src={props.data.logo} width={20} height={20} alt={props.data.label} className="mr-2" />
     {props.data.label}
   </components.Option>
 );
 
-const CSelect = ({ placeholder, className, onChange }: CSelectProps) => {
+const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) => {
   const [selectValue, setSelectValue] = useState<OptionType | null>(null);
 
   const handleChange = (item: OptionType | null) => {
