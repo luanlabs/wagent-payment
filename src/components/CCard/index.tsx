@@ -15,9 +15,9 @@ const CCard = ({ type, title, subtitle, image, className, onClick }: CCardProps)
   return (
     <div
       className={clsx(
-        'w-full bg-white rounded-[10px] text-left border border-1 border-lightGray ',
+        'w-full bg-white cursor-default rounded-[10px] text-left border border-1 border-lightGray ',
         className,
-        { 'flex items-center p-1 cursor-pointer hover:bg-white/10': type === 'detailed' },
+        { 'flex items-center p-1': type === 'detailed' },
         { 'px-4 py-6 border-none': type === 'simple' },
         { 'px-2 py-4': type === 'summary' },
       )}
