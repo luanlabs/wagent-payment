@@ -4,10 +4,12 @@ import freighterApi from '@stellar/freighter-api';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
 
 import CButton from '../CButton';
+
 import shortenAddress from '../../utils/shortenAddress';
 import copyToClipboard from '../../utils/copyToClipboard';
 
-import { ArrowRightStartOnRectangleIcon, SquareStackIcon } from './icons';
+import ArrowRightStartOnRectangleIcon from '../../assets/ArrowRightStartOnRectangleIcon';
+import SquareStackIcon from '../../assets/SquareStackIcon';
 
 const ConnectButton = () => {
   const [address, setAddress] = useState<string>('');
@@ -41,7 +43,7 @@ const ConnectButton = () => {
     copyToClipboard(address);
   };
 
-  const Btnstyle = `flex justify-between items-center hover:bg-[#fff] text-left`;
+  const Btnstyle = `flex justify-between items-center hover:bg-white text-left`;
   const shortAddress = shortenAddress(address, 5);
 
   return (
