@@ -1,7 +1,11 @@
 import CSelect from './components/CSelect';
 import useGetPaymentDetails from './hooks/useGetPaymentDetails';
-import { OptionType } from './models';
 import { tokensToOptions } from './utils/tokensToOptions';
+
+import { OptionType } from './models';
+import CButton from './components/CButton';
+import CConnectWallet from './components/CConnectWallet';
+import CRadioButtonGroup from './components/CRadioButtonGroup';
 
 export default function App() {
   const handleSelectChange = (item: OptionType | null) => {
@@ -14,6 +18,12 @@ export default function App() {
     return <p>Loading!</p>;
   }
   const tokens = tokensToOptions(data.settings.tokens);
+
+  const tabs = [
+    { value: 'stream', label: 'Stream' },
+    { value: 'single', label: 'Single' },
+    { value: 'vesting', label: 'Vesting' },
+  ];
 
   return (
     <div className="p-4">
@@ -30,6 +40,19 @@ export default function App() {
         </span>
         <div className="w-1/4">
           <CSelect onChange={handleSelectChange} options={tokens} />
+        </div>
+      </div>
+      <div className="p-4">
+        <div className="w-[247px]">
+          <CConnectWallet />
+        </div>
+
+        <div className="flex w-[50%] space-x-2 mt-2">
+          <CButton variant="bordered" text="Cancel Order" className="w-[50%]" />
+          <CButton variant="confirm" text="Confirm Payment" />
+        </div>
+        <div className="w-[300px]">
+          <CRadioButtonGroup tabs={tabs} defaultSelectedTab={tabs[0].value} />
         </div>
       </div>
     </div>

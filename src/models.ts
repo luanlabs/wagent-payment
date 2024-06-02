@@ -29,3 +29,6 @@ export interface IPaymentDetailsResponse {
     totalAmount: string;
   };
 }
+export interface iconProps {
+  fill: string;
+}

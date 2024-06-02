@@ -52,7 +52,7 @@ const selectCustomStyles: StylesConfig<OptionType, false> = {
     boxShadow: 'none',
   }),
 
-  placeholder: (defaultStyles) => ({ ...defaultStyles, color: '#98A2B3' }),
+  placeholder: (defaultStyles) => ({ ...defaultStyles, color: '#98A2B3', fontWeight: 'normal' }),
 };
 
 export default selectCustomStyles;
