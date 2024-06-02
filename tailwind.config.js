@@ -14,6 +14,7 @@ export default {
         darkBlue: '#101828',
         mediumGray: '#98A2B3',
         offWhite: '#FCFCFD',
+        primaryGreen: '#073834',
       },
     },
   },

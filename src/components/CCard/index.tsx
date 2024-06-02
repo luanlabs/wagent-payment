@@ -15,7 +15,7 @@ const CCard = ({ type, title, subtitle, image, className, onClick }: CCardProps)
   return (
     <div
       className={clsx(
-        'w-full bg-white cursor-default rounded-[10px] text-left border border-1 border-lightGray ',
+        'w-full bg-white cursor-default rounded-[10px] text-left border border-1 border-customGray ',
         className,
         { 'flex items-center p-1': type === 'detailed' },
         { 'px-4 py-6 border-none': type === 'simple' },
@@ -32,7 +32,7 @@ const CCard = ({ type, title, subtitle, image, className, onClick }: CCardProps)
         <h3
           className={clsx(
             'text-darkBlue text-base',
-            { 'text-[24px] font-medium': type === 'simple' },
+            { '!text-[24px] font-medium': type === 'simple' },
             { 'font-medium': type === 'summary' },
           )}
         >

@@ -13,12 +13,12 @@ const CDisclosure = ({ title, subTitle, content, icon, label }: CDisclosureProps
   return (
     <div>
       {label && <h2 className="mb-4 text-2xl font-medium text-darkBlue">{label}</h2>}
-      <div className="w-full rounded-xl bg-offWhite border border-1 border-lightGray">
-        <Disclosure as="div" className="py-6" defaultOpen>
+      <div className="w-full rounded-xl bg-offWhite border border-1 border-customGray">
+        <Disclosure as="div" className="py-6">
           <DisclosureButton className="group w-full flex items-center px-4">
             <div className="flex w-full">
               {icon && (
-                <div className="bg-lightGray flex items-center justify-center w-[57px] h-[50px] rounded-[10px] mr-3">
+                <div className="bg-customGray flex items-center justify-center w-[57px] h-[50px] rounded-[10px] mr-3">
                   {icon}
                 </div>
               )}
