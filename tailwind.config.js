@@ -4,13 +4,14 @@ export default {
   theme: {
     extend: {
       colors: {
+        lightGrayishBlue: '#D0D5DD',
+        lightGray: '#F9FAFB',
+        customGray: '#F2F4F7',
+        cadetBlue: '#98A2B3',
         lightestGray: '#F9FAFB',
         gray: '#D0D5DD',
         emeraldGreen: '#2AC18D',
         darkBlue: '#101828',
-        lightGrayishBlue: '#D0D5DD',
-        lightGray: '#F9FAFB',
-        customGray: '#F2F4F7',
         mediumGray: '#98A2B3',
         offWhite: '#FCFCFD',
       },
