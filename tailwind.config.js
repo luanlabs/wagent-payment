@@ -21,8 +21,8 @@ export default {
       },
       screens: {
         mobile: { max: '730px' },
-        tablet: { max: '1023px', min: '731px' },
-        desktop: { min: '1024px' },
+        tablet: { max: '1099px', min: '731px' },
+        desktop: { min: '1100px' },
         tall: { raw: '(min-height: 933px)' },
         short: { raw: '(max-height: 710px)' },
       },

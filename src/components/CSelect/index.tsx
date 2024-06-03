@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Select, { components, OptionProps } from 'react-select';
+import Select, { components, DropdownIndicatorProps, OptionProps } from 'react-select';
 
 import arrowLogo from '/images/arrow.svg';
 
@@ -13,10 +13,18 @@ type CSelectProps = {
   onChange?: (value: OptionType | null) => void;
 };
 
-const DropdownIndicator = () => (
-  <div className="mr-2">
-    <img src={arrowLogo} alt="arrow" />
-  </div>
+const DropdownIndicator = (props: DropdownIndicatorProps<OptionType>) => (
+  <components.DropdownIndicator {...props}>
+    <img
+      src={arrowLogo}
+      alt="arrow"
+      className={`${
+        props.selectProps.menuIsOpen
+          ? 'rotate-180 transition-all duration-[400ms]'
+          : 'rotate-0 transition-all duration-[400ms]'
+      }`}
+    />
+  </components.DropdownIndicator>
 );
 
 const CustomSingleValue = ({ data }: { data: OptionType }) => (
@@ -32,6 +40,12 @@ const Option = (props: OptionProps<OptionType>) => (
     {props.data.label}
   </components.Option>
 );
+
+const customComponents = {
+  Option: Option,
+  DropdownIndicator: DropdownIndicator,
+  SingleValue: CustomSingleValue,
+};
 
 const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) => {
   const [selectValue, setSelectValue] = useState<OptionType | null>(null);
@@ -49,11 +63,7 @@ const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) =>
       <Select
         autoFocus={false}
         options={options}
-        components={{
-          Option: Option,
-          DropdownIndicator,
-          SingleValue: CustomSingleValue,
-        }}
+        components={customComponents}
         styles={selectCustomStyles}
         placeholder={placeholder}
         isSearchable={false}

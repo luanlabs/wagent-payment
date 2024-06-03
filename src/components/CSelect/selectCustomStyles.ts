@@ -23,7 +23,6 @@ const selectCustomStyles: StylesConfig<OptionType, false> = {
     height: '40px',
     borderRadius: '8px',
     fontSize: '16px',
-    fontWeight: 'bold',
     color: '#039855',
     padding: '0 7px',
     cursor: 'pointer',

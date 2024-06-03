@@ -16,11 +16,11 @@ const CButton = ({ text, onClick, variant, className, children }: CButtonProps) 
         `w-full px-2 py-2 text-center cursor-pointer rounded-lg transition`,
         className,
         {
-          'border border-1 text-darkBlue border-gray text-base font-medium hover:bg-lightestGray active:shadow':
+          'border border-1 text-darkBlue border-gray text-base font-medium hover:bg-customGray active:shadow transition-all duration-700':
             variant === 'bordered',
         },
         {
-          'bg-emeraldGreen text-white hover:bg-emeraldGreen/90 active:bg-emeraldGreen':
+          'bg-emeraldGreen text-white hover:bg-primaryGreen/90 active:bg-primaryGreen transition-all duration-700':
             variant === 'confirm',
         },
       )}
