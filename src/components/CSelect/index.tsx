@@ -4,7 +4,7 @@ import Select, { components, DropdownIndicatorProps, OptionProps } from 'react-s
 import arrowLogo from '/images/arrow.svg';
 
 import { OptionType } from '../../models';
-import selectCustomStyles from './selectCustomStyles';
+import customStyles from './selectCustomStyles';
 
 type CSelectProps = {
   placeholder?: string;
@@ -49,6 +49,7 @@ const customComponents = {
 
 const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) => {
   const [selectValue, setSelectValue] = useState<OptionType | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleChange = (item: OptionType | null) => {
     setSelectValue(item);
@@ -64,10 +65,12 @@ const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) =>
         autoFocus={false}
         options={options}
         components={customComponents}
-        styles={selectCustomStyles}
+        styles={customStyles(open)}
         placeholder={placeholder}
         isSearchable={false}
         value={selectValue}
+        onBlur={() => setOpen(false)}
+        menuIsOpen
         onChange={handleChange}
       />
     </div>
