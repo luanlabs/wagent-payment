@@ -24,7 +24,7 @@ const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) =>
       onChange(item);
     }
   };
-  console.log(isOpen);
+
   const DropdownIndicator = () => (
     <div>
       <img

@@ -11,6 +11,7 @@ import CRadioButtonGroup from './components/CRadioButtonGroup';
 
 import { tokensToOptions } from './utils/tokensToOptions';
 import useGetPaymentDetails from './hooks/useGetPaymentDetails';
+import capitalizeFirstLetter from './utils/capitalizeFirstLetter';
 
 import { OptionType } from './models';
 import ShoppingCardIcon from './assets/ShoppingCardIcon';
@@ -18,9 +19,22 @@ import ShoppingCardIcon from './assets/ShoppingCardIcon';
 import hoodie from '/images/hoodie.png';
 import logoType from '/images/logoType.svg';
 
+const methodTabs = [
+  { value: 'stream', label: 'Stream' },
+  { value: 'single', label: 'Single' },
+  { value: 'vesting', label: 'Vesting' },
+];
+
+const networkTabs = [
+  { value: 'stellar', label: 'Stellar' },
+  { value: 'soroban', label: 'Soroban' },
+];
+
 export default function App() {
   const [selectedToken, setSelectedToken] = useState<OptionType | null>(null);
   const [emailAddress, setEmailAddress] = useState('');
+  const [selectedNetwork, setSelectedNetwork] = useState(networkTabs[0].label);
+  const [selectedMethod, setSelectedMethod] = useState(methodTabs[0].label);
 
   const handleSelectChange = (item: OptionType | null) => {
     if (item) {
@@ -31,23 +45,21 @@ export default function App() {
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmailAddress(e.target.value);
   };
+
+  const handleSelectedNetwork = (value: string) => {
+    setSelectedNetwork(value);
+  };
+
+  const handleSelectedMethod = (value: string) => {
+    setSelectedMethod(value);
+  };
+
   const data = useGetPaymentDetails('1');
 
   if (!data) {
     return <p>Loading!</p>;
   }
   const tokens = tokensToOptions(data.settings.tokens);
-
-  const methodTabs = [
-    { value: 'stream', label: 'Stream' },
-    { value: 'single', label: 'Single' },
-    { value: 'vesting', label: 'Vesting' },
-  ];
-
-  const networkTabs = [
-    { value: 'stellar', label: 'Stellar' },
-    { value: 'soroban', label: 'Soroban' },
-  ];
 
   const orderTop = (
     <div className="mt-2 space-y-3">
@@ -112,14 +124,22 @@ export default function App() {
               title="Select network"
               description="Choose the token you'd like to make transaction with"
               component={
-                <CRadioButtonGroup tabs={methodTabs} defaultSelectedTab={methodTabs[0].value} />
+                <CRadioButtonGroup
+                  tabs={methodTabs}
+                  defaultSelectedTab={methodTabs[0].value}
+                  onChange={handleSelectedMethod}
+                />
               }
             />
             <CItemField
               title="Payment method"
               description="Choose the token you'd like to make transaction with"
               component={
-                <CRadioButtonGroup tabs={networkTabs} defaultSelectedTab={networkTabs[0].value} />
+                <CRadioButtonGroup
+                  tabs={networkTabs}
+                  defaultSelectedTab={networkTabs[0].value}
+                  onChange={handleSelectedNetwork}
+                />
               }
             />
             <CItemField
@@ -148,16 +168,19 @@ export default function App() {
           <div className="relative p-6 mt-1 bg-white rounded-[10px] h-[calc(100%-75px)] ">
             <div className="desktop:h-full">
               <CResultDetail label="Email Address" value={emailAddress} />
-              <CResultDetail label="Payment method" value={emailAddress} />
+              <CResultDetail label="Payment method" value={capitalizeFirstLetter(selectedMethod)} />
               <CResultDetail
                 label="Token"
                 value={
-                  selectedToken && (
-                    <p className="center gap-2 text-success px-2 bg-mintGreen border border-lightGreen rounded-full">
-                      <img src={selectedToken.logo} alt="token" width={14} height={14} />
-                      {selectedToken.label}
-                    </p>
-                  )
+                  <div className="flex space-x-4">
+                    {selectedToken && (
+                      <p className="center gap-2 text-success px-2 bg-mintGreen border border-lightGreen rounded-full">
+                        <img src={selectedToken.logo} alt="token" width={14} height={14} />
+                        {selectedToken.label}
+                      </p>
+                    )}
+                    {selectedNetwork && <p>{capitalizeFirstLetter(selectedNetwork)}</p>}
+                  </div>
                 }
               />
               <CResultDetail label="Total Amount" value={emailAddress} />
