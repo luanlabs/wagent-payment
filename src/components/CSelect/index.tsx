@@ -31,9 +31,7 @@ const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) =>
         src={arrowLogo}
         alt="arrow"
         className={`${
-          isOpen
-            ? 'rotate-180  transition-transform duration-300'
-            : 'rotate-0 transition-transform duration-300'
+          isOpen ? 'rotate-180 transition-all duration-300' : 'rotate-0 transition-all duration-300'
         }`}
       />
     </div>

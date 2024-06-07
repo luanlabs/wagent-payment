@@ -96,7 +96,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="bg-white h-2/3 desktop:p-8 p-4 space-y-4 rounded-b-[10px] pt-16">
+        <div className="bg-white h-2/3 desktop:p-8 p-6 space-y-4 rounded-b-[10px] pt-16">
           <CDisclosure
             label="Order overview"
             title="Order Details"

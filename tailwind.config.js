@@ -19,6 +19,9 @@ export default {
         mintGreen: '#ECFDF3',
         lightGreen: '#A6F4C5',
       },
+      backgroundImage: {
+        gradientGlow: 'radial-gradient(#A6F4C5, #2AC18D 60%)',
+      },
       screens: {
         mobile: { max: '730px' },
         tablet: { max: '1099px', min: '731px' },

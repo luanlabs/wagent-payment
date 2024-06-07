@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import ConfirmButton from './confirmButton';
 
 export type VariantType = 'simple' | 'bordered' | 'confirm';
 interface CButtonProps {
@@ -10,6 +11,11 @@ interface CButtonProps {
 }
 
 const CButton = ({ text, onClick, variant, className, children }: CButtonProps) => {
+  if (variant === 'confirm') {
+    return (
+      <ConfirmButton text={text} children={children} className={className} onClick={onClick} />
+    );
+  }
   return (
     <button
       className={clsx(
@@ -19,10 +25,10 @@ const CButton = ({ text, onClick, variant, className, children }: CButtonProps) 
           'border border-1 text-darkBlue border-gray text-base font-medium hover:bg-lightestGray active:shadow':
             variant === 'bordered',
         },
-        {
-          'bg-emeraldGreen text-white hover:bg-emeraldGreen/90 active:bg-emeraldGreen':
-            variant === 'confirm',
-        },
+        // {
+        //   'bg-emeraldGreen text-white hover:bg-emeraldGreen/90 active:bg-emeraldGreen':
+        //     variant === 'confirm',
+        // },
       )}
       onClick={onClick}
     >
