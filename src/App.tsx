@@ -186,7 +186,7 @@ export default function App() {
               <CResultDetail label="Total Amount" value={emailAddress} />
             </div>
 
-            <div className="desktop:absolute bottom-6 right-6 left-6 flex gap-2 mobile:flex-col-reverse mobile:mt-2">
+            <div className="desktop:absolute bottom-4 right-6 left-6 flex gap-2 mobile:flex-col-reverse mobile:mt-2">
               <CButton variant="bordered" text="Cancel Order" className="desktop:w-[60%]" />
               <CButton variant="confirm" text="Confirm Payment" />
             </div>

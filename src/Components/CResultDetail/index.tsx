@@ -5,7 +5,7 @@ type CResultDetailProps = {
 
 const CResultDetail = ({ label, value }: CResultDetailProps) => {
   return (
-    <div className="between desktop:h-[16%] h-10 text-base font-medium">
+    <div className="between desktop:h-[18%] h-10 text-base font-medium">
       <p className="select-none">{label}:</p>
       <p className="text-cadetBlue">{value}</p>
     </div>
