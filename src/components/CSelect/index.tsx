@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Select, { components, OptionProps } from 'react-select';
+import Select, { components, DropdownIndicatorProps, OptionProps } from 'react-select';
 
 import arrowLogo from '/images/arrow.svg';
 
@@ -15,7 +15,6 @@ type CSelectProps = {
 
 const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) => {
   const [selectValue, setSelectValue] = useState<OptionType | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleChange = (item: OptionType | null) => {
     setSelectValue(item);
@@ -25,16 +24,18 @@ const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) =>
     }
   };
 
-  const DropdownIndicator = () => (
-    <div>
+  const DropdownIndicator = (props: DropdownIndicatorProps<OptionType>) => (
+    <components.DropdownIndicator {...props}>
       <img
         src={arrowLogo}
         alt="arrow"
         className={`${
-          isOpen ? 'rotate-180 transition-all duration-300' : 'rotate-0 transition-all duration-300'
+          props.selectProps.menuIsOpen
+            ? 'rotate-180 transition-all duration-300'
+            : 'rotate-0 transition-all duration-300'
         }`}
       />
-    </div>
+    </components.DropdownIndicator>
   );
 
   const CustomSingleValue = ({ data }: { data: OptionType }) => (
@@ -52,9 +53,8 @@ const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) =>
   );
 
   return (
-    <div className={`w-full ${className}`} onClick={() => setIsOpen(!isOpen)}>
+    <div className={`w-full ${className}`}>
       <Select
-        menuIsOpen
         options={options}
         autoFocus={false}
         value={selectValue}
@@ -66,7 +66,7 @@ const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) =>
           DropdownIndicator,
           SingleValue: CustomSingleValue,
         }}
-        styles={customStyles(isOpen)}
+        styles={customStyles()}
       />
     </div>
   );

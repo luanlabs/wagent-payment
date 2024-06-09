@@ -1,7 +1,7 @@
 import { StylesConfig } from 'react-select';
 import { OptionType } from '../../models';
 
-const customStyles = (open: boolean): StylesConfig<OptionType, false> => ({
+const customStyles = (): StylesConfig<OptionType, false> => ({
   option: (provided, state) => ({
     ...provided,
     color: state.isSelected ? '#039855' : 'black',
@@ -12,7 +12,7 @@ const customStyles = (open: boolean): StylesConfig<OptionType, false> => ({
     height: '40px',
     backgroundColor: state.isSelected ? '#F9FAFB' : 'white',
     '&:hover': {
-      backgroundColor: state.isFocused ? '#F9FAFB' : '',
+      backgroundColor: state.isFocused ? '#F9FAFB' : 'white',
     },
   }),
 
@@ -44,13 +44,13 @@ const customStyles = (open: boolean): StylesConfig<OptionType, false> => ({
     display: 'none',
   }),
 
-  menu: (provided) => ({
+  menu: (provided, state) => ({
     ...provided,
     marginTop: '4px',
-    height: open ? '130px' : '0px',
+    height: state.selectProps.menuIsOpen ? '130px' : '0px',
     overflow: 'hidden',
     transition: 'all 400ms ease-in-out',
-    visibility: open ? 'visible' : 'hidden',
+    visibility: state.selectProps.menuIsOpen ? 'visible' : 'hidden',
     borderRadius: '8px',
     border: '1px #D0D5DD solid',
     boxShadow: 'none',
