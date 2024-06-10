@@ -24,6 +24,7 @@ const customStyles = (): StylesConfig<OptionType, false> => ({
     borderRadius: '8px',
     fontSize: '16px',
     color: '#039855',
+    fontWeight: '500',
     padding: '0 7px',
     cursor: 'pointer',
     border: state.isFocused ? '1px solid #D0D5DD' : '1px solid #D0D5DD',
