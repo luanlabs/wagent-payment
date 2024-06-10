@@ -24,7 +24,7 @@ const ConfirmButton = ({ text, onClick, className, children }: CButtonProps) => 
       ref={buttonRef}
       onMouseMove={handleMouseMove}
       onClick={onClick}
-      className={`${className} relative h-10 w-full rounded-md bg-emeraldGreen text-white cursor-pointer overflow-hidden !font-semibold
+      className={`${className} relative w-full rounded-[10px] bg-emeraldGreen text-white cursor-pointer overflow-hidden !font-medium
       after:content-[''] after:absolute after:w-[300px] after:h-[300px] after:rounded-full after:bg-gradientGlow
       after:top-[calc(var(--y,0)*1px-150px)] after:left-[calc(var(--x,0)*1px-150px)]
       after:transition-opacity after:duration-300 after:opacity-0 hover:after:opacity-50`}
