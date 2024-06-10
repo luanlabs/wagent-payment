@@ -40,7 +40,7 @@ const CRadioButtonGroup = ({ tabs, defaultSelectedTab, onChange }: CRadioButtonG
 
             <div
               className={clsx(
-                'py-2 cursor-pointer rounded-[10px] transition-all duration-300 select-none text-base border border-transparent',
+                'py-2 cursor-pointer rounded-[7px] transition-all duration-300 select-none text-base border border-transparent',
                 {
                   'bg-white border border-1 !border-customGray transition-all duration-300':
                     selectedTab === tab.value,
