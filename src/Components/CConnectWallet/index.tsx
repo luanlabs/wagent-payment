@@ -64,8 +64,8 @@ const ConnectButton = () => {
             leaveTo="opacity-0"
           >
             <MenuItems
-              anchor="right"
-              className="flex flex-col p-2 space-y-2 ml-3 mt-6 bg- w-[160px] text-left text-[12px] bg-[#f4f5f7b8] rounded-md"
+              anchor="left"
+              className="flex flex-col p-2 space-y-2 mt-6 -ml-1 w-[180px] text-left text-[13px] bg-[#f4f5f7b8] rounded-[10px]"
             >
               <MenuItem>
                 <CButton variant="simple" className={BtnStyle} onClick={handleCopy}>
