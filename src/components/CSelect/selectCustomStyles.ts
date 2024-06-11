@@ -4,15 +4,18 @@ import { OptionType } from '../../models';
 const customStyles = (): StylesConfig<OptionType, false> => ({
   option: (provided, state) => ({
     ...provided,
-    color: state.isSelected ? '#039855' : 'black',
+    color: state.isSelected ? '#039855' : '#6b7280',
     display: 'flex',
-    borderRadius: '2px',
+    borderRadius: '10px',
     alignItems: 'center',
+    fontWeight: '500',
     cursor: 'pointer',
     height: '40px',
-    backgroundColor: state.isSelected ? '#F9FAFB' : 'white',
+    marginBottom: '5px',
+    width: '100% !important',
+    backgroundColor: state.isSelected ? '#f3f4f6' : 'white',
     '&:hover': {
-      backgroundColor: state.isFocused ? '#F9FAFB' : 'white',
+      backgroundColor: state.isFocused ? '#f3f4f6' : 'white',
     },
   }),
 
@@ -47,14 +50,13 @@ const customStyles = (): StylesConfig<OptionType, false> => ({
 
   menu: (provided, state) => ({
     ...provided,
-    marginTop: '4px',
-    height: state.selectProps.menuIsOpen ? '130px' : '0px',
+    padding: '4px',
     overflow: 'hidden',
     transition: 'all 400ms ease-in-out',
     visibility: state.selectProps.menuIsOpen ? 'visible' : 'hidden',
-    borderRadius: '8px',
-    border: '1px #D0D5DD solid',
-    boxShadow: 'none',
+    borderRadius: '0.5rem',
+    boxShadow:
+      ' rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, rgba(14, 63, 126, 0.04) 0px 24px 24px -12px;',
   }),
 
   placeholder: (defaultStyles) => ({ ...defaultStyles, color: '#98A2B3', fontWeight: 'normal' }),
