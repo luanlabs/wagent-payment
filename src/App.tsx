@@ -78,25 +78,25 @@ export default function App() {
   return (
     <div
       className="desktop:center desktop:flex-row flex flex-col justify-start 
-      gap-2 p-2 desktop:p-[12px] w-[100vw] h-[100dvh]"
+      gap-2 p-2 desktop:p-[12px] w-full mobile:h-full tablet:h-full h-[100dvh]"
     >
       <div className="desktop:w-2/5 w-full h-full order-1">
-        <div className="relative center flex-col text-offWhite text-center bg-primaryGreen desktop:h-1/3 h-[260px] rounded-t-[10px]">
+        <div className="relative center flex-col text-offWhite text-center bg-primaryGreen desktop:h-1/3 tablet:!h-[300px] mobile:!h-[300px] desktopMax:h-2/5 h-[260px] rounded-t-[10px]">
           <img src={logoType} alt="Wagent Logo" />
           <p className="text-2xl font-medium mt-[36px] px-4">
             Simple and fast transactions for everyone
           </p>
-          <p className="text-xs mt-[16px] w-3/4">Example Text</p>
-          <div
-            className="absolute gap-2 shadow-md inline-flex items-center p-4 z-10
-          rounded-t-[10px] h-16 -bottom-[30px] min-w-[150px] bg-white text-black"
-          >
-            <img src={hoodie} alt="shop" width={40} height={40} />
-            <p className="font-medium whitespace-nowrap">XYZ shop</p>
+          <p className="text-xs mt-[16px] w-3/4">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua.
+          </p>
+          <div className="absolute gap-2 shadow-md rounded-[10px] py-2 pl-2 pr-3 inline-flex items-center z-10 -bottom-[30px] min-w-[240px] bg-white text-black">
+            <img src={hoodie} alt="shop" width={60} height={60} />
+            <p className="font-medium whitespace-nowrap">Amanda shop</p>
           </div>
         </div>
 
-        <div className="bg-white h-2/3 desktop:p-8 p-6 space-y-4 rounded-b-[10px] pt-16">
+        <div className="bg-white tablet:!h-2/3 desktop:h-2/3 desktopMax:h-[60.5%] desktop:p-8 p-6 space-y-4 rounded-b-[10px] pt-16 overflow-y-auto mobile:overflow-hidden">
           <CDisclosure
             label="Order overview"
             title="Order Details"
@@ -111,10 +111,10 @@ export default function App() {
           />
         </div>
       </div>
-      <div className="desktop:w-3/5 w-full h-full order-2 flex flex-col">
-        <div className="desktop:mt-0 mt-14">
-          <CCard type="simple" title="Payment options" className="!text-2xl" />
-          <div className="p-6 mt-1 bg-white space-y-4 rounded-[10px]">
+      <div className="desktop:w-3/5 w-full h-full order-2 flex flex-col justify-between">
+        <div className="desktop:mt-0 mt-14 mobile:mt-3">
+          <CCard type="simple" title="Payment options" className="!text-2xl desktopMax:py-[18px]" />
+          <div className="p-6 mt-1 bg-white space-y-4 bigScreen:space-y-[50px] desktopMax:space-y-5 rounded-[10px]">
             <CItemField
               title="Wallet Address"
               description="Choose the token you'd like to make transaction with"
@@ -125,9 +125,9 @@ export default function App() {
               description="Choose the token you'd like to make transaction with"
               component={
                 <CRadioButtonGroup
-                  tabs={methodTabs}
-                  defaultSelectedTab={methodTabs[0].value}
-                  onChange={handleSelectedMethod}
+                  tabs={networkTabs}
+                  defaultSelectedTab={networkTabs[0].value}
+                  onChange={handleSelectedNetwork}
                 />
               }
             />
@@ -136,9 +136,9 @@ export default function App() {
               description="Choose the token you'd like to make transaction with"
               component={
                 <CRadioButtonGroup
-                  tabs={networkTabs}
-                  defaultSelectedTab={networkTabs[0].value}
-                  onChange={handleSelectedNetwork}
+                  tabs={methodTabs}
+                  defaultSelectedTab={methodTabs[0].value}
+                  onChange={handleSelectedMethod}
                 />
               }
             />
@@ -163,10 +163,14 @@ export default function App() {
             />
           </div>
         </div>
-        <div className="h-full mt-1">
-          <CCard type="simple" title="Payment overview" className="!text-2xl" />
-          <div className="relative p-6 mt-1 bg-white rounded-[10px] h-[calc(100%-75px)] ">
-            <div className="desktop:h-full">
+        <div className="mt-1">
+          <CCard
+            type="simple"
+            title="Payment overview"
+            className="!text-2xl desktopMax:py-[18px]"
+          />
+          <div className="flex flex-col justify-center px-6 py-2 bigScreen:py-4 mt-1 bg-white rounded-[10px] ">
+            <div className="desktop:h-full desktopMax:space-y-[10px] bigScreen:space-y-5">
               <CResultDetail label="Email Address" value={emailAddress} />
               <CResultDetail label="Payment method" value={capitalizeFirstLetter(selectedMethod)} />
               <CResultDetail
@@ -183,12 +187,12 @@ export default function App() {
                   </div>
                 }
               />
-              <CResultDetail label="Total Amount" value={emailAddress} />
+              <CResultDetail label="Total Amount" value={emailAddress} valueColor="text-darkBlue" />
             </div>
-
-            <div className="desktop:absolute bottom-4 right-6 left-6 flex gap-2 mobile:flex-col-reverse mobile:mt-2">
+            {/* desktop:absolute bottom-4 desktopMax:bottom-2 right-6 left-6 */}
+            <div className="flex gap-2 mobile:flex-col-reverse mobile:mt-2 desktopMax:pt-2 bigScreen:pt-5">
               <CButton variant="bordered" text="Cancel Order" className="desktop:w-[60%]" />
-              <CButton variant="confirm" text="Confirm Payment" />
+              <CButton variant="confirm" text="Confirm Payment" className="mobile:h-[44px]" />
             </div>
           </div>
         </div>
