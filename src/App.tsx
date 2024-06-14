@@ -96,7 +96,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="bg-white tablet:!h-2/3 desktop:h-2/3 desktopMax:h-[60.5%] desktop:p-8 p-6 space-y-4 rounded-b-[10px] pt-16 overflow-y-auto mobile:overflow-hidden">
+        <div className="bg-white tablet:!h-2/3 desktop:h-2/3 desktopMax:h-3/5 desktop:p-8 p-6 space-y-4 rounded-b-[10px] pt-16 overflow-y-auto mobile:overflow-hidden">
           <CDisclosure
             label="Order overview"
             title="Order Details"
@@ -111,10 +111,11 @@ export default function App() {
           />
         </div>
       </div>
+
       <div className="desktop:w-3/5 w-full h-full order-2 flex flex-col justify-between">
         <div className="desktop:mt-0 mt-14 mobile:mt-3">
           <CCard type="simple" title="Payment options" className="!text-2xl desktopMax:py-[18px]" />
-          <div className="p-6 mt-1 bg-white space-y-4 bigScreen:space-y-[50px] desktopMax:space-y-5 rounded-[10px]">
+          <div className="px-6 py-4 mt-1 bg-white space-y-4 bigScreen:space-y-[50px] desktopMax:space-y-5 rounded-[10px]">
             <CItemField
               title="Wallet Address"
               description="Choose the token you'd like to make transaction with"
@@ -189,7 +190,7 @@ export default function App() {
               />
               <CResultDetail label="Total Amount" value={emailAddress} valueColor="text-darkBlue" />
             </div>
-            {/* desktop:absolute bottom-4 desktopMax:bottom-2 right-6 left-6 */}
+
             <div className="flex gap-2 mobile:flex-col-reverse mobile:mt-2 desktopMax:pt-2 bigScreen:pt-5">
               <CButton variant="bordered" text="Cancel Order" className="desktop:w-[60%]" />
               <CButton variant="confirm" text="Confirm Payment" className="mobile:h-[44px]" />
