@@ -188,7 +188,7 @@ export default function App() {
                   </div>
                 }
               />
-              <CResultDetail label="Total Amount" value={emailAddress} valueColor="text-darkBlue" />
+              <CResultDetail label="Total Amount" value="$1400" valueColor="text-darkBlue" />
             </div>
 
             <div className="flex gap-2 mobile:flex-col-reverse mobile:mt-2 desktopMax:pt-2 bigScreen:pt-5">
