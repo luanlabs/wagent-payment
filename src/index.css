@@ -5,7 +5,7 @@
 * {
   --sb-track-color: #e4e3e3;
   --sb-thumb-color: #4e5a59;
-  --sb-size: 10px;
+  --sb-size: 5px;
 }
 
 *::-webkit-scrollbar {

@@ -43,7 +43,11 @@ export default function App() {
   };
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmailAddress(e.target.value);
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+    if (e.target.value && e.target.value.match(emailRegex)) {
+      setEmailAddress(e.target.value);
+    }
   };
 
   const handleSelectedNetwork = (value: string) => {
