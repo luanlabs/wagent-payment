@@ -1,18 +1,21 @@
 import { StylesConfig } from 'react-select';
 import { OptionType } from '../../models';
 
-const selectCustomStyles: StylesConfig<OptionType, false> = {
+const customStyles = (): StylesConfig<OptionType, false> => ({
   option: (provided, state) => ({
     ...provided,
-    color: state.isSelected ? '#039855' : 'black',
+    color: state.isSelected ? '#039855' : '#6b7280',
     display: 'flex',
-    borderRadius: '2px',
+    borderRadius: '10px',
     alignItems: 'center',
+    fontWeight: '500',
     cursor: 'pointer',
     height: '40px',
-    backgroundColor: state.isSelected ? '#F9FAFB' : 'white',
+    marginBottom: '5px',
+    width: '100% !important',
+    backgroundColor: state.isSelected ? '#f3f4f6' : 'white',
     '&:hover': {
-      backgroundColor: state.isFocused ? '#F9FAFB' : '',
+      backgroundColor: state.isFocused ? '#f3f4f6' : 'white',
     },
   }),
 
@@ -23,8 +26,8 @@ const selectCustomStyles: StylesConfig<OptionType, false> = {
     height: '40px',
     borderRadius: '8px',
     fontSize: '16px',
-    fontWeight: 'bold',
     color: '#039855',
+    fontWeight: '500',
     padding: '0 7px',
     cursor: 'pointer',
     border: state.isFocused ? '1px solid #D0D5DD' : '1px solid #D0D5DD',
@@ -45,14 +48,18 @@ const selectCustomStyles: StylesConfig<OptionType, false> = {
     display: 'none',
   }),
 
-  menu: (defaultStyles) => ({
-    ...defaultStyles,
-    borderRadius: '8px',
-    border: '1px #D0D5DD solid',
-    boxShadow: 'none',
+  menu: (provided, state) => ({
+    ...provided,
+    padding: '4px',
+    overflow: 'hidden',
+    transition: 'all 400ms ease-in-out',
+    visibility: state.selectProps.menuIsOpen ? 'visible' : 'hidden',
+    borderRadius: '0.5rem',
+    boxShadow:
+      ' rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, rgba(14, 63, 126, 0.04) 0px 24px 24px -12px;',
   }),
 
   placeholder: (defaultStyles) => ({ ...defaultStyles, color: '#98A2B3', fontWeight: 'normal' }),
-};
+});
 
-export default selectCustomStyles;
+export default customStyles;

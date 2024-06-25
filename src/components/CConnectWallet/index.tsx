@@ -43,7 +43,7 @@ const ConnectButton = () => {
     copyToClipboard(address);
   };
 
-  const Btnstyle = `flex justify-between items-center hover:bg-white text-left`;
+  const btnStyle = `flex justify-between items-center hover:bg-white text-left`;
   const shortAddress = shortenAddress(address, 5);
 
   return (
@@ -64,17 +64,17 @@ const ConnectButton = () => {
             leaveTo="opacity-0"
           >
             <MenuItems
-              anchor="right"
-              className="flex flex-col p-2 space-y-2 ml-3 mt-6 bg- w-[160px] text-left text-[12px] bg-[#f4f5f7b8] rounded-md"
+              anchor="left"
+              className="flex flex-col p-2 space-y-2 mt-6 -ml-1 w-[180px] text-left text-[13px] bg-[#f4f5f7b8] rounded-[10px]"
             >
               <MenuItem>
-                <CButton variant="simple" className={Btnstyle} onClick={handleCopy}>
+                <CButton variant="simple" className={btnStyle} onClick={handleCopy}>
                   <p>{shortAddress}</p>
                   <SquareStackIcon fill="#000" />
                 </CButton>
               </MenuItem>
               <MenuItem>
-                <CButton variant="simple" className={Btnstyle} onClick={handleDisconnect}>
+                <CButton variant="simple" className={btnStyle} onClick={handleDisconnect}>
                   Disconnect
                   <ArrowRightStartOnRectangleIcon fill="#000" />
                 </CButton>
