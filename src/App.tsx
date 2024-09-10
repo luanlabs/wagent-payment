@@ -1,40 +1,45 @@
 import { ChangeEvent, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import CCard from './components/CCard';
 import CButton from './components/CButton';
 import CSelect from './components/CSelect';
+import Loading from './containers/Loading';
+import NotFound from './containers/NotFound';
 import CItemField from './components/CItemField';
+import CTokenLabel from './components/CTokenLabel';
 import CDisclosure from './components/CDisclosure';
 import CResultDetail from './components/CResultDetail';
 import CConnectWallet from './components/CConnectWallet';
 import CRadioButtonGroup from './components/CRadioButtonGroup';
 
+import Method from './utils/Methods';
+import useGetOrderData from './utils/getOrderData';
 import { tokensToOptions } from './utils/tokensToOptions';
-import useGetPaymentDetails from './hooks/useGetPaymentDetails';
 import capitalizeFirstLetter from './utils/capitalizeFirstLetter';
 
 import { OptionType } from './models';
-import ShoppingCardIcon from './assets/ShoppingCardIcon';
 
 import hoodie from '/images/hoodie.png';
 import logoType from '/images/logoType.svg';
+import ShoppingCardIcon from './assets/ShoppingCardIcon';
 
-const methodTabs = [
-  { value: 'stream', label: 'Stream' },
-  { value: 'single', label: 'Single' },
-  { value: 'vesting', label: 'Vesting' },
-];
-
-const networkTabs = [
-  { value: 'stellar', label: 'Stellar' },
-  { value: 'soroban', label: 'Soroban' },
-];
+const methodTabs = ['single', 'stream', 'vesting'];
+const networkTabs = ['stellar', 'soroban'];
 
 export default function App() {
   const [selectedToken, setSelectedToken] = useState<OptionType | null>(null);
   const [emailAddress, setEmailAddress] = useState('');
-  const [selectedNetwork, setSelectedNetwork] = useState(networkTabs[0].label);
-  const [selectedMethod, setSelectedMethod] = useState(methodTabs[0].label);
+  const [selectedNetwork, setSelectedNetwork] = useState<string>(
+    capitalizeFirstLetter(networkTabs[1]),
+  );
+  const [selectedMethod, setSelectedMethod] = useState<string>(
+    capitalizeFirstLetter(methodTabs[0]),
+  );
+
+  const { id } = useParams();
+
+  const { loading, loadingTime, data, error } = useGetOrderData(id);
 
   const handleSelectChange = (item: OptionType | null) => {
     if (item) {
@@ -45,7 +50,7 @@ export default function App() {
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-    if (e.target.value && e.target.value.match(emailRegex)) {
+    if (e.target.value && emailRegex.test(e.target.value)) {
       setEmailAddress(e.target.value);
     }
   };
@@ -58,24 +63,35 @@ export default function App() {
     setSelectedMethod(value);
   };
 
-  const data = useGetPaymentDetails('1');
-
-  if (!data) {
-    return <p>Loading!</p>;
+  if (loading) {
+    return <Loading loadingTime={loadingTime} />;
   }
-  const tokens = tokensToOptions(data.settings.tokens);
+
+  if (error || !data) {
+    return <NotFound />;
+  }
+
+  const methods = Method.toString(data.user.methods);
+
+  const tokens = tokensToOptions(data.token);
 
   const orderTop = (
     <div className="mt-2 space-y-3">
-      <CCard type="detailed" title="Purple Hoodie" subtitle="$15.00" image={hoodie} />
-      <CCard type="detailed" title="Purple Hoodie" subtitle="$15.00" image={hoodie} />
+      {data.products?.map((product) => (
+        <CCard
+          type="detailed"
+          title={capitalizeFirstLetter(product.name)}
+          subtitle={`$${product.amount.toString()}`}
+          image={product.logo}
+        />
+      ))}
     </div>
   );
 
   const orderBottom = (
     <div className="flex space-x-2">
-      <CCard type="summary" title="Total Amount" subtitle="$40.00" />
-      <CCard type="summary" title="Order ID" subtitle="#1321451234142" />
+      <CCard type="summary" title="Total Amount" subtitle={`#${data.amount}`} />
+      <CCard type="summary" title="Order ID" subtitle={`#${id}`} />
     </div>
   );
 
@@ -86,7 +102,7 @@ export default function App() {
     >
       <div className="desktop:w-2/5 w-full h-full order-1">
         <div className="relative center flex-col text-offWhite text-center bg-primaryGreen desktop:h-1/3 tablet:!h-[300px] mobile:!h-[300px] desktopMax:h-2/5 h-[260px] rounded-t-[10px]">
-          <img src={logoType} alt="Wagent Logo" />
+          <img src={logoType} alt="Wagent Logo" draggable={false} />
           <p className="text-2xl font-medium mt-[36px] px-4">
             Simple and fast transactions for everyone
           </p>
@@ -94,9 +110,16 @@ export default function App() {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua.
           </p>
+
           <div className="absolute gap-2 shadow-md rounded-[10px] py-2 pl-2 pr-3 inline-flex items-center z-10 -bottom-[30px] min-w-[240px] bg-white text-black">
-            <img src={hoodie} alt="shop" width={60} height={60} />
-            <p className="font-medium whitespace-nowrap">Amanda shop</p>
+            <img
+              src={data.user.logo}
+              alt="userLogo"
+              width={60}
+              height={60}
+              className="rounded-[10px] object-cover"
+            />
+            <p className="font-medium whitespace-nowrap">{capitalizeFirstLetter(data.user.name)}</p>
           </div>
         </div>
 
@@ -107,12 +130,15 @@ export default function App() {
             content={orderBottom}
             icon={<ShoppingCardIcon fill="#000" />}
           />
-          <CDisclosure
-            title="Order information"
-            subTitle="2 Products in your cart"
-            content={orderTop}
-            icon={<ShoppingCardIcon fill="#000" />}
-          />
+
+          {data.products && (
+            <CDisclosure
+              title="Order information"
+              subTitle="2 Products in your cart"
+              content={orderTop}
+              icon={<ShoppingCardIcon fill="#000" />}
+            />
+          )}
         </div>
       </div>
 
@@ -125,28 +151,33 @@ export default function App() {
               description="Choose the token you'd like to make transaction with"
               component={<CConnectWallet />}
             />
+
             <CItemField
               title="Select network"
               description="Choose the token you'd like to make transaction with"
               component={
                 <CRadioButtonGroup
                   tabs={networkTabs}
-                  defaultSelectedTab={networkTabs[0].value}
+                  defaultSelectedTab={networkTabs[1]}
+                  selectableTabs={[networkTabs[1]]}
                   onChange={handleSelectedNetwork}
                 />
               }
             />
+
             <CItemField
               title="Payment method"
               description="Choose the token you'd like to make transaction with"
               component={
                 <CRadioButtonGroup
                   tabs={methodTabs}
-                  defaultSelectedTab={methodTabs[0].value}
+                  defaultSelectedTab={methodTabs[0]}
+                  selectableTabs={methods}
                   onChange={handleSelectedMethod}
                 />
               }
             />
+
             <CItemField
               title="Select token"
               description="Choose the token you'd like to make transaction with"
@@ -154,6 +185,7 @@ export default function App() {
                 <CSelect onChange={handleSelectChange} options={tokens} placeholder="Select" />
               }
             />
+
             <CItemField
               title="Email address"
               description="Choose the token you'd like to make transaction with"
@@ -168,31 +200,37 @@ export default function App() {
             />
           </div>
         </div>
+
         <div className="mt-1">
           <CCard
             type="simple"
             title="Payment overview"
             className="!text-2xl desktopMax:py-[18px]"
           />
-          <div className="flex flex-col justify-center px-6 py-2 bigScreen:py-4 mt-1 bg-white rounded-[10px] ">
+          <div className="flex flex-col justify-center px-6 py-2 bigScreen:py-4 mt-1 bg-white rounded-[10px]">
             <div className="desktop:h-full desktopMax:space-y-[10px] bigScreen:space-y-5">
               <CResultDetail label="Email Address" value={emailAddress} />
+
               <CResultDetail label="Payment method" value={capitalizeFirstLetter(selectedMethod)} />
+
               <CResultDetail
                 label="Token"
                 value={
-                  <div className="flex space-x-4">
+                  <div className="flex items-center space-x-4">
                     {selectedToken && (
-                      <p className="center gap-2 text-success px-2 bg-mintGreen border border-lightGreen rounded-full">
-                        <img src={selectedToken.logo} alt="token" width={14} height={14} />
-                        {selectedToken.label}
-                      </p>
+                      <CTokenLabel symbol={selectedToken.label} imgSrc={selectedToken.logo} />
                     )}
+
                     {selectedNetwork && <p>{capitalizeFirstLetter(selectedNetwork)}</p>}
                   </div>
                 }
               />
-              <CResultDetail label="Total Amount" value="$1400" valueColor="text-darkBlue" />
+
+              <CResultDetail
+                label="Total Amount"
+                value={`$${data.amount}`}
+                valueColor="text-darkBlue"
+              />
             </div>
 
             <div className="flex gap-2 mobile:flex-col-reverse mobile:mt-2 desktopMax:pt-2 bigScreen:pt-5">
