@@ -24,10 +24,16 @@ const CCard = ({ type, title, subtitle, image, className, onClick }: CCardProps)
       onClick={onClick}
     >
       {type === 'detailed' && image && (
-        <div className="h-[65px] w-[65px]">
-          <img src={image} alt={title} className="w-full h-auto rounded-[10px]" />
+        <div className="h-[65px] w-[65px] rounded-[10px] border border-[#D0D5DD] p-1">
+          <img
+            src={image}
+            alt={title}
+            draggable={false}
+            className="w-full h-full object-cover rounded-[10px]"
+          />
         </div>
       )}
+
       <div className="ml-3">
         <h3
           className={clsx(
@@ -38,6 +44,7 @@ const CCard = ({ type, title, subtitle, image, className, onClick }: CCardProps)
         >
           {title}
         </h3>
+
         {subtitle && <p className="text-mediumGray text-[14px] mt-1">{subtitle}</p>}
       </div>
     </div>
