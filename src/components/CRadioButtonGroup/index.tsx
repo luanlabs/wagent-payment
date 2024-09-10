@@ -1,26 +1,31 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 
-export type CRadioButtonGroupType = {
-  value: string;
-  label: string;
-};
+import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
 
 interface CRadioButtonGroupProps {
-  tabs: CRadioButtonGroupType[];
+  tabs: string[];
   defaultSelectedTab: string;
+  selectableTabs: string[];
   onChange?: (value: string) => void;
 }
 
-const CRadioButtonGroup = ({ tabs, defaultSelectedTab, onChange }: CRadioButtonGroupProps) => {
+const CRadioButtonGroup = ({
+  tabs,
+  defaultSelectedTab,
+  selectableTabs,
+  onChange,
+}: CRadioButtonGroupProps) => {
   const [selectedTab, setSelectedTab] = useState<string>(defaultSelectedTab);
 
   const handleTabChange = (value: React.ChangeEvent<HTMLInputElement>) => {
     const { id } = value.target;
-    setSelectedTab(id);
+    if (selectableTabs.includes(id)) {
+      setSelectedTab(id);
 
-    if (onChange) {
-      onChange(id);
+      if (onChange) {
+        onChange(id);
+      }
     }
   };
 
@@ -28,10 +33,10 @@ const CRadioButtonGroup = ({ tabs, defaultSelectedTab, onChange }: CRadioButtonG
     <div>
       <div className={`relative w-full bg-lightGray p-1 flex space-x-1 rounded-[10px]`}>
         {tabs.map((tab) => (
-          <label key={tab.value} className="flex-1 text-center">
+          <label key={tab} className="flex-1 text-center">
             <input
               type="radio"
-              id={tab.value}
+              id={tab}
               name="tabs"
               className="hidden"
               aria-checked
@@ -40,11 +45,11 @@ const CRadioButtonGroup = ({ tabs, defaultSelectedTab, onChange }: CRadioButtonG
 
             <div
               className={clsx(
-                'py-2 cursor-pointer rounded-[7px] transition-all duration-300 select-none text-base border border-transparent',
+                'py-2 cursor-pointer rounded-[7px] transition-background duration-100 select-none text-base border-2 border-transparent',
                 {
-                  'bg-white border border-1 !border-customGray transition-all duration-300':
-                    selectedTab === tab.value,
-                  'text-lightGrayishBlue': selectedTab !== tab.value,
+                  'bg-white font-medium border-2 !border-customGray transition-all duration-300':
+                    selectableTabs.includes(tab) && tab === selectedTab,
+                  'text-lightGrayishBlue': !selectableTabs.includes(tab),
                 },
                 {
                   'w-full': tabs.length >= 2,
@@ -52,7 +57,7 @@ const CRadioButtonGroup = ({ tabs, defaultSelectedTab, onChange }: CRadioButtonG
                 },
               )}
             >
-              {tab.label}
+              {capitalizeFirstLetter(tab)}
             </div>
           </label>
         ))}
