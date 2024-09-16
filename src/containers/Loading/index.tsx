@@ -1,18 +1,6 @@
-import { useEffect, useState } from 'react';
-
 import wagentLogo from '../../../public/images/wagentLogo.svg';
 
-interface LoadingProp {
-  loadingTime?: number;
-}
-
-const Loading = ({ loadingTime }: LoadingProp) => {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    setProgress(100);
-  }, [loadingTime]);
-
+const Loading = () => {
   return (
     <div className="flex flex-col justify-center items-center bg-white h-dvh">
       <img src={wagentLogo} alt="wagent" />
@@ -21,8 +9,8 @@ const Loading = ({ loadingTime }: LoadingProp) => {
       <div className="space-y-4 text-center mt-[62px]">
         <div className="h-[6px] rounded-full bg-[#eee] overflow-hidden w- w-[366px]">
           <div
-            className={`bg-[#008B5B] h-full rounded-full transition-all duration-${loadingTime} ease-linear`}
-            style={{ width: `${progress}%` }}
+            className={`bg-[#008B5B] h-full rounded-full transition-all duration-100 ease-linear`}
+            style={{ width: `100%` }}
           ></div>
         </div>
 

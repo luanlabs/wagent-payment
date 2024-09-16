@@ -5,7 +5,6 @@ import { IPaymentDetailsResponse } from '../models';
 
 export type OrderDataType = {
   loading: boolean;
-  loadingTime: number;
   data: null | IPaymentDetailsResponse;
   error: null | boolean;
 };
@@ -18,32 +17,19 @@ export const getOrderData = async (id: string) => {
   return data.result;
 };
 
-const useGetOrderData = (id: string | undefined) => {
+const useGetOrderData = (id: string) => {
   const [orderData, setOrderData] = useState<OrderDataType>({
     loading: true,
-    loadingTime: 0,
     data: null,
     error: false,
   });
 
   useEffect(() => {
-    let loadingTime = new Date().getTime();
     const data = () => {
-      if (!id) {
-        return setOrderData({
-          loading: false,
-          loadingTime: 0,
-          data: null,
-          error: true,
-        });
-      }
       getOrderData(id)
         .then((order) => {
-          loadingTime = new Date().getTime() - loadingTime;
-
           setOrderData({
             loading: false,
-            loadingTime,
             data: order,
             error: false,
           });
@@ -51,7 +37,6 @@ const useGetOrderData = (id: string | undefined) => {
         .catch(() => {
           setOrderData({
             loading: false,
-            loadingTime: 0,
             data: null,
             error: true,
           });
