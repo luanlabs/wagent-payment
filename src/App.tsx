@@ -20,22 +20,20 @@ import capitalizeFirstLetter from './utils/capitalizeFirstLetter';
 
 import { OptionType } from './models';
 
-import hoodie from '/images/hoodie.png';
 import logoType from '/images/logoType.svg';
 import ShoppingCardIcon from './assets/ShoppingCardIcon';
+import defaultUserLogo from '../public/images/defaultUserLogo.png';
+import clsx from 'clsx';
 
 const methodTabs = ['single', 'stream', 'vesting'];
-const networkTabs = ['stellar', 'soroban'];
 
 export default function App() {
   const [selectedToken, setSelectedToken] = useState<OptionType | null>(null);
   const [emailAddress, setEmailAddress] = useState('');
-  const [selectedNetwork, setSelectedNetwork] = useState<string>(
-    capitalizeFirstLetter(networkTabs[1]),
-  );
   const [selectedMethod, setSelectedMethod] = useState<string>(
     capitalizeFirstLetter(methodTabs[0]),
   );
+  const [emailError, setEmailError] = useState('');
 
   const { id } = useParams();
 
@@ -48,15 +46,17 @@ export default function App() {
   };
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-    if (e.target.value && emailRegex.test(e.target.value)) {
-      setEmailAddress(e.target.value);
+    if (email === '') {
+      setEmailError('');
+    } else if (emailRegex.test(email)) {
+      setEmailAddress(email);
+      setEmailError('');
+    } else {
+      setEmailError('Please enter a valid email address');
     }
-  };
-
-  const handleSelectedNetwork = (value: string) => {
-    setSelectedNetwork(value);
   };
 
   const handleSelectedMethod = (value: string) => {
@@ -74,6 +74,7 @@ export default function App() {
   const methods = Method.toString(data.user.methods);
 
   const tokens = tokensToOptions(data.token);
+  const validateField = selectedToken && !emailError;
 
   const orderTop = (
     <div className="mt-2 space-y-3">
@@ -81,7 +82,9 @@ export default function App() {
         <CCard
           type="detailed"
           title={capitalizeFirstLetter(product.name)}
-          subtitle={`$${product.amount.toString()}`}
+          subtitle={`X ${product.count}`}
+          amount={`$${product.amount.toString()}`}
+          totalAmount={`$${product.amount * product.count}`}
           image={product.logo}
         />
       ))}
@@ -90,7 +93,7 @@ export default function App() {
 
   const orderBottom = (
     <div className="flex space-x-2">
-      <CCard type="summary" title="Total Amount" subtitle={`#${data.amount}`} />
+      <CCard type="summary" title="Total Amount" subtitle={`$${data.amount}`} />
       <CCard type="summary" title="Order ID" subtitle={`#${id}`} />
     </div>
   );
@@ -113,7 +116,7 @@ export default function App() {
 
           <div className="absolute gap-2 shadow-md rounded-[10px] py-2 pl-2 pr-3 inline-flex items-center z-10 -bottom-[30px] min-w-[240px] bg-white text-black">
             <img
-              src={data.user.logo}
+              src={data.user.logo ? data.user.logo : defaultUserLogo}
               alt="userLogo"
               width={60}
               height={60}
@@ -131,13 +134,15 @@ export default function App() {
             icon={<ShoppingCardIcon fill="#000" />}
           />
 
-          {data.products && (
+          {data.products && data.products.length > 0 ? (
             <CDisclosure
               title="Order information"
-              subTitle="2 Products in your cart"
+              subTitle={`${data.products.length} Products in your cart`}
               content={orderTop}
               icon={<ShoppingCardIcon fill="#000" />}
             />
+          ) : (
+            <></>
           )}
         </div>
       </div>
@@ -145,24 +150,11 @@ export default function App() {
       <div className="desktop:w-3/5 w-full h-full order-2 flex flex-col justify-between">
         <div className="desktop:mt-0 mt-14 mobile:mt-3">
           <CCard type="simple" title="Payment options" className="!text-2xl desktopMax:py-[18px]" />
-          <div className="px-6 py-4 mt-1 bg-white space-y-4 bigScreen:space-y-[50px] desktopMax:space-y-5 rounded-[10px]">
+          <div className="px-6 pt-4 mt-1 bg-white space-y-4 bigScreen:space-y-[50px] desktopMax:space-y-5 rounded-[10px] pb-7">
             <CItemField
               title="Wallet Address"
               description="Choose the token you'd like to make transaction with"
               component={<CConnectWallet />}
-            />
-
-            <CItemField
-              title="Select network"
-              description="Choose the token you'd like to make transaction with"
-              component={
-                <CRadioButtonGroup
-                  tabs={networkTabs}
-                  defaultSelectedTab={networkTabs[1]}
-                  selectableTabs={[networkTabs[1]]}
-                  onChange={handleSelectedNetwork}
-                />
-              }
             />
 
             <CItemField
@@ -182,7 +174,12 @@ export default function App() {
               title="Select token"
               description="Choose the token you'd like to make transaction with"
               component={
-                <CSelect onChange={handleSelectChange} options={tokens} placeholder="Select" />
+                <CSelect
+                  onChange={handleSelectChange}
+                  options={tokens}
+                  defaultValue={tokens[1]}
+                  placeholder="Select"
+                />
               }
             />
 
@@ -190,12 +187,17 @@ export default function App() {
               title="Email address"
               description="Choose the token you'd like to make transaction with"
               component={
-                <input
-                  onChange={handleEmailChange}
-                  placeholder="Email"
-                  type="email"
-                  className="w-full h-10 py-[10px] px-[14px] text-base border border-lightGrayishBlue rounded-lg placeholder:text-cadetBlue text-black focus:outline-none"
-                />
+                <div>
+                  <input
+                    onChange={handleEmailChange}
+                    placeholder="Email"
+                    type="email"
+                    className="w-full h-10 py-[10px] px-[14px] text-base border border-lightGrayishBlue rounded-lg placeholder:text-cadetBlue text-black focus:outline-none"
+                  />
+                  <p className="text-[13px] text-red-500 px-1 h-1 mt-[2px]">
+                    {emailError && emailError}
+                  </p>
+                </div>
               }
             />
           </div>
@@ -208,7 +210,7 @@ export default function App() {
             className="!text-2xl desktopMax:py-[18px]"
           />
           <div className="flex flex-col justify-center px-6 py-2 bigScreen:py-4 mt-1 bg-white rounded-[10px]">
-            <div className="desktop:h-full desktopMax:space-y-[10px] bigScreen:space-y-5">
+            <div className="desktop:h-full desktopMax:space-y-5 bigScreen:space-y-5">
               <CResultDetail label="Email Address" value={emailAddress} />
 
               <CResultDetail label="Payment method" value={capitalizeFirstLetter(selectedMethod)} />
@@ -220,8 +222,6 @@ export default function App() {
                     {selectedToken && (
                       <CTokenLabel symbol={selectedToken.label} imgSrc={selectedToken.logo} />
                     )}
-
-                    {selectedNetwork && <p>{capitalizeFirstLetter(selectedNetwork)}</p>}
                   </div>
                 }
               />
@@ -233,9 +233,15 @@ export default function App() {
               />
             </div>
 
-            <div className="flex gap-2 mobile:flex-col-reverse mobile:mt-2 desktopMax:pt-2 bigScreen:pt-5">
+            <div className="flex gap-2 mobile:flex-col-reverse mobile:mt-2 pt-10">
               <CButton variant="bordered" text="Cancel Order" className="desktop:w-[60%]" />
-              <CButton variant="confirm" text="Confirm Payment" className="mobile:h-[44px]" />
+              <CButton
+                variant="confirm"
+                text="Confirm Payment"
+                className={clsx('mobile:h-[44px]', {
+                  '!bg-customGray !pointer-events-none !text-lightGrayishBlue': !validateField,
+                })}
+              />
             </div>
           </div>
         </div>
