@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import clsx from 'clsx';
 
 import CCard from './components/CCard';
 import CButton from './components/CButton';
@@ -18,14 +19,13 @@ import useGetOrderData from './utils/getOrderData';
 import { tokensToOptions } from './utils/tokensToOptions';
 import capitalizeFirstLetter from './utils/capitalizeFirstLetter';
 
+import { methodTabs } from './constants/methods';
+
 import { OptionType } from './models';
 
 import logoType from '/images/logoType.svg';
 import ShoppingCardIcon from './assets/ShoppingCardIcon';
 import defaultUserLogo from '../public/images/defaultUserLogo.png';
-import clsx from 'clsx';
-
-const methodTabs = ['single', 'stream', 'vesting'];
 
 export default function App() {
   const [selectedToken, setSelectedToken] = useState<OptionType | null>(null);
@@ -37,7 +37,7 @@ export default function App() {
 
   const { id } = useParams();
 
-  const { loading, loadingTime, data, error } = useGetOrderData(id);
+  const { loading, data, error } = useGetOrderData(id || '');
 
   const handleSelectChange = (item: OptionType | null) => {
     if (item) {
@@ -64,7 +64,7 @@ export default function App() {
   };
 
   if (loading) {
-    return <Loading loadingTime={loadingTime} />;
+    return <Loading />;
   }
 
   if (error || !data) {
@@ -174,12 +174,7 @@ export default function App() {
               title="Select token"
               description="Choose the token you'd like to make transaction with"
               component={
-                <CSelect
-                  onChange={handleSelectChange}
-                  options={tokens}
-                  defaultValue={tokens[1]}
-                  placeholder="Select"
-                />
+                <CSelect onChange={handleSelectChange} options={tokens} placeholder="Select" />
               }
             />
 
