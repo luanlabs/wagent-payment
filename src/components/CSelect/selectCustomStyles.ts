@@ -4,7 +4,7 @@ import { OptionType } from '../../models';
 const customStyles = (): StylesConfig<OptionType, false> => ({
   option: (provided, state) => ({
     ...provided,
-    color: state.isSelected ? '#039855' : '#6b7280',
+    color: state.isSelected ? '#000' : '#6b7280',
     display: 'flex',
     borderRadius: '10px',
     alignItems: 'center',
@@ -26,7 +26,7 @@ const customStyles = (): StylesConfig<OptionType, false> => ({
     height: '40px',
     borderRadius: '8px',
     fontSize: '16px',
-    color: '#039855',
+    color: '#000',
     fontWeight: '500',
     padding: '0 7px',
     cursor: 'pointer',

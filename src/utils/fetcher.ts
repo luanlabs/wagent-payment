@@ -1,3 +1,10 @@
+export interface IResponse<T> {
+  message: string | object;
+  result: T;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error: { message: string; extras?: any };
+}
+
 const fetcher = async <T>(
   url: string,
   config?: RequestInit,

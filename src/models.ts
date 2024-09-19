@@ -1,34 +1,38 @@
+import { MethodsNumerical } from './utils/Methods';
+
 export interface OptionType {
   value: string;
   label: string;
   logo: string;
 }
 
+export interface iconProps {
+  fill: string;
+}
+
 export interface ITokenResponse {
-  assetCode: string;
-  assetIssuer: string;
+  symbol: string;
+  address: string;
   logo: string;
 }
 
-export interface IPaymentDetailsResponse {
-  settings: {
-    merchant: {
-      address: string;
-      name: string;
-      logo: string;
-    };
-    tokens: ITokenResponse[];
-    methods: string[];
-  };
-  order: {
-    products: {
-      logo: string;
-      name: string;
-      amount: string;
-    }[];
-    totalAmount: string;
-  };
+interface IProducts {
+  count: number;
+  amount: number;
+  logo?: string;
+  name: string;
 }
-export interface iconProps {
-  fill: string;
+
+interface IUser {
+  name: string;
+  methods: MethodsNumerical;
+  logo?: string;
+}
+
+export interface IPaymentDetailsResponse {
+  amount: string;
+  token: ITokenResponse[];
+  user: IUser;
+  products?: IProducts[];
+  redirectUrl: string;
 }
