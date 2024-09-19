@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { IPaymentDetailsResponse } from '../models';
+// import { IPaymentDetailsResponse } from '../models';
 
 const useGetPaymentDetails = (_: string) => {
-  const [data, setData] = useState<IPaymentDetailsResponse | null>(null);
+  const [data, setData] = useState<any | null>(null);
 
   useEffect(() => {
     setTimeout(() => {
