@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  wagent-payment:
+    image: wagent-payment:latest
+    pull_policy: never
+    restart: on-failure
+    ports:
+      - '3004:3000'
