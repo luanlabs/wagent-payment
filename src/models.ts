@@ -29,10 +29,14 @@ interface IUser {
   logo?: string;
 }
 
+export type StatusType = 'pending' | 'complete' | 'expired';
+
 export interface IPaymentDetailsResponse {
   amount: string;
   token: ITokenResponse[];
   user: IUser;
+  status: StatusType;
+  expiredTimestamp: number;
   products?: IProducts[];
   redirectUrl: string;
 }
