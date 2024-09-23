@@ -1,5 +1,5 @@
-const calculateRemainingTime = (expiredTimestamp: number) => {
-  const remainingTime = expiredTimestamp - Date.now();
+const calculateRemainingTime = (expiredTimeStamp: number) => {
+  const remainingTime = expiredTimeStamp - Date.now();
   return remainingTime > 0 ? remainingTime : 0;
 };
 

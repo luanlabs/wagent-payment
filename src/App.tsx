@@ -120,7 +120,7 @@ export default function App() {
         <div className="relative center flex-col text-offWhite text-center bg-primaryGreen desktop:h-1/3 tablet:!h-[300px] mobile:!h-[300px] desktopMax:h-2/5 h-[260px] rounded-t-[10px]">
           {data.status === 'pending' && (
             <div className="absolute top-0 left-0">
-              <CountdownTimer expiredTimestamp={data.expiredTimestamp} />
+              <CountdownTimer expiredTimeStamp={data.expiredTimestamp} />
             </div>
           )}
           <img src={logoType} alt="Wagent Logo" draggable={false} />

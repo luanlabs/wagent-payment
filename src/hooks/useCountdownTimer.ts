@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
+
 import calculateRemainingTime from '../utils/calculateRemainingTime';
 
-const useCountdownTimer = (expiredTimestamp: number) => {
+const useCountdownTimer = (expiredTimeStamp: number) => {
   const [remainingTime, setRemainingTime] = useState<number>(
-    calculateRemainingTime(expiredTimestamp),
+    calculateRemainingTime(expiredTimeStamp),
   );
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setRemainingTime(calculateRemainingTime(expiredTimestamp));
+      setRemainingTime(calculateRemainingTime(expiredTimeStamp));
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [expiredTimestamp]);
+  }, [expiredTimeStamp]);
 
   return remainingTime;
 };

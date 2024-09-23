@@ -6,11 +6,11 @@ import useCountdownTimer from '../../hooks/useCountdownTimer';
 import formatTime from '../../utils/formatTime';
 
 interface CountdownTimerProps {
-  expiredTimestamp: number;
+  expiredTimeStamp: number;
 }
 
-const CountdownTimer = ({ expiredTimestamp }: CountdownTimerProps) => {
-  const remainingTime = useCountdownTimer(expiredTimestamp);
+const CountdownTimer = ({ expiredTimeStamp }: CountdownTimerProps) => {
+  const remainingTime = useCountdownTimer(expiredTimeStamp);
   const [percentage, setPercentage] = useState(0);
   const totalDuration = 15 * 60 * 1000;
 
