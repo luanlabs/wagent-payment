@@ -40,3 +40,7 @@ export interface IPaymentDetailsResponse {
   products?: IProducts[];
   redirectUrl: string;
 }
+
+export type SvgProps = {
+  fill?: string;
+};
