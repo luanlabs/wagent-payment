@@ -1,6 +1,17 @@
+import { useEffect, useState } from 'react';
 import wagentLogo from '../../../public/images/wagentLogo.svg';
 
 const Loading = () => {
+  const [loadingTime, setLoadingTime] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setLoadingTime(100);
+    }, 100);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <div className="flex flex-col justify-center items-center bg-white h-dvh">
       <img src={wagentLogo} alt="wagent" />
@@ -10,7 +21,7 @@ const Loading = () => {
         <div className="h-[6px] rounded-full bg-[#eee] overflow-hidden w- w-[366px]">
           <div
             className={`bg-[#008B5B] h-full rounded-full transition-all duration-100 ease-linear`}
-            style={{ width: `100%` }}
+            style={{ width: `${loadingTime}%` }}
           ></div>
         </div>
 

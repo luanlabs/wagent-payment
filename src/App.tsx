@@ -12,6 +12,7 @@ import CTokenLabel from './components/CTokenLabel';
 import CDisclosure from './components/CDisclosure';
 import CResultDetail from './components/CResultDetail';
 import CConnectWallet from './components/CConnectWallet';
+import CountdownTimer from './components/CountdownTimer';
 import CRadioButtonGroup from './components/CRadioButtonGroup';
 
 import Method from './utils/Methods';
@@ -71,6 +72,10 @@ export default function App() {
     return <NotFound />;
   }
 
+  const handleCancelOrder = () => {
+    window.location.href = data.redirectUrl;
+  };
+
   const methods = Method.toString(data.user.methods);
 
   const tokens = tokensToOptions(data.token);
@@ -91,6 +96,14 @@ export default function App() {
     </div>
   );
 
+  let paymentStatus;
+
+  if (data.status === 'expired') {
+    paymentStatus = <div>The payment time has expired. Please try again.</div>;
+  } else if (data.status === 'complete') {
+    paymentStatus = <div>Payment was successful. Thank you for your purchase.</div>;
+  }
+
   const orderBottom = (
     <div className="flex space-x-2">
       <CCard type="summary" title="Total Amount" subtitle={`$${data.amount}`} />
@@ -105,6 +118,11 @@ export default function App() {
     >
       <div className="desktop:w-2/5 w-full h-full order-1">
         <div className="relative center flex-col text-offWhite text-center bg-primaryGreen desktop:h-1/3 tablet:!h-[300px] mobile:!h-[300px] desktopMax:h-2/5 h-[260px] rounded-t-[10px]">
+          {data.status === 'pending' && (
+            <div className="absolute top-0 left-0">
+              <CountdownTimer expiredTimeStamp={data.expiredTimestamp} />
+            </div>
+          )}
           <img src={logoType} alt="Wagent Logo" draggable={false} />
           <p className="text-2xl font-medium mt-[36px] px-4">
             Simple and fast transactions for everyone
@@ -148,7 +166,17 @@ export default function App() {
       </div>
 
       <div className="desktop:w-3/5 w-full h-full order-2 flex flex-col justify-between">
-        <div className="desktop:mt-0 mt-14 mobile:mt-3">
+        {data.status !== 'pending' && (
+          <div className="bg-primaryGreen text-offWhite rounded-[10px] p-4 text-base">
+            {paymentStatus}
+          </div>
+        )}
+
+        <div
+          className={clsx(`desktop:mt-0 mobile:mt-3`, {
+            'pointer-events-none opacity-50 blur-[1px] select-none': data.status !== 'pending',
+          })}
+        >
           <CCard type="simple" title="Payment options" className="!text-2xl desktopMax:py-[18px]" />
           <div className="px-6 pt-4 mt-1 bg-white space-y-4 bigScreen:space-y-[50px] desktopMax:space-y-5 rounded-[10px] pb-7">
             <CItemField
@@ -198,7 +226,11 @@ export default function App() {
           </div>
         </div>
 
-        <div className="mt-1">
+        <div
+          className={clsx(`mt-1`, {
+            'pointer-events-none opacity-50 blur-[1px] select-none': data.status !== 'pending',
+          })}
+        >
           <CCard
             type="simple"
             title="Payment overview"
@@ -229,7 +261,12 @@ export default function App() {
             </div>
 
             <div className="flex gap-2 mobile:flex-col-reverse mobile:mt-2 pt-10">
-              <CButton variant="bordered" text="Cancel Order" className="desktop:w-[60%]" />
+              <CButton
+                variant="bordered"
+                text="Cancel Order"
+                className="desktop:w-[60%]"
+                onClick={handleCancelOrder}
+              />
               <CButton
                 variant="confirm"
                 text="Confirm Payment"
