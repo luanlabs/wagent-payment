@@ -13,16 +13,17 @@ import CRadioButtonGroup from '../../components/CRadioButtonGroup';
 
 import { MethodsType } from '../../utils/Methods';
 import { methodTabs } from '../../constants/methods';
-import { IPaymentDetailsResponse, OptionType } from '../../models';
 import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
+import { IPaymentDetails, IPaymentDetailsResponse, OptionType } from '../../models';
 
 interface PaymentOptionsProps {
   data: IPaymentDetailsResponse;
   methods: MethodsType[];
   tokens: OptionType[];
+  id?: string;
 }
 
-const PaymentOptions = ({ data, methods, tokens }: PaymentOptionsProps) => {
+const PaymentOptions = ({ data, methods, tokens, id }: PaymentOptionsProps) => {
   const [selectedToken, setSelectedToken] = useState<OptionType | null>(null);
   const [emailAddress, setEmailAddress] = useState('');
   const [selectedMethod, setSelectedMethod] = useState<string>(
@@ -30,11 +31,23 @@ const PaymentOptions = ({ data, methods, tokens }: PaymentOptionsProps) => {
   );
   const [emailError, setEmailError] = useState('');
   const [isConfirmClicked, setIsConfirmClicked] = useState(false);
+  const [address, setAddress] = useState('');
+  const [paymentDetails, setPaymentDetails] = useState<IPaymentDetails>({
+    sender: '',
+    receiver: '',
+    tokenAddress: '',
+    amount: '',
+    orderId: '',
+  });
 
   const handleSelectChange = (item: OptionType | null) => {
     if (item) {
       setSelectedToken(item);
     }
+  };
+
+  const handleAddress = (address: string) => {
+    setAddress(address);
   };
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +73,15 @@ const PaymentOptions = ({ data, methods, tokens }: PaymentOptionsProps) => {
   };
 
   const handleConfirmPayment = () => {
+    if (id && data)
+      setPaymentDetails({
+        sender: 'GBSTUMMY4ZLHLZQ3263OOTXNQILNACP5YLQLUFH3SQB34WXX7HCOF5WP',
+        receiver: 'GD7L7UYOP3XQQT3XQX2TUCQTHJHTKPYOBKD7ABJJ4GIHODE52IFGNYV2',
+        tokenAddress: 'CA63GJC73CZCFFDUR4O65QHZFPJ6EPXOYJDJIMUXCSXLDHXXLQI3GJBH',
+        amount: data.amount,
+        orderId: id,
+      });
+
     setIsConfirmClicked(true);
   };
 
@@ -89,7 +111,7 @@ const PaymentOptions = ({ data, methods, tokens }: PaymentOptionsProps) => {
           <CItemField
             title="Wallet Address"
             description="Choose the token you'd like to make transaction with"
-            component={<CConnectWallet />}
+            component={<CConnectWallet onAddressChange={handleAddress} />}
           />
 
           <CItemField
@@ -182,6 +204,7 @@ const PaymentOptions = ({ data, methods, tokens }: PaymentOptionsProps) => {
         <ConfirmPayment
           isConfirmClicked={isConfirmClicked}
           setIsConfirmClicked={setIsConfirmClicked}
+          data={paymentDetails}
         />
       </div>
     </div>
