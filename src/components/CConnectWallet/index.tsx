@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import freighterApi from '@stellar/freighter-api';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
@@ -11,8 +11,18 @@ import copyToClipboard from '../../utils/copyToClipboard';
 import ArrowRightStartOnRectangleIcon from '../../assets/ArrowRightStartOnRectangleIcon';
 import SquareStackIcon from '../../assets/SquareStackIcon';
 
-const ConnectButton = () => {
+interface ConnectButtonProps {
+  onAddressChange?: (address: string) => void;
+}
+
+const ConnectButton = ({ onAddressChange }: ConnectButtonProps) => {
   const [address, setAddress] = useState<string>('');
+
+  useEffect(() => {
+    if (onAddressChange) {
+      onAddressChange(address);
+    }
+  }, [address, onAddressChange]);
 
   const handleConnect = async () => {
     if (address) {
