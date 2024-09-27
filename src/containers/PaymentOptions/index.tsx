@@ -15,6 +15,8 @@ import { MethodsType } from '../../utils/Methods';
 import { methodTabs } from '../../constants/methods';
 import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
 import { IPaymentDetails, IPaymentDetailsResponse, OptionType } from '../../models';
+import formatUnits from '../../utils/formatUnits';
+import humanizeAmount from '../../utils/humanizeAmount';
 
 interface PaymentOptionsProps {
   data: IPaymentDetailsResponse;
@@ -75,7 +77,7 @@ const PaymentOptions = ({ data, methods, tokens, id }: PaymentOptionsProps) => {
   const handleConfirmPayment = () => {
     if (id && data)
       setPaymentDetails({
-        sender: 'GBSTUMMY4ZLHLZQ3263OOTXNQILNACP5YLQLUFH3SQB34WXX7HCOF5WP',
+        sender: address,
         receiver: 'GD7L7UYOP3XQQT3XQX2TUCQTHJHTKPYOBKD7ABJJ4GIHODE52IFGNYV2',
         tokenAddress: 'CA63GJC73CZCFFDUR4O65QHZFPJ6EPXOYJDJIMUXCSXLDHXXLQI3GJBH',
         amount: data.amount,
@@ -85,7 +87,7 @@ const PaymentOptions = ({ data, methods, tokens, id }: PaymentOptionsProps) => {
     setIsConfirmClicked(true);
   };
 
-  const validateField = selectedToken && !emailError;
+  const validateField = selectedToken && !emailError && address;
 
   let paymentStatus;
   if (data.status === 'expired') {
@@ -179,7 +181,7 @@ const PaymentOptions = ({ data, methods, tokens, id }: PaymentOptionsProps) => {
 
             <CResultDetail
               label="Total Amount"
-              value={`$${data.amount}`}
+              value={`$${humanizeAmount(data.amount)}`}
               valueColor="text-darkBlue"
             />
           </div>
