@@ -10,6 +10,7 @@ import copyToClipboard from '../../utils/copyToClipboard';
 
 import ArrowRightStartOnRectangleIcon from '../../assets/ArrowRightStartOnRectangleIcon';
 import SquareStackIcon from '../../assets/SquareStackIcon';
+import ErrorModal from '../Modals/ErrorModal';
 
 interface ConnectButtonProps {
   onAddressChange?: (address: string) => void;
@@ -17,6 +18,11 @@ interface ConnectButtonProps {
 
 const ConnectButton = ({ onAddressChange }: ConnectButtonProps) => {
   const [address, setAddress] = useState<string>('');
+  const [errorModalIsOpen, setIsErrorModalIsOpen] = useState(false);
+  const [errorTextModal, setErrorTextModal] = useState({
+    title: '',
+    message: '',
+  });
 
   useEffect(() => {
     if (onAddressChange) {
@@ -31,7 +37,8 @@ const ConnectButton = ({ onAddressChange }: ConnectButtonProps) => {
 
     freighterApi.isConnected().then((isConnected) => {
       if (!isConnected) {
-        console.log('Freighter is not installed');
+        setErrorTextModal({ title: 'Error', message: 'Freighter is not installed' });
+        setIsErrorModalIsOpen(true);
       }
     });
 
@@ -41,7 +48,8 @@ const ConnectButton = ({ onAddressChange }: ConnectButtonProps) => {
       const publicKey = await freighterApi.getPublicKey();
       setAddress(publicKey);
     } catch {
-      console.log('Freighter not connected');
+      setErrorTextModal({ title: 'Error', message: 'Freighter Not Connected' });
+      setIsErrorModalIsOpen(true);
     }
   };
 
@@ -93,6 +101,13 @@ const ConnectButton = ({ onAddressChange }: ConnectButtonProps) => {
           </Transition>
         </Menu>
       )}
+
+      <ErrorModal
+        title={errorTextModal.title}
+        message={errorTextModal.message}
+        isOpen={errorModalIsOpen}
+        onClose={() => setIsErrorModalIsOpen(false)}
+      />
     </div>
   );
 };
