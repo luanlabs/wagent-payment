@@ -75,12 +75,8 @@ const ConfirmPayment = ({ isConfirmClicked, setIsConfirmClicked, data }: Confirm
 
       setIsPayModalIsOpen(true);
 
-      console.log('success allowance', 'Transaction has been approved successfully');
-
       return;
     }
-
-    console.log('start approve');
 
     const approveXdr = await approve(
       data.tokenAddress,
@@ -139,8 +135,6 @@ const ConfirmPayment = ({ isConfirmClicked, setIsConfirmClicked, data }: Confirm
       return;
     }
 
-    console.log('success', 'Transaction has been approved successfully');
-
     setIsProcessModalIsOpen(false);
     await timeout(50);
     setIsPayModalIsOpen(true);
@@ -152,7 +146,16 @@ const ConfirmPayment = ({ isConfirmClicked, setIsConfirmClicked, data }: Confirm
     setProcessText({ title: 'Waiting for transaction confirmation', message: '' });
     setIsProcessModalIsOpen(true);
 
-    const paymentXdr = await pay(Testnet.networkPassphrase, data.sender, data);
+    let paymentXdr;
+    try {
+      paymentXdr = await pay(Testnet.networkPassphrase, data.sender, data);
+    } catch (error) {
+      setErrorTextModal({ title: 'Error', message: 'Error Create Transaction' });
+
+      setIsErrorModalIsOpen(true);
+    }
+
+    setIsErrorModalIsOpen(false);
 
     let signedXdr;
 
@@ -199,6 +202,7 @@ const ConfirmPayment = ({ isConfirmClicked, setIsConfirmClicked, data }: Confirm
       setIsErrorModalIsOpen(false);
     }
 
+    setIsProcessModalIsOpen(false);
     await timeout(50);
     setIsSuccessModalIsOpen(true);
   };
