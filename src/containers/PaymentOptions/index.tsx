@@ -13,10 +13,9 @@ import CRadioButtonGroup from '../../components/CRadioButtonGroup';
 
 import { MethodsType } from '../../utils/Methods';
 import { methodTabs } from '../../constants/methods';
+import humanizeAmount from '../../utils/humanizeAmount';
 import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
 import { IPaymentDetails, IPaymentDetailsResponse, OptionType } from '../../models';
-import formatUnits from '../../utils/formatUnits';
-import humanizeAmount from '../../utils/humanizeAmount';
 
 interface PaymentOptionsProps {
   data: IPaymentDetailsResponse;

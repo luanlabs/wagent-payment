@@ -23,6 +23,7 @@ const OrderOverview = ({ data, id }: OrderOverviewProps) => {
     <div className="mt-2 space-y-3">
       {data.products?.map((product) => (
         <CCard
+          key={product.name}
           type="detailed"
           title={capitalizeFirstLetter(product.name)}
           subtitle={`X ${product.count}`}
