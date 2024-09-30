@@ -1,8 +1,8 @@
 import timeout from '../../timeout';
 import getServer from '../getServer';
 
-const finalizeTransaction = async (hash: string, passPhrase: string) => {
-  const { soroban: server } = getServer(passPhrase);
+const finalizeTransaction = async (hash: string) => {
+  const { soroban: server } = getServer();
 
   for (let i = 0; i < 15; ++i) {
     const tx = await server.getTransaction(hash);

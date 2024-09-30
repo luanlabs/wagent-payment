@@ -1,12 +1,10 @@
 import { Horizon, SorobanRpc } from '@stellar/stellar-sdk';
-import passPhraseToNetworkDetail from './passPhraseToNetworkDetail';
+import Testnet from '../../constants/networks';
 
-const getServer = (passPhrase: string) => {
-  const { sorobanRPC, horizonRPC } = passPhraseToNetworkDetail(passPhrase);
-
+const getServer = () => {
   return {
-    soroban: new SorobanRpc.Server(sorobanRPC),
-    horizon: new Horizon.Server(horizonRPC),
+    soroban: new SorobanRpc.Server(Testnet.sorobanRpcUrl),
+    horizon: new Horizon.Server(Testnet.networkUrl),
   };
 };
 export default getServer;

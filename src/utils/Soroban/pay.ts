@@ -3,9 +3,9 @@ import BN from '../BN';
 import ToScVal from './scVal';
 import toDecimals from './toDecimals';
 import sorobanSend from './sorobanSend';
-import passPhraseToNetworkDetail from './passPhraseToNetworkDetail';
 
 import { IPaymentDetails } from '../../models';
+import Testnet from '../../constants/networks';
 
 const pay = async (passPhrase: string, address: string, params: IPaymentDetails) => {
   const tokenAddressScVal = ToScVal.address(params.tokenAddress);
@@ -14,13 +14,13 @@ const pay = async (passPhrase: string, address: string, params: IPaymentDetails)
   const amountScVal = ToScVal.i128(toDecimals(new BN(params.amount)));
   const orderIdScVal = ToScVal.string(params.orderId);
 
-  const tx = await sorobanSend(
-    address,
-    passPhrase,
-    passPhraseToNetworkDetail(passPhrase).contract,
-    'pay',
-    [tokenAddressScVal, senderScVal, receiverScVal, amountScVal, orderIdScVal],
-  );
+  const tx = await sorobanSend(address, passPhrase, Testnet.contract, 'pay', [
+    tokenAddressScVal,
+    senderScVal,
+    receiverScVal,
+    amountScVal,
+    orderIdScVal,
+  ]);
 
   return tx;
 };

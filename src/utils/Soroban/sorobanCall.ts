@@ -11,7 +11,8 @@ const sorobanCall = async <T>(
   callSignature: string,
   callParameters?: xdr.ScVal[],
 ) => {
-  const { soroban: server } = getServer(passPhrase);
+  const { soroban: server } = getServer();
+
   const account = await server.getAccount(user);
   const contract = new Contract(contractAddress);
 

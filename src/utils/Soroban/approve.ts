@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js';
 
-import sorobanSend from './sorobanSend';
 import ToScVal from './scVal';
-import toDecimals from './toDecimals';
-import passPhraseToNetworkDetail from './passPhraseToNetworkDetail';
 import getServer from './getServer';
+import toDecimals from './toDecimals';
+import sorobanSend from './sorobanSend';
+import Testnet from '../../constants/networks';
 
 const approve = async (
   contractAddress: string,
@@ -12,11 +12,11 @@ const approve = async (
   address: string,
   amount: BigNumber,
 ) => {
-  const { soroban: server } = getServer(passPhrase);
+  const { soroban: server } = getServer();
   const { sequence } = await server.getLatestLedger();
 
   const from = ToScVal.address(address);
-  const spender = ToScVal.address(passPhraseToNetworkDetail(passPhrase).contract);
+  const spender = ToScVal.address(Testnet.contract);
   const amountScVal = ToScVal.i128(toDecimals(amount));
   const expirationLedger = ToScVal.u32(sequence + 1000);
 
