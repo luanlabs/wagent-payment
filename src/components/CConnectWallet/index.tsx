@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
-
 import freighterApi from '@stellar/freighter-api';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
 
 import CButton from '../CButton';
+import ErrorModal from '../Modals/ErrorModal';
 
 import shortenAddress from '../../utils/shortenAddress';
 import copyToClipboard from '../../utils/copyToClipboard';
 
 import ArrowRightStartOnRectangleIcon from '../../assets/ArrowRightStartOnRectangleIcon';
 import SquareStackIcon from '../../assets/SquareStackIcon';
-import ErrorModal from '../Modals/ErrorModal';
 
 interface ConnectButtonProps {
   onAddressChange?: (address: string) => void;
@@ -18,8 +17,8 @@ interface ConnectButtonProps {
 
 const ConnectButton = ({ onAddressChange }: ConnectButtonProps) => {
   const [address, setAddress] = useState<string>('');
-  const [errorModalIsOpen, setIsErrorModalIsOpen] = useState(false);
-  const [errorTextModal, setErrorTextModal] = useState({
+  const [errorModal, setErrorModal] = useState({
+    isOpen: false,
     title: '',
     message: '',
   });
@@ -37,8 +36,11 @@ const ConnectButton = ({ onAddressChange }: ConnectButtonProps) => {
 
     freighterApi.isConnected().then((isConnected) => {
       if (!isConnected) {
-        setErrorTextModal({ title: 'Error', message: 'Freighter is not installed' });
-        setIsErrorModalIsOpen(true);
+        setErrorModal({
+          isOpen: true,
+          title: 'Error',
+          message: 'Freighter is not installed',
+        });
       }
     });
 
@@ -48,8 +50,11 @@ const ConnectButton = ({ onAddressChange }: ConnectButtonProps) => {
       const publicKey = await freighterApi.getPublicKey();
       setAddress(publicKey);
     } catch {
-      setErrorTextModal({ title: 'Error', message: 'Freighter Not Connected' });
-      setIsErrorModalIsOpen(true);
+      setErrorModal({
+        isOpen: true,
+        title: 'Error',
+        message: 'Freighter Not Connected',
+      });
     }
   };
 
@@ -103,9 +108,9 @@ const ConnectButton = ({ onAddressChange }: ConnectButtonProps) => {
       )}
 
       <ErrorModal
-        title={errorTextModal.title}
-        message={errorTextModal.message}
-        isOpen={errorModalIsOpen}
+        title={errorModal.title}
+        message={errorModal.message}
+        isOpen={errorModal.isOpen}
         onClose={() => setIsErrorModalIsOpen(false)}
       />
     </div>
