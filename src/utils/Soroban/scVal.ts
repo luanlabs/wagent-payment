@@ -2,7 +2,7 @@ import { xdr, Address } from '@stellar/stellar-sdk';
 
 import numberToScVal from './numberToScVal';
 
-const { scvU32, scvU64, scvSymbol, scvString } = xdr.ScVal;
+const { scvU32, scvString } = xdr.ScVal;
 
 class ToScVal {
   public static i128(value: bigint) {
@@ -13,12 +13,6 @@ class ToScVal {
   }
   public static address(address: string) {
     return Address.fromString(address).toScVal();
-  }
-  public static u64(number: string) {
-    return scvU64(xdr.Uint64.fromString(number));
-  }
-  public static symbol(symbol: string) {
-    return scvSymbol(symbol);
   }
   public static string(symbol: string) {
     return scvString(symbol);
