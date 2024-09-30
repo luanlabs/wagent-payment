@@ -111,7 +111,7 @@ const ConnectButton = ({ onAddressChange }: ConnectButtonProps) => {
         title={errorModal.title}
         message={errorModal.message}
         isOpen={errorModal.isOpen}
-        onClose={() => setIsErrorModalIsOpen(false)}
+        onClose={() => setErrorModal({ isOpen: false, title: '', message: '' })}
       />
     </div>
   );
