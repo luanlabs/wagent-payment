@@ -17,14 +17,21 @@ import getERC20Allowance from '../../utils/Soroban/getERC20Allowance';
 import signTransaction from '../../utils/Soroban/Transaction/signTransaction';
 import sendTransaction from '../../utils/Soroban/Transaction/sendTransaction';
 import finalizeTransaction from '../../utils/Soroban/Transaction/finalizeTransaction';
+import sendConfirmedTransaction from '../../api/sendConfirmedTransaction';
 
 interface ConfirmPaymentProps {
   isConfirmClicked: boolean;
   setIsConfirmClicked: (_: boolean) => void;
   data: IPaymentDetails;
+  payerEmail: string;
 }
 
-const ConfirmPayment = ({ isConfirmClicked, setIsConfirmClicked, data }: ConfirmPaymentProps) => {
+const ConfirmPayment = ({
+  isConfirmClicked,
+  setIsConfirmClicked,
+  data,
+  payerEmail,
+}: ConfirmPaymentProps) => {
   const [approveModalIsOpen, setIsApproveModalIsOpen] = useState(false);
   const [successModalIsOpen, setIsSuccessModalIsOpen] = useState(false);
   const [payModalIsOpen, setIsPayModalIsOpen] = useState(false);
@@ -47,6 +54,10 @@ const ConfirmPayment = ({ isConfirmClicked, setIsConfirmClicked, data }: Confirm
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmClicked]);
+
+  const handleRedirectUrl = () => {
+    window.location.href = data.redirectUrl;
+  };
 
   const handleApproveModal = async () => {
     setIsApproveModalIsOpen(false);
@@ -243,6 +254,10 @@ const ConfirmPayment = ({ isConfirmClicked, setIsConfirmClicked, data }: Confirm
     setProcessModal({ isOpen: false, title: '', message: '' });
     await timeout(50);
     setIsSuccessModalIsOpen(true);
+
+    await sendConfirmedTransaction(data.orderId, tx.hash, payerEmail);
+
+    handleRedirectUrl();
   };
 
   return (

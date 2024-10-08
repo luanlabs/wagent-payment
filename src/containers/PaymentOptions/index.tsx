@@ -16,12 +16,13 @@ import { methodTabs } from '../../constants/methods';
 import humanizeAmount from '../../utils/humanizeAmount';
 import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
 import { IPaymentDetails, IPaymentDetailsResponse, OptionType } from '../../models';
+import cancelTransactionOrder from '../../api/cancelTransactionOrder';
 
 interface PaymentOptionsProps {
   data: IPaymentDetailsResponse;
   methods: MethodsType[];
   tokens: OptionType[];
-  id?: string;
+  id: string;
 }
 
 const PaymentOptions = ({ data, methods, tokens, id }: PaymentOptionsProps) => {
@@ -39,6 +40,7 @@ const PaymentOptions = ({ data, methods, tokens, id }: PaymentOptionsProps) => {
     tokenAddress: '',
     amount: '',
     orderId: '',
+    redirectUrl: '',
   });
 
   const handleSelectChange = (item: OptionType | null) => {
@@ -69,18 +71,21 @@ const PaymentOptions = ({ data, methods, tokens, id }: PaymentOptionsProps) => {
     setSelectedMethod(value);
   };
 
-  const handleCancelOrder = () => {
+  const handleCancelOrder = async () => {
+    await cancelTransactionOrder(id);
+
     window.location.href = data.redirectUrl;
   };
 
   const handleConfirmPayment = () => {
-    if (id && data)
+    if (data)
       setPaymentDetails({
         sender: address,
         receiver: 'GD7L7UYOP3XQQT3XQX2TUCQTHJHTKPYOBKD7ABJJ4GIHODE52IFGNYV2',
         tokenAddress: 'CA63GJC73CZCFFDUR4O65QHZFPJ6EPXOYJDJIMUXCSXLDHXXLQI3GJBH',
         amount: data.amount,
         orderId: id,
+        redirectUrl: data.redirectUrl,
       });
 
     setIsConfirmClicked(true);
@@ -206,6 +211,7 @@ const PaymentOptions = ({ data, methods, tokens, id }: PaymentOptionsProps) => {
           isConfirmClicked={isConfirmClicked}
           setIsConfirmClicked={setIsConfirmClicked}
           data={paymentDetails}
+          payerEmail={emailAddress}
         />
       </div>
     </div>

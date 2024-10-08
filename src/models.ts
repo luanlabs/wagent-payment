@@ -51,4 +51,5 @@ export interface IPaymentDetails {
   tokenAddress: string;
   amount: string;
   orderId: string;
+  redirectUrl: string;
 }
