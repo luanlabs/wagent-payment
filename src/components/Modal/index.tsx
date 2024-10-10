@@ -37,11 +37,12 @@ const CModal = ({ title, children, isOpen, width, onClose, className }: CModalPr
         className={clsx(
           className,
           `fixed ${
-            width ? `w-[${width}]` : 'w-[482px] mobile:w-[calc(100%-32px)]'
+            !width && 'w-[482px] mobile:w-[calc(100%-32px)]'
           } transform transition-all duration-500 ease-in-out ${
             isOpen ? 'scale-100 opacity-100' : 'scale-75 opacity-0'
           } top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 !z-[9999] rounded-[20px] shadow-2xl bg-white h-auto`,
         )}
+        style={{ width: `${width}` }}
       >
         <div className="flex flex-col w-full h-full px-6 py-4 gap-4">
           {title && (

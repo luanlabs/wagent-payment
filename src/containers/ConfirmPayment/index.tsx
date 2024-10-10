@@ -1,28 +1,51 @@
 import { useEffect, useState } from 'react';
+import BN from '../../utils/BN';
 
+import ErrorModal from '../../components/Modals/ErrorModal';
 import ProcessModal from '../../components/Modals/ProcessModal';
 import ApproveModal from '../../components/Modals/ApproveModal';
-import { IPaymentDetailsResponse } from '../../models';
-import timeout from '../../utils/timeout';
 import SuccessModal from '../../components/Modals/SuccessModal';
-import ErrorModal from '../../components/Modals/ErrorModal';
+
+import { IPaymentDetails } from '../../models';
+import Testnet from '../../constants/networks';
+
+import pay from '../../utils/Soroban/pay';
+import timeout from '../../utils/timeout';
+import approve from '../../utils/Soroban/approve';
+import toDecimals from '../../utils/Soroban/toDecimals';
+import getERC20Allowance from '../../utils/Soroban/getERC20Allowance';
+import signTransaction from '../../utils/Soroban/Transaction/signTransaction';
+import sendTransaction from '../../utils/Soroban/Transaction/sendTransaction';
+import finalizeTransaction from '../../utils/Soroban/Transaction/finalizeTransaction';
+import sendConfirmedTransaction from '../../api/sendConfirmedTransaction';
 
 interface ConfirmPaymentProps {
   isConfirmClicked: boolean;
   setIsConfirmClicked: (_: boolean) => void;
-  data: IPaymentDetailsResponse;
+  data: IPaymentDetails;
+  payerEmail: string;
 }
 
-const ConfirmPayment = ({ isConfirmClicked, setIsConfirmClicked }: ConfirmPaymentProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [walletConnectionIsOpen, setIsWalletConnectionIsOpen] = useState(false);
+const ConfirmPayment = ({
+  isConfirmClicked,
+  setIsConfirmClicked,
+  data,
+  payerEmail,
+}: ConfirmPaymentProps) => {
   const [approveModalIsOpen, setIsApproveModalIsOpen] = useState(false);
   const [successModalIsOpen, setIsSuccessModalIsOpen] = useState(false);
-  const [errorModalIsOpen, setIsErrorModalIsOpen] = useState(false);
+  const [payModalIsOpen, setIsPayModalIsOpen] = useState(false);
+  const [processModal, setProcessModal] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+  });
 
-  const handleOnCloseModal = () => {
-    setIsOpen(false);
-  };
+  const [errorModal, setErrorModal] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+  });
 
   useEffect(() => {
     if (isConfirmClicked) {
@@ -32,40 +55,222 @@ const ConfirmPayment = ({ isConfirmClicked, setIsConfirmClicked }: ConfirmPaymen
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmClicked]);
 
+  const handleRedirectUrl = () => {
+    window.location.href = data.redirectUrl;
+  };
+
   const handleApproveModal = async () => {
     setIsApproveModalIsOpen(false);
-    setIsWalletConnectionIsOpen(true);
-    await timeout(2000);
-    setIsWalletConnectionIsOpen(false);
-    await timeout(100);
-    setIsOpen(true);
-    await timeout(2000);
-    setIsOpen(false);
+
+    setProcessModal({
+      isOpen: true,
+      title: 'Waiting for token access approval',
+      message: 'You are granting Wagent access to your tokens equal to your total order amount',
+    });
+
+    const checkAllowance = await getERC20Allowance(
+      data.tokenAddress,
+      Testnet.networkPassphrase,
+      data.sender,
+      Testnet.contract,
+    );
+
+    if (toDecimals(BN(data.amount)) <= BigInt(checkAllowance)) {
+      setProcessModal({
+        isOpen: false,
+        title: '',
+        message: '',
+      });
+
+      await timeout(50);
+
+      setIsPayModalIsOpen(true);
+
+      return;
+    }
+
+    const approveXdr = await approve(
+      data.tokenAddress,
+      Testnet.networkPassphrase,
+      data.sender,
+      BN(data.amount),
+    );
+
+    let signedTx;
+
+    try {
+      signedTx = await signTransaction(data.sender, Testnet.networkPassphrase, approveXdr);
+    } catch {
+      setProcessModal({
+        isOpen: false,
+        title: '',
+        message: '',
+      });
+
+      await timeout(50);
+      setErrorModal({
+        isOpen: true,
+        title: 'Error',
+        message: 'Error signing approval transaction',
+      });
+
+      return;
+    }
+    setErrorModal({
+      isOpen: false,
+      title: '',
+      message: '',
+    });
+
+    let tx;
+
+    try {
+      tx = await sendTransaction(signedTx);
+    } catch {
+      await timeout(50);
+      setErrorModal({ isOpen: true, title: 'Error', message: 'Failed to submit the transaction' });
+
+      return;
+    }
+    setErrorModal({ isOpen: false, title: '', message: '' });
+
+    if (tx) {
+      await timeout(50);
+      setProcessModal({
+        isOpen: false,
+        title: '',
+        message: '',
+      });
+      await timeout(100);
+
+      setProcessModal({ isOpen: true, title: 'Waiting for transaction approval', message: '' });
+
+      const finalize = await finalizeTransaction(tx.hash);
+
+      setProcessModal({
+        isOpen: false,
+        title: '',
+        message: '',
+      });
+
+      if (!finalize) {
+        setProcessModal({
+          isOpen: false,
+          title: '',
+          message: '',
+        });
+
+        setErrorModal({
+          isOpen: true,
+          title: 'Error',
+          message: 'Approval transaction failed to finalize',
+        });
+
+        return;
+      }
+    } else {
+      setProcessModal({
+        isOpen: false,
+        title: '',
+        message: '',
+      });
+
+      setErrorModal({ isOpen: false, title: '', message: '' });
+
+      return;
+    }
+
+    setProcessModal({
+      isOpen: false,
+      title: '',
+      message: '',
+    });
+
+    await timeout(50);
+    setIsPayModalIsOpen(true);
+  };
+
+  const handlePay = async () => {
+    setIsPayModalIsOpen(false);
+    await timeout(50);
+    setProcessModal({ isOpen: true, title: 'Waiting for transaction confirmation', message: '' });
+
+    let paymentXdr;
+    try {
+      paymentXdr = await pay(Testnet.networkPassphrase, data.sender, data);
+    } catch (error) {
+      setErrorModal({ isOpen: true, title: 'Error', message: 'Error Create Transaction' });
+    }
+
+    setErrorModal({ isOpen: false, title: '', message: '' });
+
+    let signedXdr;
+
+    try {
+      signedXdr = await signTransaction(data.sender, Testnet.networkPassphrase, paymentXdr);
+    } catch (e) {
+      setProcessModal({ isOpen: false, title: '', message: '' });
+      setErrorModal({ isOpen: true, title: 'Error', message: 'Error signing create transaction' });
+
+      return;
+    }
+
+    setErrorModal({ isOpen: false, title: '', message: '' });
+
+    setProcessModal({ isOpen: false, title: '', message: '' });
+    await timeout(50);
+    setProcessModal({ isOpen: true, title: 'Completing pay creation transaction', message: '' });
+
+    let tx;
+
+    try {
+      tx = await sendTransaction(signedXdr);
+    } catch {
+      setProcessModal({ isOpen: false, title: '', message: '' });
+
+      await timeout(50);
+      setErrorModal({ isOpen: true, title: 'Error', message: 'Failed to submit the transaction' });
+      return;
+    }
+
+    setErrorModal({ isOpen: false, title: '', message: '' });
+
+    if (tx) {
+      const finalize = await finalizeTransaction(tx.hash);
+
+      if (!finalize) {
+        setProcessModal({ isOpen: false, title: '', message: '' });
+        await timeout(50);
+        setErrorModal({
+          isOpen: true,
+          title: 'Error',
+          message: 'Create  transaction failed to finalize',
+        });
+        return;
+      }
+      setErrorModal({ isOpen: false, title: '', message: '' });
+    }
+
+    setProcessModal({ isOpen: false, title: '', message: '' });
+    await timeout(50);
     setIsSuccessModalIsOpen(true);
 
-    await timeout(1000);
-    setIsSuccessModalIsOpen(false);
-    await timeout(100);
-    setIsErrorModalIsOpen(true);
+    await sendConfirmedTransaction(data.orderId, tx.hash, payerEmail);
+
+    handleRedirectUrl();
   };
 
   return (
     <div>
       <ProcessModal
-        title="processing your order "
-        message="Your order is being processed, please wait."
-        isOpen={isOpen}
-        onClose={handleOnCloseModal}
-      />
-
-      <ProcessModal
-        title="Waiting for wallet connection"
-        message="You are connecting your wallet in order to make a transaction with Wagent payment."
-        isOpen={walletConnectionIsOpen}
-        onClose={() => setIsWalletConnectionIsOpen(false)}
+        title={processModal.title}
+        message={processModal.message}
+        isOpen={processModal.isOpen}
+        onClose={() => setProcessModal({ isOpen: false, title: '', message: '' })}
       />
 
       <ApproveModal
+        buttonText="Approve"
         title="Approve token Access"
         message="You need to approve token access first to continue creating the stream. "
         isOpen={approveModalIsOpen}
@@ -81,10 +286,19 @@ const ConfirmPayment = ({ isConfirmClicked, setIsConfirmClicked }: ConfirmPaymen
       />
 
       <ErrorModal
-        title="Something went wrong"
-        message="transaction failed due to [Error], we will redirect you shortly"
-        isOpen={errorModalIsOpen}
-        onClose={() => setIsErrorModalIsOpen(false)}
+        title={errorModal.title}
+        message={errorModal.message}
+        isOpen={errorModal.isOpen}
+        onClose={() => setErrorModal({ isOpen: false, title: '', message: '' })}
+      />
+
+      <ApproveModal
+        buttonText="Pay"
+        title="pay"
+        message="pay"
+        isOpen={payModalIsOpen}
+        onClose={() => setIsPayModalIsOpen(false)}
+        onClick={handlePay}
       />
     </div>
   );

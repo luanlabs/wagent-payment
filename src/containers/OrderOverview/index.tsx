@@ -1,14 +1,17 @@
-import CountdownTimer from '../../components/CountdownTimer';
+import BN from '../../utils/BN';
+
 import CCard from '../../components/CCard';
 import CDisclosure from '../../components/CDisclosure';
+import CountdownTimer from '../../components/CountdownTimer';
 
 import { IPaymentDetailsResponse } from '../../models';
 
+import humanizeAmount from '../../utils/humanizeAmount';
 import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
 
 import logoType from '/images/logoType.svg';
-import ShoppingCardIcon from '../../assets/ShoppingCardIcon';
 import defaultUserLogo from '/images/defaultUserLogo.png';
+import ShoppingCardIcon from '../../assets/ShoppingCardIcon';
 
 interface OrderOverviewProps {
   data: IPaymentDetailsResponse;
@@ -20,11 +23,12 @@ const OrderOverview = ({ data, id }: OrderOverviewProps) => {
     <div className="mt-2 space-y-3">
       {data.products?.map((product) => (
         <CCard
+          key={product.name}
           type="detailed"
           title={capitalizeFirstLetter(product.name)}
           subtitle={`X ${product.count}`}
-          amount={`$${product.amount.toString()}`}
-          totalAmount={`$${product.amount * product.count}`}
+          amount={`$${humanizeAmount(product.amount.toString())}`}
+          totalAmount={`$${BN(product.amount).times(product.count)}`}
           image={product.logo}
         />
       ))}
@@ -33,7 +37,7 @@ const OrderOverview = ({ data, id }: OrderOverviewProps) => {
 
   const orderBottom = (
     <div className="flex space-x-2">
-      <CCard type="summary" title="Total Amount" subtitle={`$${data.amount}`} />
+      <CCard type="summary" title="Total Amount" subtitle={`$${humanizeAmount(data.amount)}`} />
       <CCard type="summary" title="Order ID" subtitle={`#${id}`} />
     </div>
   );

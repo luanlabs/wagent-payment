@@ -13,16 +13,19 @@ import CRadioButtonGroup from '../../components/CRadioButtonGroup';
 
 import { MethodsType } from '../../utils/Methods';
 import { methodTabs } from '../../constants/methods';
-import { IPaymentDetailsResponse, OptionType } from '../../models';
+import humanizeAmount from '../../utils/humanizeAmount';
 import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
+import { IPaymentDetails, IPaymentDetailsResponse, OptionType } from '../../models';
+import cancelTransactionOrder from '../../api/cancelTransactionOrder';
 
 interface PaymentOptionsProps {
   data: IPaymentDetailsResponse;
   methods: MethodsType[];
   tokens: OptionType[];
+  id: string;
 }
 
-const PaymentOptions = ({ data, methods, tokens }: PaymentOptionsProps) => {
+const PaymentOptions = ({ data, methods, tokens, id }: PaymentOptionsProps) => {
   const [selectedToken, setSelectedToken] = useState<OptionType | null>(null);
   const [emailAddress, setEmailAddress] = useState('');
   const [selectedMethod, setSelectedMethod] = useState<string>(
@@ -30,11 +33,24 @@ const PaymentOptions = ({ data, methods, tokens }: PaymentOptionsProps) => {
   );
   const [emailError, setEmailError] = useState('');
   const [isConfirmClicked, setIsConfirmClicked] = useState(false);
+  const [address, setAddress] = useState('');
+  const [paymentDetails, setPaymentDetails] = useState<IPaymentDetails>({
+    sender: '',
+    receiver: '',
+    tokenAddress: '',
+    amount: '',
+    orderId: '',
+    redirectUrl: '',
+  });
 
   const handleSelectChange = (item: OptionType | null) => {
     if (item) {
       setSelectedToken(item);
     }
+  };
+
+  const handleAddress = (address: string) => {
+    setAddress(address);
   };
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,15 +71,27 @@ const PaymentOptions = ({ data, methods, tokens }: PaymentOptionsProps) => {
     setSelectedMethod(value);
   };
 
-  const handleCancelOrder = () => {
+  const handleCancelOrder = async () => {
+    await cancelTransactionOrder(id);
+
     window.location.href = data.redirectUrl;
   };
 
   const handleConfirmPayment = () => {
+    if (data)
+      setPaymentDetails({
+        sender: address,
+        receiver: 'GD7L7UYOP3XQQT3XQX2TUCQTHJHTKPYOBKD7ABJJ4GIHODE52IFGNYV2',
+        tokenAddress: 'CA63GJC73CZCFFDUR4O65QHZFPJ6EPXOYJDJIMUXCSXLDHXXLQI3GJBH',
+        amount: data.amount,
+        orderId: id,
+        redirectUrl: data.redirectUrl,
+      });
+
     setIsConfirmClicked(true);
   };
 
-  const validateField = selectedToken && !emailError;
+  const validateField = selectedToken && !emailError && address;
 
   let paymentStatus;
   if (data.status === 'expired') {
@@ -89,7 +117,7 @@ const PaymentOptions = ({ data, methods, tokens }: PaymentOptionsProps) => {
           <CItemField
             title="Wallet Address"
             description="Choose the token you'd like to make transaction with"
-            component={<CConnectWallet />}
+            component={<CConnectWallet onAddressChange={handleAddress} />}
           />
 
           <CItemField
@@ -157,7 +185,7 @@ const PaymentOptions = ({ data, methods, tokens }: PaymentOptionsProps) => {
 
             <CResultDetail
               label="Total Amount"
-              value={`$${data.amount}`}
+              value={`$${humanizeAmount(data.amount)}`}
               valueColor="text-darkBlue"
             />
           </div>
@@ -182,6 +210,8 @@ const PaymentOptions = ({ data, methods, tokens }: PaymentOptionsProps) => {
         <ConfirmPayment
           isConfirmClicked={isConfirmClicked}
           setIsConfirmClicked={setIsConfirmClicked}
+          data={paymentDetails}
+          payerEmail={emailAddress}
         />
       </div>
     </div>
