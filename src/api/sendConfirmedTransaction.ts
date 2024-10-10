@@ -1,8 +1,7 @@
-import { ExternalPages } from '../constants/externalPages';
 import fetcher from '../utils/fetcher';
 
 const sendConfirmedTransaction = async (id: string, hash: string, payerEmail: string) => {
-  await fetcher(ExternalPages.WAGENT_API + `/orders/${id}/transactions`, {
+  await fetcher(import.meta.env.VITE_WAGENT_API + `/orders/${id}/transactions`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
