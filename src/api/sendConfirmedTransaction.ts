@@ -1,7 +1,12 @@
 import fetcher from '../utils/fetcher';
 
+interface IConfirmedTransactionBody {
+  hash: string;
+  payerEmail?: string;
+}
+
 const sendConfirmedTransaction = async (id: string, hash: string, payerEmail: string) => {
-  const body: { hash: string; payerEmail?: string } = { hash };
+  const body: IConfirmedTransactionBody = { hash };
 
   if (payerEmail) {
     body.payerEmail = payerEmail;
