@@ -32,7 +32,7 @@ export default function App() {
       gap-2 p-2 desktop:p-[12px] w-full mobile:h-full tablet:h-full h-[100dvh]"
     >
       <OrderOverview data={data} id={id} />
-      <PaymentOptions data={data} methods={methods} tokens={tokens} />
+      <PaymentOptions data={data} methods={methods} tokens={tokens} id={id || ''} />
     </div>
   );
 }

@@ -44,3 +44,12 @@ export interface IPaymentDetailsResponse {
 export type SvgProps = {
   fill?: string;
 };
+
+export interface IPaymentDetails {
+  sender: string;
+  receiver: string;
+  tokenAddress: string;
+  amount: string;
+  orderId: string;
+  redirectUrl: string;
+}

@@ -1,9 +1,9 @@
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
 import freighterApi from '@stellar/freighter-api';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
 
 import CButton from '../CButton';
+import ErrorModal from '../Modals/ErrorModal';
 
 import shortenAddress from '../../utils/shortenAddress';
 import copyToClipboard from '../../utils/copyToClipboard';
@@ -11,8 +11,23 @@ import copyToClipboard from '../../utils/copyToClipboard';
 import ArrowRightStartOnRectangleIcon from '../../assets/ArrowRightStartOnRectangleIcon';
 import SquareStackIcon from '../../assets/SquareStackIcon';
 
-const ConnectButton = () => {
+interface ConnectButtonProps {
+  onAddressChange?: (address: string) => void;
+}
+
+const ConnectButton = ({ onAddressChange }: ConnectButtonProps) => {
   const [address, setAddress] = useState<string>('');
+  const [errorModal, setErrorModal] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+  });
+
+  useEffect(() => {
+    if (onAddressChange) {
+      onAddressChange(address);
+    }
+  }, [address, onAddressChange]);
 
   const handleConnect = async () => {
     if (address) {
@@ -21,7 +36,11 @@ const ConnectButton = () => {
 
     freighterApi.isConnected().then((isConnected) => {
       if (!isConnected) {
-        console.log('Freighter is not installed');
+        setErrorModal({
+          isOpen: true,
+          title: 'Error',
+          message: 'Freighter is not installed',
+        });
       }
     });
 
@@ -31,7 +50,11 @@ const ConnectButton = () => {
       const publicKey = await freighterApi.getPublicKey();
       setAddress(publicKey);
     } catch {
-      console.log('Freighter not connected');
+      setErrorModal({
+        isOpen: true,
+        title: 'Error',
+        message: 'Freighter Not Connected',
+      });
     }
   };
 
@@ -83,6 +106,13 @@ const ConnectButton = () => {
           </Transition>
         </Menu>
       )}
+
+      <ErrorModal
+        title={errorModal.title}
+        message={errorModal.message}
+        isOpen={errorModal.isOpen}
+        onClose={() => setErrorModal({ isOpen: false, title: '', message: '' })}
+      />
     </div>
   );
 };

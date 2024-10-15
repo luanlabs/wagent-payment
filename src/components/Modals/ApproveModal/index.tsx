@@ -8,10 +8,18 @@ interface ApproveModalProps {
   onClose: () => void;
   title: string;
   message: string;
+  buttonText: string;
   onClick: () => void;
 }
 
-const ApproveModal = ({ isOpen, onClose, title, message, onClick }: ApproveModalProps) => {
+const ApproveModal = ({
+  isOpen,
+  onClose,
+  title,
+  message,
+  buttonText,
+  onClick,
+}: ApproveModalProps) => {
   return (
     <CModal isOpen={isOpen} onClose={onClose} width="396px">
       <div className="flex justify-center items-center flex-col pt-9 pb-3 w-full">
@@ -25,7 +33,7 @@ const ApproveModal = ({ isOpen, onClose, title, message, onClick }: ApproveModal
 
         {message && <div className="text-[18px] w-11/12 text-center text-[#073834]">{message}</div>}
         <div className="w-full mt-7">
-          <CButton variant="confirm" text="Approve" onClick={onClick} className="h-[48px]" />
+          <CButton variant="confirm" text={buttonText} onClick={onClick} className="h-[48px]" />
         </div>
       </div>
     </CModal>
