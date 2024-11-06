@@ -1,5 +1,3 @@
-import { MethodsNumerical } from './utils/Methods';
-
 export interface OptionType {
   value: string;
   label: string;
@@ -25,7 +23,6 @@ interface IProducts {
 
 interface IUser {
   name: string;
-  methods: MethodsNumerical;
   logo?: string;
 }
 
