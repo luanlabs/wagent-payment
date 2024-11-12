@@ -35,7 +35,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f2f4f7;
+  background-color: #f9fafb;
 }
 .center {
   display: flex;
@@ -59,7 +59,7 @@ body {
   }
 
   @font-face {
-    font-family: 'Aeonik';
+    font-family: 'Aeonik-m';
     font-style: normal;
     font-weight: 500;
     font-display: swap;
@@ -67,7 +67,7 @@ body {
   }
 
   @font-face {
-    font-family: 'Aeonik';
+    font-family: 'Aeonik-b';
     font-style: normal;
     font-weight: 700;
     font-display: swap;
