@@ -11,9 +11,10 @@ type CSelectProps = {
   className?: string;
   options: OptionType[];
   onChange?: (value: OptionType | null) => void;
+  value?: OptionType;
 };
 
-const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) => {
+const CSelect = ({ placeholder, className, onChange, options, value }: CSelectProps) => {
   const [selectValue, setSelectValue] = useState<OptionType | null>(null);
 
   const handleChange = (item: OptionType | null) => {
@@ -57,7 +58,7 @@ const CSelect = ({ placeholder, className, onChange, options }: CSelectProps) =>
       <Select
         options={options}
         autoFocus={false}
-        value={selectValue}
+        value={selectValue ? selectValue : value}
         isSearchable={false}
         onChange={handleChange}
         placeholder={placeholder}

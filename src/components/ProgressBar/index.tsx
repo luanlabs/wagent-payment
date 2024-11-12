@@ -4,34 +4,34 @@ interface ProgressBarProps {
 }
 
 const ProgressBar = ({ percent, color }: ProgressBarProps) => {
-  const dashArray = 2 * (80 + 40);
+  const dashArray = 2 * (94 + 40);
   const dashOffset = dashArray - (dashArray * percent) / 100;
 
   return (
     <div>
       <svg width="100%" height="100%">
         <rect
-          x="10"
+          x="4"
           y="10"
-          width="80"
+          width="94"
           height="40"
-          rx="10"
-          ry="10"
+          rx="12"
+          ry="12"
           className="fill-none"
           stroke="#98A2B3"
-          strokeWidth="2"
+          strokeWidth="1"
         />
 
         <rect
-          x="10"
+          x="4"
           y="10"
-          width="80"
+          width="94"
           height="40"
-          rx="10"
-          ry="10"
+          rx="12"
+          ry="12"
           className="fill-none transition duration-500"
           stroke={color}
-          strokeWidth="2"
+          strokeWidth="1"
           strokeDasharray={dashArray}
           strokeDashoffset={dashOffset}
         />
