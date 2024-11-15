@@ -4,6 +4,7 @@ import ProgressBar from '../ProgressBar';
 
 import useCountdownTimer from '../../hooks/useCountdownTimer';
 import formatTime from '../../utils/formatTime';
+import Clock from '../../assets/Clock';
 
 interface CountdownTimerProps {
   expiredTimeStamp: number;
@@ -25,11 +26,11 @@ const CountdownTimer = ({ expiredTimeStamp }: CountdownTimerProps) => {
 
   return (
     <div className="relative w-auto">
-      <h1 className="absolute left-[30px] top-[17.5px] !text-lightGrayishBlue">
-        {formatTime(remainingTime)}
+      <h1 className="absolute font-[Aeonik-m] left-[19px] top-[17.5px] !text-[#0bb869] flex items-center space-x-2">
+        <Clock />
+        <p>{formatTime(remainingTime)}</p>
       </h1>
-
-      <ProgressBar percent={percentage} color="#15eca6" />
+      <ProgressBar percent={percentage} color="#0bb869" />
     </div>
   );
 };
