@@ -1,59 +1,45 @@
-import React, { useRef, useEffect } from 'react';
-import clsx from 'clsx';
+import { ReactNode } from 'react';
+import { Dialog, DialogPanel, DialogTitle, Transition } from '@headlessui/react';
 
-import useOutsideClickHandler from '../../hooks/useOutsideClickHandler';
-
-export type CModalProps = {
-  width?: string;
+interface CModalProps {
   isOpen: boolean;
   onClose: () => void;
-  children?: React.ReactNode;
-  className?: string;
-  title?: string | React.ReactNode | React.JSX.Element;
-};
+  title: string;
+  children: ReactNode;
+}
 
-const CModal = ({ title, children, isOpen, width, onClose, className }: CModalProps) => {
-  const modalRef = useRef<HTMLDivElement | null>(null);
-  const backdropRef = useRef<HTMLDivElement | null>(null);
-
-  useOutsideClickHandler(isOpen, onClose, modalRef);
-
-  useEffect(() => {
-    if (backdropRef.current) {
-      backdropRef.current.style.opacity = isOpen ? '1' : '0';
-      backdropRef.current.style.pointerEvents = isOpen ? 'auto' : 'none';
-    }
-  }, [isOpen]);
-
+const CModal = ({ isOpen, onClose, title, children }: CModalProps) => {
   return (
-    <div
-      ref={backdropRef}
-      className={`fixed -inset-2 z-50 flex items-center justify-center bg-black transition-opacity duration-500 ease-in-out ${
-        isOpen ? 'bg-opacity-30' : 'bg-opacity-0 pointer-events-none'
-      }`}
-    >
-      <div
-        ref={modalRef}
-        className={clsx(
-          className,
-          `fixed ${
-            !width && 'w-[482px] mobile:w-[calc(100%-32px)]'
-          } transform transition-all duration-500 ease-in-out ${
-            isOpen ? 'scale-100 opacity-100' : 'scale-75 opacity-0'
-          } top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 !z-[9999] rounded-[20px] shadow-2xl bg-white h-auto`,
-        )}
-        style={{ width: `${width}` }}
-      >
-        <div className="flex flex-col w-full h-full px-6 py-4 gap-4">
-          {title && (
-            <header className="flex justify-between items-center text-2xl font-medium select-none">
-              <p>{title}</p>\{' '}
-            </header>
-          )}
-          {children}
+    <Transition show={isOpen}>
+      <Dialog as="div" className="relative !z-[9999]" onClose={onClose}>
+        <Transition
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm" />
+        </Transition>
+
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Transition
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+          >
+            <DialogPanel className="w-full max-w-sm bg-white rounded-lg shadow-lg p-6">
+              <DialogTitle className="text-xl font-semibold text-gray-800">{title}</DialogTitle>
+              <div className="mt-4">{children}</div>
+            </DialogPanel>
+          </Transition>
         </div>
-      </div>
-    </div>
+      </Dialog>
+    </Transition>
   );
 };
 

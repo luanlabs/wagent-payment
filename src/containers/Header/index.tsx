@@ -5,8 +5,16 @@ import CButton from '../../components/CButton';
 import Info from '../../assets/Info';
 import ArrowTopRight from '../../assets/ArrowTopRight.ts';
 import wagentLogo from '../../../public/images/logoTypeDark.svg';
+import CModal from '../../components/Modal/index.tsx';
+import { useState } from 'react';
 
 const Header = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <header className="z-50 flex justify-between px-[50px] py-9 mb-5 w-full mobile:px-4">
       <img src={wagentLogo} alt="wagentLogo" draggable={false} className="z-50 mobile:w-[100px]" />
@@ -47,7 +55,16 @@ const Header = () => {
           </Transition>
         </Menu>
 
-        <CButton variant="bordered" text="Cancel order" className="whitespace-nowrap" />
+        <CButton
+          variant="bordered"
+          text="Cancel order"
+          className="whitespace-nowrap"
+          onClick={handleOpenModal}
+        />
+
+        <CModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="xst">
+          child
+        </CModal>
       </div>
     </header>
   );
