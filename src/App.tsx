@@ -23,18 +23,21 @@ export default function App() {
   }
 
   return (
-    <div className="w-full mobile:h-full tablet:h-full h-[100dvh]">
+    <div className="w-full mobile:h-full tablet:h-full h-screen">
       <img
         src={gradient}
         alt="gradient"
         draggable={false}
         className="absolute w-full top-0 left-0 right-0 -z-1"
       />
+      <div className="static desktop:fixed desktop:top-0 desktop:right-0 desktop:left-0">
+        <Header />
+      </div>
 
-      <Header />
-
-      <div className="h-[520px] desktopMax:h-[480px] z-50 w-full m-auto ">
-        <PaymentGatewayMultiStep data={data} orderId={id || ''} />
+      <div className="h-full flex justify-center items-center">
+        <div className="h-[520px] desktopMax:h-[480px] z-50 w-full m-auto ">
+          <PaymentGatewayMultiStep data={data} orderId={id || ''} />
+        </div>
       </div>
     </div>
   );

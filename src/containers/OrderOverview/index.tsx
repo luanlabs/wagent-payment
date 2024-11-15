@@ -20,7 +20,9 @@ const OrderOverview = ({ data, orderId }: IOrderOverview) => {
               className="object-cover"
             />
           </div>
-          <span className="ml-3 text-[#101828] font-medium tracking-[0.5px]">AmandaShop</span>
+          <span className="ml-3 text-[#101828] font-medium tracking-[0.5px] cursor-default">
+            AmandaShop
+          </span>
         </div>
         <ul className="space-y-3">
           <OrderOverviewField label="Amount" value={data.amount + ' USD'} />

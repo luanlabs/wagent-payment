@@ -27,7 +27,7 @@ const Header = () => {
           >
             <MenuItems
               anchor="bottom"
-              className="z-50 -ml-5 mt-1 bg-white rounded-xl w-[126px] px-1 py-2 space-y-[2px]"
+              className="z-50 -ml-11 mt-1 bg-white rounded-xl w-[126px] px-1 py-2 space-y-[2px]"
             >
               <MenuItem>
                 <a className="block px-2 py-1 rounded-md data-[focus]:bg-[#f3f4f6]" href="/">
@@ -47,7 +47,7 @@ const Header = () => {
           </Transition>
         </Menu>
 
-        <CButton variant="bordered" text="Cancel order" />
+        <CButton variant="bordered" text="Cancel order" className="whitespace-nowrap" />
       </div>
     </header>
   );
