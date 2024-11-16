@@ -1,46 +1,66 @@
-import { ReactNode } from 'react';
-import { Dialog, DialogPanel, DialogTitle, Transition } from '@headlessui/react';
+import React from 'react';
+import clsx from 'clsx';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Transition } from '@headlessui/react';
 
-interface CModalProps {
+interface ModalProps {
   isOpen: boolean;
+  className?: string;
   onClose: () => void;
-  title: string;
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-const CModal = ({ isOpen, onClose, title, children }: CModalProps) => {
+const CModal = ({ isOpen, onClose, children, className }: ModalProps) => {
   return (
-    <Transition show={isOpen}>
-      <Dialog as="div" className="relative !z-[9999]" onClose={onClose}>
-        <Transition
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm" />
-        </Transition>
-
-        <div className="fixed inset-0 flex items-center justify-center p-4">
+    <AnimatePresence>
+      {isOpen && (
+        <>
           <Transition
+            show
             enter="ease-out duration-300"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
             leave="ease-in duration-200"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
           >
-            <DialogPanel className="w-full max-w-sm bg-white rounded-lg shadow-lg p-6">
-              <DialogTitle className="text-xl font-semibold text-gray-800">{title}</DialogTitle>
-              <div className="mt-4">{children}</div>
-            </DialogPanel>
+            <div className="fixed inset-0 bg-black bg-opacity-15 backdrop-blur-sm" />
           </Transition>
-        </div>
-      </Dialog>
-    </Transition>
+
+          <motion.div
+            className="fixed inset-0 flex items-center justify-center !z-[9999]"
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{
+              scale: 1,
+              opacity: 1,
+              transition: {
+                type: 'spring',
+                stiffness: 200,
+                damping: 20,
+              },
+            }}
+            exit={{
+              scale: 0.5,
+              opacity: 0,
+              transition: {
+                duration: 0.2,
+              },
+            }}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                onClose();
+              }
+            }}
+          >
+            <div
+              className={clsx(`relative p-6 bg-white rounded-2xl shadow-lg max-w-lg`, className)}
+            >
+              {children}
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 };
-
 export default CModal;

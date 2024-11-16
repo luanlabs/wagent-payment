@@ -30,12 +30,12 @@ export default function App() {
         draggable={false}
         className="absolute w-full top-0 left-0 right-0 -z-1"
       />
-      <div className="static desktop:fixed desktop:top-0 desktop:right-0 desktop:left-0">
+      <div className="static desktop:fixed desktop:top-0 desktop:right-0 desktop:left-0 z-40">
         <Header />
       </div>
 
       <div className="h-full flex justify-center items-center">
-        <div className="h-[520px] desktopMax:h-[480px] z-50 w-full m-auto ">
+        <div className="h-[520px] desktopMax:h-[480px] z-30 w-full m-auto ">
           <PaymentGatewayMultiStep data={data} orderId={id || ''} />
         </div>
       </div>

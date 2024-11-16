@@ -8,18 +8,16 @@ interface CancelOrderModalProps {
 
 const CancelOrderModal = ({ isOpen, onClose, onConfirm }: CancelOrderModalProps) => {
   return (
-    <CModal isOpen={isOpen} onClose={onClose} title="Cancel Your Order">
-      <p className="text-gray-700 my-4">Are you sure you want to cancel this order?</p>
-      <div className="flex justify-end gap-4 mt-6">
-        <button
-          onClick={onClose}
-          className="px-4 py-2 rounded-lg text-gray-600 bg-gray-200 hover:bg-gray-300 transition-colors"
-        >
+    <CModal isOpen={isOpen} onClose={onClose} className="w-[404px] h-[198px]">
+      <p className="text-2xl text-[#D92D20] font-[Aeonik-m]">Cancel Your Order</p>
+      <p className="text-[#475467] my-4">Are you sure you want to cancel this order?</p>
+      <div className="flex justify-between gap-4 mt-10">
+        <button onClick={onClose} className="h-10 w-full text-[#475467]">
           Keep My Order
         </button>
         <button
           onClick={onConfirm}
-          className="px-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 transition-colors"
+          className="h-10 w-full rounded-lg text-white bg-[#D92D20] hover:bg-red-700 transition-colors"
         >
           Yes, cancel it
         </button>

@@ -39,7 +39,7 @@ const StepWrapper = ({
       <div
         className={clsx(
           'w-full flex items-center justify-end mt-4',
-          'mobile:fixed mobile:bottom-0 mobile:left-0 mobile:bg-white mobile:p-4 mobile:!w-full mobile:shadow-md z-50',
+          'mobile:fixed mobile:bottom-0 mobile:left-0 mobile:bg-white mobile:p-4 mobile:!w-full mobile:shadow-md z-30',
           {
             '!justify-start': !showNext && showPrev,
           },
