@@ -28,7 +28,7 @@ const CModal = ({ isOpen, onClose, children, className }: ModalProps) => {
           </Transition>
 
           <motion.div
-            className="fixed inset-0 flex items-center justify-center !z-[9999]"
+            className="fixed inset-0 flex items-center justify-center !z-[9999] mobile:mx-4"
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{
               scale: 1,
@@ -53,7 +53,10 @@ const CModal = ({ isOpen, onClose, children, className }: ModalProps) => {
             }}
           >
             <div
-              className={clsx(`relative p-6 bg-white rounded-2xl shadow-lg max-w-lg`, className)}
+              className={clsx(
+                `relative p-6 mobile:p-4 bg-white rounded-2xl shadow-lg max-w-lg`,
+                className,
+              )}
             >
               {children}
             </div>
