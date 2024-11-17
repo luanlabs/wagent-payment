@@ -8,7 +8,12 @@ import ArrowTopRight from '../../assets/ArrowTopRight.ts';
 import wagentLogo from '../../../public/images/logoTypeDark.svg';
 import CancelOrderModal from '../../components/Modals/cancelOrderModal/index.tsx';
 
-const Header = () => {
+type HeaderProps = {
+  isExpired?: boolean;
+  orderId: string;
+};
+
+const Header = ({ isExpired, orderId }: HeaderProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -17,10 +22,6 @@ const Header = () => {
 
   const handleClose = () => {
     setIsModalOpen(false);
-  };
-
-  const handleConfirmCancel = () => {
-    setIsModalOpen(true);
   };
 
   return (
@@ -63,18 +64,20 @@ const Header = () => {
           </Transition>
         </Menu>
 
-        <CButton
-          variant="bordered"
-          text="Cancel order"
-          className="whitespace-nowrap ml-3 h-9 center"
-          onClick={handleOpenModal}
-        />
+        {!isExpired ? (
+          <>
+            <CButton
+              variant="bordered"
+              text="Cancel order"
+              className="whitespace-nowrap ml-3 h-9 center"
+              onClick={handleOpenModal}
+            />
 
-        <CancelOrderModal
-          isOpen={isModalOpen}
-          onClose={handleClose}
-          onConfirm={handleConfirmCancel}
-        />
+            <CancelOrderModal isOpen={isModalOpen} onClose={handleClose} orderId={orderId} />
+          </>
+        ) : (
+          ''
+        )}
       </div>
     </header>
   );

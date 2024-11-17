@@ -36,15 +36,15 @@ const CDisclosure = ({ title, subTitle, content, icon, label }: CDisclosureProps
                 </div>
               </DisclosureButton>
               <Transition
-                enter="duration-300 ease-in-out"
-                enterFrom="opacity-0 -translate-y-4"
-                enterTo="opacity-100 translate-y-0"
-                leave="duration-300 ease-in-out"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 -translate-y-4"
+                enter="duration-500 ease-in-out"
+                enterFrom="max-h-0 opacity-0 -translate-y-4 overflow-hidden"
+                enterTo="max-h-screen opacity-100 translate-y-0 overflow-hidden"
+                leave="duration-500 ease-in-out"
+                leaveFrom="max-h-screen opacity-100 translate-y-0 overflow-hidden"
+                leaveTo="max-h-0 opacity-0 -translate-y-4 overflow-hidden"
               >
-                <DisclosurePanel className="mt-4 text-sm text-darkBlue px-4">
-                  {content}
+                <DisclosurePanel className="text-sm text-darkBlue px-4">
+                  <div className="mt-4 ">{content}</div>
                 </DisclosurePanel>
               </Transition>
             </>

@@ -7,6 +7,7 @@ import OrderOverview from '../OrderOverview';
 
 import { networks, tokensByNetwork } from './network';
 import { IPaymentDetailsResponse, OptionType } from '../../models';
+import StepFour from '../Steps/StepFour';
 
 interface PaymentGatewayMultiStep {
   data: IPaymentDetailsResponse;
@@ -14,7 +15,7 @@ interface PaymentGatewayMultiStep {
 }
 
 const PaymentGatewayMultiStep = ({ data, orderId }: PaymentGatewayMultiStep) => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(4);
   const [emailAddress, setEmailAddress] = useState('');
   const [selectedNetwork, setSelectedNetwork] = useState<OptionType | null>(null);
   const [selectedToken, setSelectedToken] = useState<OptionType | null>(null);
@@ -66,6 +67,7 @@ const PaymentGatewayMultiStep = ({ data, orderId }: PaymentGatewayMultiStep) => 
             </div>
           </div>
         )}
+        {step === 4 && <StepFour />}
       </div>
     </div>
   );

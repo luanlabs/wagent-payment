@@ -2,29 +2,33 @@ import { useState } from 'react';
 import CModal from '../../Modal';
 import redCircleMultiplied from '/images/redCircleMultiplied.svg';
 import rolling from '/images/rolling.svg';
+import useCancelOrder from '../../../utils/cancelOrder';
 
 interface CancelOrderModalProps {
   isOpen: boolean;
+  orderId: string;
   onClose: () => void;
 }
 
-const CancelOrderModal = ({ isOpen, onClose }: CancelOrderModalProps) => {
+const CancelOrderModal = ({ isOpen, onClose, orderId }: CancelOrderModalProps) => {
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const cancelData = useCancelOrder(orderId);
 
   const handleConfirm = () => {
-    setIsConfirmed(true);
-
-    setTimeout(() => {
-      onClose();
-      setIsConfirmed(false);
-    }, 2000);
+    cancelData().then(() => {
+      setIsConfirmed(true);
+      setTimeout(() => {
+        onClose();
+        setIsConfirmed(false);
+      }, 2000);
+    });
   };
 
   return (
     <CModal isOpen={isOpen} onClose={onClose} className="w-[404px]">
       <div
         className={`transition-all duration-300 ease-in-out overflow-hidden ${
-          isConfirmed ? '!h-[200px] mobile:!h-[230px]' : '!h-[158px]'
+          isConfirmed ? '!h-[200px] mobile:!h-[230px]' : '!h-[158px] mobile:!h-[178px]'
         }`}
       >
         {isConfirmed ? (
@@ -33,7 +37,7 @@ const CancelOrderModal = ({ isOpen, onClose }: CancelOrderModalProps) => {
             <p className="text-2xl mobile:text-xl text-[#D92D20] font-[Aeonik-m] mt-4">
               Order Cancelled
             </p>
-            <p className="text-[#475467] text-base my-2">
+            <p className="text-[#475467] text-center text-base my-2">
               Your order has been successfully cancelled. We’ll redirect you to the main website
               shortly.
             </p>
