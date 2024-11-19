@@ -1,8 +1,12 @@
+import { useState } from 'react';
+
 import CButton from '../../components/CButton';
 import CDisclosure from '../../components/CDisclosure';
 import OrderOverviewField from '../../components/OrderOverviewField';
 
 import { IPaymentDetailsResponse } from '../../models';
+import CModal from '../../components/Modal';
+import PaymentDetailsModal from '../../components/Modals/PaymentDetailsModal';
 
 interface IOrderOverview {
   data: IPaymentDetailsResponse;
@@ -10,6 +14,11 @@ interface IOrderOverview {
 }
 
 const OrderOverview = ({ data, orderId }: IOrderOverview) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
   return (
     <>
       <div className="mobile:hidden px-4 py-8 w-full h-full rounded-[12px] bg-white flex flex-col justify-between">
@@ -34,9 +43,27 @@ const OrderOverview = ({ data, orderId }: IOrderOverview) => {
         </div>
 
         <div className="mobile:mt-4">
-          <CButton variant="green" text="Transaction info" />
+          <CButton variant="green" text="Transaction info" onClick={handleOpenModal} />
+          <CModal
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            className="desktop:w-[800px]"
+            receiptStyle={true}
+          >
+            <PaymentDetailsModal
+              price={548.99}
+              exchangeRate="1 USDT = 0.9352 USD"
+              serviceTotal={1.65}
+              totalPaid="549.99 USDT"
+              txHash="32f27eaa7fa0"
+              network="Stellar"
+              token="USDT"
+              dateTime="May 25, 2024, 20:13"
+            />
+          </CModal>
         </div>
       </div>
+
       <div className="mobile:block desktop:hidden">
         <CDisclosure
           title="Amanda Shop"
