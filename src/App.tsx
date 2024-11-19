@@ -9,6 +9,7 @@ import useGetOrderData from './utils/getOrderData';
 
 import gradient from '../public/images/Rectangle 2871.png';
 import calculateRemainingTime from './utils/calculateRemainingTime';
+import Successful from './containers/Successful';
 
 export default function App() {
   const { id } = useParams();
@@ -18,8 +19,8 @@ export default function App() {
   if (loading) {
     return <Loading />;
   }
-
-  console.log(data);
+  const isSuccessful = false;
+  // Todo implement is Successful in back so if the order is successful we know here
   if (error || !data) {
     return <NotFound />;
   }
@@ -32,14 +33,27 @@ export default function App() {
         draggable={false}
         className="absolute w-full top-0 left-0 right-0 -z-1"
       />
-      <div className="static desktop:fixed desktop:top-0 desktop:right-0 desktop:left-0 z-40">
+      <div className="static desktop:fixed desktop:top-0 desktop:right-0 desktop:left-0 z-[33]">
         <Header isExpired={isExpired} orderId={id || ''} />
       </div>
 
       <div className="h-full flex justify-center items-center">
-        <div className="h-[520px] desktopMax:h-[480px] z-30 w-full m-auto ">
-          <PaymentGatewayMultiStep data={data} orderId={id || ''} />
-        </div>
+        {isSuccessful ? (
+          <Successful
+            currency="USDC"
+            networkImg="asdasdasd"
+            amount={'342'}
+            txHash={'suydfsgdfjhsgdf'}
+            network={'stellar'}
+            token={'xlm'}
+            dateTime="May 25, 2024, 20:13"
+            status="completed"
+          />
+        ) : (
+          <div className="h-[520px] desktopMax:h-[480px] z-20 w-full m-auto ">
+            <PaymentGatewayMultiStep data={data} orderId={id || ''} />
+          </div>
+        )}
       </div>
     </div>
   );

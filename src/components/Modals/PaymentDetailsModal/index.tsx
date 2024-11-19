@@ -2,8 +2,9 @@ import ArrowUpRight from '../../../assets/ArrowUpRight';
 import CButton from '../../CButton';
 import CTokenLabel from '../../CTokenLabel';
 
+import close from '/images/close.svg';
 interface PaymentDetailsProps {
-  price: number;
+  amount: number;
   exchangeRate: string;
   serviceTotal: number;
   totalPaid: string;
@@ -11,10 +12,11 @@ interface PaymentDetailsProps {
   network: string;
   token: string;
   dateTime: string;
+  onClose: () => void;
 }
 
 const PaymentDetailsModal = ({
-  price,
+  amount,
   exchangeRate,
   serviceTotal,
   totalPaid,
@@ -22,19 +24,25 @@ const PaymentDetailsModal = ({
   network,
   token,
   dateTime,
+  onClose,
 }: PaymentDetailsProps) => {
   return (
     <div className="w-full">
-      <h3 className="text-2xl font-[Aeonik-m] text-darkBlue mb-4">
-        Payment <span className="text-cadetBlue text-lg">#333333</span>
-      </h3>
+      <div className="inline-flex justify-between w-full items-center">
+        <h3 className="text-2xl mobile:text-xl font-[Aeonik-m] text-darkBlue mb-4">
+          Payment <span className="text-cadetBlue text-lg mobile:text-base">#333333</span>
+        </h3>
+        <img src={close} alt="close" onClick={onClose} className="cursor-pointer" />
+      </div>
 
       <div className="border-b border-dashed border-[#E4E7EC] pb-4">
-        <h4 className="text-lg font-[Aeonik-m] text-[#344054] mb-2">Payment details</h4>
-        <div className="text-base text-[#667085] space-y-2">
+        <h4 className="text-lg mobile:text-base font-[Aeonik-m] text-[#344054] mb-2">
+          Payment details
+        </h4>
+        <div className="text-base mobile:text-sm text-[#667085] space-y-2">
           <div className="flex justify-between">
             <span>Price</span>
-            <span>${price.toFixed(2)}</span>
+            <span>${amount.toFixed(2)}</span>
           </div>
           <div className="flex justify-between">
             <span>Exchange rate</span>
@@ -53,7 +61,7 @@ const PaymentDetailsModal = ({
 
       <div className="mt-4">
         <h4 className="text-lg font-[Aeonik-m] text-[#344054] mb-2">Transaction</h4>
-        <div className="text-base text-[#667085] space-y-2">
+        <div className="text-base mobile:text-sm text-[#667085] space-y-2">
           <div className="flex justify-between">
             <span>TX hash</span>
             <a
@@ -81,15 +89,19 @@ const PaymentDetailsModal = ({
         </div>
       </div>
 
-      <div className="flex w-full mt-6">
+      <div className="flex mobile:flex-col-reverse mobile:gap-1 w-full mt-6">
         <a
           href={`https://stellar.expert/explorer/public/tx/${txHash}`}
-          className="center gap-2 px-4 w-1/2 py-2 bg-gray-100 text-[#344054] mr-2 whitespace-nowrap"
+          className="center gap-2 px-4 !w-1/2 mobile:!w-full py-2 bg-gray-100 text-[#344054] mr-2 whitespace-nowrap"
         >
           see in explorer <ArrowUpRight fill="#344054" />
         </a>
 
-        <CButton variant="next" className="px-4 w-1/2 py-2" onClick={() => console.log('Cancel')}>
+        <CButton
+          variant="next"
+          className="px-4 !w-1/2 mobile:!w-full py-2"
+          onClick={() => console.log('Cancel')}
+        >
           Download receipt
         </CButton>
       </div>

@@ -19,6 +19,11 @@ const OrderOverview = ({ data, orderId }: IOrderOverview) => {
   const handleOpenModal = () => {
     setIsOpen(true);
   };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       <div className="mobile:hidden px-4 py-8 w-full h-full rounded-[12px] bg-white flex flex-col justify-between">
@@ -44,14 +49,10 @@ const OrderOverview = ({ data, orderId }: IOrderOverview) => {
 
         <div className="mobile:mt-4">
           <CButton variant="green" text="Transaction info" onClick={handleOpenModal} />
-          <CModal
-            isOpen={isOpen}
-            onClose={() => setIsOpen(false)}
-            className="desktop:w-[800px]"
-            receiptStyle={true}
-          >
+          <CModal isOpen={isOpen} onClose={handleClose} className="max-w-[800px]">
             <PaymentDetailsModal
-              price={548.99}
+              onClose={handleClose}
+              amount={548.99}
               exchangeRate="1 USDT = 0.9352 USD"
               serviceTotal={1.65}
               totalPaid="549.99 USDT"
@@ -64,7 +65,7 @@ const OrderOverview = ({ data, orderId }: IOrderOverview) => {
         </div>
       </div>
 
-      <div className="mobile:block desktop:hidden">
+      <div className="mobile:block hidden">
         <CDisclosure
           title="Amanda Shop"
           content={
@@ -75,7 +76,20 @@ const OrderOverview = ({ data, orderId }: IOrderOverview) => {
                 <OrderOverviewField label="Website" value={data.redirectUrl} />
               </ul>
               <div className="mobile:mt-4">
-                <CButton variant="green" text="Transaction info" />
+                <CButton variant="green" text="Transaction info" onClick={handleOpenModal} />
+                <CModal isOpen={isOpen} onClose={handleClose} className="w-full">
+                  <PaymentDetailsModal
+                    onClose={handleClose}
+                    amount={548.99}
+                    exchangeRate="1 USDT = 0.9352 USD"
+                    serviceTotal={1.65}
+                    totalPaid="549.99 USDT"
+                    txHash="32f27eaa7fa0"
+                    network="Stellar"
+                    token="USDT"
+                    dateTime="May 25, 2024, 20:13"
+                  />
+                </CModal>
               </div>
             </>
           }

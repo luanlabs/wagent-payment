@@ -25,10 +25,10 @@ const PaymentGatewayMultiStep = ({ data, orderId }: PaymentGatewayMultiStep) => 
 
   return (
     <div className="w-[50%] desktopMax:w-[65%] flex gap-4 m-auto h-full mobile:flex-col mobile:!w-[90%]">
-      <div className="w-full h-full basis-2/6 mobile:basis-full z-40 relative">
+      <div className="w-full h-full basis-2/6 mobile:basis-full z-50 relative">
         <OrderOverview data={data} orderId={orderId} />
       </div>
-      <div className="w-full basis-4/6 mobile:basis-full z-30">
+      <div className="w-full basis-4/6 mobile:basis-full z-10">
         {step === 1 && (
           <StepOne
             nextStep={nextStep}

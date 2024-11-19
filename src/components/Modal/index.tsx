@@ -6,11 +6,11 @@ import { Transition } from '@headlessui/react';
 interface ModalProps {
   isOpen: boolean;
   className?: string;
-  onClose: () => void;
+  onClose?: () => void;
   children: React.ReactNode;
 }
 
-const CModal = ({ isOpen, onClose, children, className }: ModalProps) => {
+const CModal = ({ isOpen, onClose = () => {}, children, className }: ModalProps) => {
   return (
     <AnimatePresence>
       {isOpen && (
