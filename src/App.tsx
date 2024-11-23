@@ -3,24 +3,25 @@ import { useParams } from 'react-router-dom';
 import Header from './containers/Header';
 import Loading from './containers/Loading';
 import NotFound from './containers/NotFound';
+import Successful from './containers/Successful';
 import PaymentGatewayMultiStep from './containers/PaymentGatewayMultiStep';
 
+import gradient from '/images/gradient.png';
 import useGetOrderData from './utils/getOrderData';
-
-import gradient from '../public/images/Rectangle 2871.png';
 import calculateRemainingTime from './utils/calculateRemainingTime';
-import Successful from './containers/Successful';
 
 export default function App() {
   const { id } = useParams();
 
   const { loading, data, error } = useGetOrderData('66dced5d0a1e1ccd057c0a1c');
-  const isExpired = calculateRemainingTime(data?.expiredTimestamp as number) ? true : false;
+  const isExpired = !!calculateRemainingTime(data?.expiredTimestamp as number);
+
   if (loading) {
     return <Loading />;
   }
   const isSuccessful = false;
   // Todo implement is Successful in back so if the order is successful we know here
+
   if (error || !data) {
     return <NotFound />;
   }
@@ -41,11 +42,11 @@ export default function App() {
         {isSuccessful ? (
           <Successful
             currency="USDC"
-            networkImg="asdasdasd"
-            amount={'342'}
-            txHash={'suydfsgdfjhsgdf'}
-            network={'stellar'}
-            token={'xlm'}
+            networkImg="someImg"
+            amount="342"
+            txHash="66dced5d0a1e1ccd057c0a1c"
+            network="stellar"
+            token="xlm"
             dateTime="May 25, 2024, 20:13"
             status="completed"
           />

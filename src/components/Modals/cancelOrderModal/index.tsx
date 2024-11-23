@@ -1,8 +1,9 @@
 import { useState } from 'react';
+
 import CModal from '../../Modal';
-import redCircleMultiplied from '/images/redCircleMultiplied.svg';
 import rolling from '/images/rolling.svg';
 import useCancelOrder from '../../../utils/cancelOrder';
+import redCircleMultiplied from '/images/redCircleMultiplied.svg';
 
 interface CancelOrderModalProps {
   isOpen: boolean;
@@ -57,7 +58,7 @@ const CancelOrderModal = ({ isOpen, onClose, orderId }: CancelOrderModalProps) =
                 onClick={handleConfirm}
                 className="h-10 w-full rounded-lg text-white bg-[#D92D20] hover:bg-red-700 transition-colors"
               >
-                Yes, cancel it
+                Yes, Cancel it
               </button>
             </div>
           </div>

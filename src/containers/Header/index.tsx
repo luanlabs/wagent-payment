@@ -5,7 +5,7 @@ import CButton from '../../components/CButton';
 
 import Info from '../../assets/Info';
 import ArrowTopRight from '../../assets/ArrowTopRight.ts';
-import wagentLogo from '../../../public/images/logoTypeDark.svg';
+import wagentLogo from '/images/logoTypeDark.svg';
 import CancelOrderModal from '../../components/Modals/cancelOrderModal/index.tsx';
 
 type HeaderProps = {
@@ -47,7 +47,10 @@ const Header = ({ isExpired, orderId }: HeaderProps) => {
               className="z-30 -ml-11 mt-1 bg-white rounded-xl w-[126px] px-1 py-2 space-y-[2px]"
             >
               <MenuItem>
-                <a className="block px-2 py-1 rounded-md data-[focus]:bg-[#f3f4f6]" href="/">
+                <a
+                  className="block px-2 py-1 rounded-md data-[focus]:bg-[#f3f4f6]"
+                  href="https://docs.wagent.app "
+                >
                   Need help?
                 </a>
               </MenuItem>

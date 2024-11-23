@@ -49,7 +49,7 @@ const OrderOverview = ({ data, orderId }: IOrderOverview) => {
 
         <div className="mobile:mt-4">
           <CButton variant="green" text="Transaction info" onClick={handleOpenModal} />
-          <CModal isOpen={isOpen} onClose={handleClose} className="max-w-[800px]">
+          <CModal isOpen={isOpen} onClose={handleClose} className="w-[530px] mobile:w-full">
             <PaymentDetailsModal
               onClose={handleClose}
               amount={548.99}

@@ -5,7 +5,7 @@ interface CDisclosureProps {
   title: string;
   subTitle?: string;
   content: React.ReactNode | string;
-  icon?: string | undefined;
+  icon?: string;
   label?: string;
 }
 

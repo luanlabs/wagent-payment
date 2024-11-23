@@ -28,8 +28,8 @@ const PaymentDetailsModal = ({
 }: PaymentDetailsProps) => {
   return (
     <div className="w-full">
-      <div className="inline-flex justify-between w-full items-center">
-        <h3 className="text-2xl mobile:text-xl font-[Aeonik-m] text-darkBlue mb-4">
+      <div className="inline-flex justify-between w-full items-center mb-4">
+        <h3 className="text-2xl mobile:text-xl font-[Aeonik-m] text-darkBlue">
           Payment <span className="text-cadetBlue text-lg mobile:text-base">#333333</span>
         </h3>
         <img src={close} alt="close" onClick={onClose} className="cursor-pointer" />
@@ -94,7 +94,7 @@ const PaymentDetailsModal = ({
           href={`https://stellar.expert/explorer/public/tx/${txHash}`}
           className="center gap-2 px-4 !w-1/2 mobile:!w-full py-2 bg-gray-100 text-[#344054] mr-2 whitespace-nowrap"
         >
-          see in explorer <ArrowUpRight fill="#344054" />
+          See in explorer <ArrowUpRight fill="#344054" />
         </a>
 
         <CButton

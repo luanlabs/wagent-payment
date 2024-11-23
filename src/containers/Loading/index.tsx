@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import wagentLogo from '../../../public/images/wagentLogo.svg';
+import wagentLogo from '/images/wagentLogo.svg';
 
 const Loading = () => {
   const [loadingTime, setLoadingTime] = useState(0);
