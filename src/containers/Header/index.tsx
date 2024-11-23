@@ -6,7 +6,7 @@ import CButton from '../../components/CButton';
 import Info from '../../assets/Info';
 import ArrowTopRight from '../../assets/ArrowTopRight.ts';
 import wagentLogo from '/images/logoTypeDark.svg';
-import CancelOrderModal from '../../components/Modals/ancelOrderModal/index.tsx';
+import CancelOrderModal from '../../components/Modals/CancelOrderModal/index.tsx';
 
 type HeaderProps = {
   isExpired?: boolean;
