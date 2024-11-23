@@ -4,7 +4,6 @@ export default {
   theme: {
     extend: {
       colors: {
-        lightGrayishBlue: '#D0D5DD',
         lightGray: '#F9FAFB',
         customGray: '#F2F4F7',
         cadetBlue: '#98A2B3',
@@ -30,6 +29,7 @@ export default {
         gradientGlow: 'radial-gradient(#A6F4C5, #2AC18D 60%)',
       },
       screens: {
+        sm: { max: '370px' },
         mobile: { max: '730px' },
         tablet: { max: '1099px', min: '731px' },
         desktop: { min: '1100px' },

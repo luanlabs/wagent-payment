@@ -4,6 +4,7 @@ import CModal from '../../Modal';
 import rolling from '/images/rolling.svg';
 import useCancelOrder from '../../../utils/cancelOrder';
 import redCircleMultiplied from '/images/redCircleMultiplied.svg';
+import CButton from '../../CButton';
 
 interface CancelOrderModalProps {
   isOpen: boolean;
@@ -29,7 +30,7 @@ const CancelOrderModal = ({ isOpen, onClose, orderId }: CancelOrderModalProps) =
     <CModal isOpen={isOpen} onClose={onClose} className="w-[404px]">
       <div
         className={`transition-all duration-300 ease-in-out overflow-hidden ${
-          isConfirmed ? '!h-[200px] mobile:!h-[230px]' : '!h-[158px] mobile:!h-[178px]'
+          isConfirmed ? '!h-[200px] sm:!h-[230px]' : '!h-[152px] sm:!h-[178px]'
         }`}
       >
         {isConfirmed ? (
@@ -47,19 +48,24 @@ const CancelOrderModal = ({ isOpen, onClose, orderId }: CancelOrderModalProps) =
         ) : (
           <div>
             <p className="text-2xl mobile:text-xl text-[#D92D20] font-[Aeonik-m]">
-              Cancel Your Order
+              cancel Your Order
             </p>
             <p className="text-[#475467] my-4">Are you sure you want to cancel this order?</p>
             <div className="flex justify-between gap-4 mt-10">
-              <button onClick={onClose} className="h-10 w-full text-[#475467]">
-                Keep My Order
-              </button>
-              <button
-                onClick={handleConfirm}
-                className="h-10 w-full rounded-lg text-white bg-[#D92D20] hover:bg-red-700 transition-colors"
+              <CButton
+                onClick={onClose}
+                className="h-10 w-full text-[#475467] rounded-lg hover:bg-lightGray transition-colors duration-300"
+                variant="simple"
               >
-                Yes, Cancel it
-              </button>
+                Keep My Order
+              </CButton>
+              <CButton
+                variant="next"
+                onClick={handleConfirm}
+                className="h-10 w-full rounded-lg text-white bg-[#D92D20] hover:bg-red-700 transition-colors duration-300"
+              >
+                Yes, cancel it
+              </CButton>
             </div>
           </div>
         )}

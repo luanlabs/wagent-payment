@@ -26,6 +26,8 @@ const PaymentDetailsModal = ({
   dateTime,
   onClose,
 }: PaymentDetailsProps) => {
+  // TODO implement Download receipt action
+
   return (
     <div className="w-full">
       <div className="inline-flex justify-between w-full items-center mb-4">
@@ -92,15 +94,15 @@ const PaymentDetailsModal = ({
       <div className="flex mobile:flex-col-reverse mobile:gap-1 w-full mt-6">
         <a
           href={`https://stellar.expert/explorer/public/tx/${txHash}`}
-          className="center gap-2 px-4 !w-1/2 mobile:!w-full py-2 bg-gray-100 text-[#344054] mr-2 whitespace-nowrap"
+          className="center gap-2 px-4 !w-1/2 mobile:!w-full py-2 text-[#344054] mr-2 whitespace-nowrap rounded-lg hover:bg-lightGray transition-colors duration-300"
         >
           See in explorer <ArrowUpRight fill="#344054" />
         </a>
 
         <CButton
           variant="next"
-          className="px-4 !w-1/2 mobile:!w-full py-2"
-          onClick={() => console.log('Cancel')}
+          className="px-4 !w-1/2 mobile:!w-full py-2 hover:bg-[#008B5B] transition-colors duration-300"
+          onClick={() => console.log('download')}
         >
           Download receipt
         </CButton>
