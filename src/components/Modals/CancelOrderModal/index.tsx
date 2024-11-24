@@ -48,7 +48,7 @@ const CancelOrderModal = ({ isOpen, onClose, orderId }: CancelOrderModalProps) =
         ) : (
           <div>
             <p className="text-2xl mobile:text-xl text-[#D92D20] font-[Aeonik-m]">
-              cancel Your Order
+              Cancel Your Order
             </p>
             <p className="text-[#475467] my-4">Are you sure you want to cancel this order?</p>
             <div className="flex justify-between gap-4 mt-10">
@@ -64,7 +64,7 @@ const CancelOrderModal = ({ isOpen, onClose, orderId }: CancelOrderModalProps) =
                 onClick={handleConfirm}
                 className="h-10 w-full rounded-lg text-white bg-[#D92D20] hover:bg-red-700 transition-colors duration-300"
               >
-                Yes, cancel it
+                Yes, Cancel it
               </CButton>
             </div>
           </div>

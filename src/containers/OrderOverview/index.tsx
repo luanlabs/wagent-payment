@@ -24,6 +24,10 @@ const OrderOverview = ({ data, orderId }: IOrderOverview) => {
     setIsOpen(false);
   };
 
+  const token = {
+    name: 'USDT',
+    img: 'https://cryptologos.cc/logos/tether-usdt-logo.png',
+  };
   return (
     <>
       <div className="mobile:hidden px-4 py-8 w-full h-full rounded-[12px] bg-white flex flex-col justify-between">
@@ -58,7 +62,7 @@ const OrderOverview = ({ data, orderId }: IOrderOverview) => {
               totalPaid="549.99 USDT"
               txHash="32f27eaa7fa0"
               network="Stellar"
-              token="USDT"
+              token={token}
               dateTime="May 25, 2024, 20:13"
             />
           </CModal>
@@ -86,7 +90,7 @@ const OrderOverview = ({ data, orderId }: IOrderOverview) => {
                     totalPaid="549.99 USDT"
                     txHash="32f27eaa7fa0"
                     network="Stellar"
-                    token="USDT"
+                    token={token}
                     dateTime="May 25, 2024, 20:13"
                   />
                 </CModal>

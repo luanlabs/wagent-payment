@@ -10,7 +10,10 @@ interface PaymentDetailsProps {
   totalPaid: string;
   txHash: string;
   network: string;
-  token: string;
+  token: {
+    name: string;
+    img: string;
+  };
   dateTime: string;
   onClose: () => void;
 }
@@ -82,7 +85,7 @@ const PaymentDetailsModal = ({
           </div>
           <div className="flex justify-between">
             <span>Token</span>
-            <CTokenLabel symbol={token} imgSrc={token} />
+            <CTokenLabel symbol={token.name} imgSrc={token.img} />
           </div>
           <div className="flex justify-between">
             <span>Date & Time</span>
