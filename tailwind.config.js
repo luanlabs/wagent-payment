@@ -4,7 +4,6 @@ export default {
   theme: {
     extend: {
       colors: {
-        lightGrayishBlue: '#D0D5DD',
         lightGray: '#F9FAFB',
         customGray: '#F2F4F7',
         cadetBlue: '#98A2B3',
@@ -17,12 +16,20 @@ export default {
         primaryGreen: '#073834',
         success: '#039855',
         mintGreen: '#ECFDF3',
+        error: '#F04438',
+        warning: '#FDB022',
+        lightRed: '#FECDCA',
         lightGreen: '#A6F4C5',
+        lightestRed: '#FEF3F2',
+        lightOrange: '#FEDF89',
+        lightestGreen: '#ECFDF3',
+        lightestOrange: '#FFFAEB',
       },
       backgroundImage: {
         gradientGlow: 'radial-gradient(#A6F4C5, #2AC18D 60%)',
       },
       screens: {
+        sm: { max: '370px' },
         mobile: { max: '730px' },
         tablet: { max: '1099px', min: '731px' },
         desktop: { min: '1100px' },

@@ -1,6 +1,6 @@
 import { ITokenResponse, OptionType } from '../models';
 
-import defaultTokenLogo from '../../public/images/defaultToken.svg';
+import defaultTokenLogo from '/images/defaultToken.svg';
 
 export const tokensToOptions = (tokens: ITokenResponse[]): OptionType[] => {
   const mappedTokens = tokens.map((token) => ({

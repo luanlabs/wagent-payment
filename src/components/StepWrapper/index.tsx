@@ -11,6 +11,7 @@ interface StepWrapperProps {
   prevStep?: () => void;
   showNext?: boolean;
   showPrev?: boolean;
+  showCountdown?: boolean;
   disable?: boolean;
 }
 
@@ -22,15 +23,20 @@ const StepWrapper = ({
   showNext = true,
   showPrev = true,
   disable = false,
+  showCountdown = true,
 }: StepWrapperProps) => {
   return (
     <div className="p-6 flex flex-col justify-between bg-white rounded-[12px] w-full h-full mobile:h-dvh  mobile:!pb-10 mobile:p-3">
       <div>
         <div className="flex justify-between relative">
           <h2 className="text-[22px] mobile:text-[18px] font-[Aeonik-m] mb-4">{title}</h2>
-          <div className="h-[60px] w-[100px] absolute right-0 -top-3">
-            <CountdownTimer expiredTimeStamp={1000} />
-          </div>
+          {showCountdown ? (
+            <div className="h-[60px] w-[100px] absolute right-0 -top-3">
+              <CountdownTimer expiredTimeStamp={1000} />
+            </div>
+          ) : (
+            ''
+          )}
         </div>
 
         <div>{children}</div>
@@ -39,7 +45,7 @@ const StepWrapper = ({
       <div
         className={clsx(
           'w-full flex items-center justify-end mt-4',
-          'mobile:fixed mobile:bottom-0 mobile:left-0 mobile:bg-white mobile:p-4 mobile:!w-full mobile:shadow-md z-50',
+          'mobile:fixed mobile:bottom-0 mobile:left-0 mobile:bg-white mobile:p-4 mobile:!w-full mobile:shadow-md z-30',
           {
             '!justify-start': !showNext && showPrev,
           },

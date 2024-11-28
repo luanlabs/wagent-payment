@@ -30,7 +30,7 @@ const StepOne = ({ nextStep, emailAddress, setEmailAddress }: StepOneProps) => {
             onChange={handleEmailChange}
             placeholder="Email Address"
             type="email"
-            className="w-full h-10 py-[10px] px-[14px] text-base border border-lightGrayishBlue rounded-lg placeholder:text-cadetBlue text-black focus:outline-none"
+            className="w-full h-10 py-[10px] px-[14px] text-base border border-gray rounded-lg placeholder:text-cadetBlue text-black focus:outline-none"
           />
           <p className="text-[13px] text-red-500 px-1 h-1 mt-[2px]">{emailError && emailError}</p>
         </div>

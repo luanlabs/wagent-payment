@@ -7,6 +7,7 @@ import OrderOverview from '../OrderOverview';
 
 import { networks, tokensByNetwork } from './network';
 import { IPaymentDetailsResponse, OptionType } from '../../models';
+import StepFour from '../Steps/StepFour';
 
 interface PaymentGatewayMultiStep {
   data: IPaymentDetailsResponse;
@@ -14,7 +15,7 @@ interface PaymentGatewayMultiStep {
 }
 
 const PaymentGatewayMultiStep = ({ data, orderId }: PaymentGatewayMultiStep) => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(4);
   const [emailAddress, setEmailAddress] = useState('');
   const [selectedNetwork, setSelectedNetwork] = useState<OptionType | null>(null);
   const [selectedToken, setSelectedToken] = useState<OptionType | null>(null);
@@ -24,10 +25,10 @@ const PaymentGatewayMultiStep = ({ data, orderId }: PaymentGatewayMultiStep) => 
 
   return (
     <div className="w-[50%] desktopMax:w-[65%] flex gap-4 m-auto h-full mobile:flex-col mobile:!w-[90%]">
-      <div className="w-full h-full basis-2/6 mobile:basis-full z-50">
+      <div className="w-full h-full basis-2/6 mobile:basis-full z-50 relative">
         <OrderOverview data={data} orderId={orderId} />
       </div>
-      <div className="w-full basis-4/6 mobile:basis-full z-50">
+      <div className="w-full basis-4/6 mobile:basis-full z-10">
         {step === 1 && (
           <StepOne
             nextStep={nextStep}
@@ -66,6 +67,7 @@ const PaymentGatewayMultiStep = ({ data, orderId }: PaymentGatewayMultiStep) => 
             </div>
           </div>
         )}
+        {step === 4 && <StepFour />}
       </div>
     </div>
   );

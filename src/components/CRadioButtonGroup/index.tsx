@@ -49,7 +49,7 @@ const CRadioButtonGroup = ({
                 {
                   'bg-white font-medium border-2 !border-customGray transition-all duration-300':
                     selectableTabs.includes(tab) && tab === selectedTab,
-                  'text-lightGrayishBlue': !selectableTabs.includes(tab),
+                  'text-gray': !selectableTabs.includes(tab),
                 },
                 {
                   'w-full': tabs.length >= 2,
