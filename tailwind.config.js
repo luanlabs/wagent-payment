@@ -25,6 +25,10 @@ export default {
         lightestGreen: '#ECFDF3',
         lightestOrange: '#FFFAEB',
       },
+      boxShadow: {
+        box: '0px 4px 16px 0px rgba(118, 138, 189, 0.1)',
+        input: '0px 1px 2px 0px rgba(16, 24, 40, 0.05)',
+      },
       backgroundImage: {
         gradientGlow: 'radial-gradient(#A6F4C5, #2AC18D 60%)',
       },
