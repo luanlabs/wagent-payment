@@ -5,9 +5,18 @@ const Loading = () => {
   const [loadingTime, setLoadingTime] = useState(0);
 
   useEffect(() => {
+    const interval = 30;
+    const increment = 100 / (3000 / interval);
     const intervalId = setInterval(() => {
-      setLoadingTime(100);
-    }, 100);
+      setLoadingTime((prev) => {
+        const nextValue = prev + increment;
+        if (nextValue >= 100) {
+          clearInterval(intervalId);
+          return 100;
+        }
+        return nextValue;
+      });
+    }, interval);
 
     return () => clearInterval(intervalId);
   }, []);
