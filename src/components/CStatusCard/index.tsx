@@ -1,15 +1,12 @@
+import { StatusType } from '../../models';
 import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
-
-export type StatusType = 'completed' | 'expired' | 'pending';
 
 type CStatusCardProps = {
   status: StatusType;
 };
 
 const getStatusStyle = (status: StatusType) => {
-  if (status === 'pending') {
-    return 'text-warning border-lightOrange bg-lightestOrange';
-  } else if (status === 'completed') {
+  if (status === 'success') {
     return 'text-success border-lightGreen bg-lightestGreen';
   } else {
     return 'text-error border-lightRed bg-lightestRed';

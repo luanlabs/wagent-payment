@@ -14,7 +14,7 @@ const CTokenLabel = ({ symbol, imgSrc, className }: CTokenLabelProps) => {
   return (
     <div
       className={clsx(
-        'flex items-center justify-between rounded-[50px] h-[28px] pl-2 pr-3 w-auto mobile:w-[28%] mobile:space-x-1 space-x-1',
+        'flex items-center justify-between rounded-full h-[28px] pl-2 pr-3 w-auto mobile:space-x-1 space-x-1',
         className,
       )}
       style={{
@@ -26,7 +26,7 @@ const CTokenLabel = ({ symbol, imgSrc, className }: CTokenLabelProps) => {
     >
       <div className="flex items-center justify-between">
         <img src={imgSrc} alt={symbol} style={{ width: '18px', height: '18px' }} />
-        <span className="ml-2 font-medium text-base">{symbol.toUpperCase()}</span>
+        <span className="ml-2 font-medium text-base font-[Aeonik-m]">{symbol.toUpperCase()}</span>
       </div>
     </div>
   );
