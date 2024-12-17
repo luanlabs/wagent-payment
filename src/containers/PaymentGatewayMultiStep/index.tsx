@@ -53,7 +53,7 @@ const PaymentGatewayMultiStep = ({
   return (
     <div className="h-screen mobile:h-full">
       {data.status !== 'pending' && (
-        <div className="flex justify-center items-center h-screen bg-transparent">
+        <div className="flex justify-center items-center m-auto h-full">
           {data.status === 'expired' && (
             <div>
               <ExpiredBox redirectUrl={data.redirectUrl} />
@@ -65,19 +65,17 @@ const PaymentGatewayMultiStep = ({
               <CanceledBox />
             </div>
           )}
-        </div>
-      )}
 
-      {step === 5 && (
-        <div className="flex justify-center items-center h-screen bg-transparent">
-          <div className="z-[5] w-[45%] bigScreen:w-[30%] mobile:w-full">
-            <StepSuccessful
-              data={data}
-              selectedNetwork={networks.stellar}
-              isRedirect={isRedirect}
-              orderId={orderId}
-            />
-          </div>
+          {step === 5 && (
+            <div className="z-[5] w-[45%] bigScreen:w-[30%] mobile:w-full">
+              <StepSuccessful
+                data={data}
+                selectedNetwork={networks.stellar}
+                isRedirect={isRedirect}
+                orderId={orderId}
+              />
+            </div>
+          )}
         </div>
       )}
 
@@ -85,7 +83,7 @@ const PaymentGatewayMultiStep = ({
         <Header isExpired={true} orderId={orderId} orderStatus={data.status} />
       </div>
 
-      {step < 5 && data.status === 'pending' && (
+      {step < 5 && (
         <div className="h-full flex items-center justify-center pt-8">
           <div className="h-[520px] desktopMax:h-[480px] w-[50%] desktopMax:w-[65%] flex gap-4 m-auto mobile:flex-col mobile:!w-[90%] mobile:!h-auto">
             <div className="w-full h-full basis-2/6 mobile:basis-full mobile:!h-auto relative">
