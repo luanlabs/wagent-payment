@@ -27,6 +27,10 @@ export default function App() {
     return <NotFound />;
   }
 
+  if (!id) {
+    return <NotFound />;
+  }
+
   return (
     <div className="w-full mobile:h-full tablet:h-full h-screen">
       <img
@@ -36,7 +40,7 @@ export default function App() {
         className="absolute w-full top-0 left-0 right-0"
       />
       <div className="w-full m-auto z-[5]">
-        <PaymentGatewayMultiStep data={data} orderId={id || ''} />
+        <PaymentGatewayMultiStep data={data} orderId={id} />
       </div>
     </div>
   );
