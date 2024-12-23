@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import Header from '../Header';
-import StepOne from '../Steps/StepOne';
-import StepTwo from '../Steps/StepTwo';
+import StepOneEmail from '../Steps/StepOneEmail';
+import StepTwo from '../Steps/StepTwoSelectToken';
 import ExpiredBox from '../ExpiredBox';
 import StepFour from '../Steps/StepFour';
 import CanceledBox from '../CanceledBox';
@@ -52,7 +52,11 @@ const PaymentGatewayMultiStep = ({
 
   return (
     <div className="h-screen mobile:h-full">
-      {data.status !== 'pending' && (
+      <div className="static desktop:fixed desktop:top-0 desktop:right-0 desktop:left-0 z-10">
+        <Header isExpired={true} orderId={orderId} orderStatus={data.status} />
+      </div>
+
+      {data.status !== 'pending' && step > 4 && (
         <div className="flex justify-center items-center m-auto h-full">
           {data.status === 'expired' && (
             <div>
@@ -79,10 +83,6 @@ const PaymentGatewayMultiStep = ({
         </div>
       )}
 
-      <div className="static desktop:fixed desktop:top-0 desktop:right-0 desktop:left-0 z-10">
-        <Header isExpired={true} orderId={orderId} orderStatus={data.status} />
-      </div>
-
       {step < 5 && (
         <div className="h-full flex items-center justify-center pt-8">
           <div className="h-[520px] desktopMax:h-[480px] w-[50%] desktopMax:w-[65%] flex gap-4 m-auto mobile:flex-col mobile:!w-[90%] mobile:!h-auto">
@@ -98,7 +98,7 @@ const PaymentGatewayMultiStep = ({
                 ''
               )}
               {step === 1 && (
-                <StepOne
+                <StepOneEmail
                   nextStep={nextStep}
                   emailAddress={emailAddress}
                   setEmailAddress={setEmailAddress}

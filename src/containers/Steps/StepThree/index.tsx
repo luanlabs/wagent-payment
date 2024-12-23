@@ -6,11 +6,8 @@ import { useAppSelector } from '../../../hooks/useRedux';
 
 import copyText from '../../../utils/copyText';
 import generateQrCode from '../../../utils/generateQrCode';
-
 import { ITokenResponse, OptionType } from '../../../models';
-
 import Copy from '../../../assets/Copy';
-
 interface StepThreeProps {
   prevStep: () => void;
   setStep: (_: number) => void;
@@ -27,8 +24,22 @@ const StepThree = ({
   setIsPayed,
 }: StepThreeProps) => {
   const [qrCode, setQrCode] = useState<string | null>(null);
-
   const { data, loading } = useAppSelector((store) => store.data);
+
+  const paymentAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
+
+  useEffect(() => {
+    const generateQr = async () => {
+      try {
+        const qr = await generateQrCode(paymentAddress);
+        setQrCode(qr);
+      } catch (error) {
+        console.error('Error generating QR code:', error);
+      }
+    };
+
+    generateQr();
+  }, []);
 
   let amount = '0';
   if (!loading && data) {
@@ -40,21 +51,6 @@ const StepThree = ({
       setStep(4);
     }
   }
-
-  const paymentAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
-
-  const generateQr = async () => {
-    try {
-      const qr = await generateQrCode(paymentAddress);
-      setQrCode(qr);
-    } catch (error) {
-      console.error('Error generating QR code:', error);
-    }
-  };
-
-  useEffect(() => {
-    generateQr();
-  }, []);
 
   const handleCopyAddress = () => {
     copyText(paymentAddress);

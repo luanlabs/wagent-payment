@@ -8,7 +8,7 @@ interface StepOneProps {
   setEmailAddress: (email: string) => void;
 }
 
-const StepOne = ({ nextStep, emailAddress, setEmailAddress }: StepOneProps) => {
+const StepOneEmail = ({ nextStep, emailAddress, setEmailAddress }: StepOneProps) => {
   const [emailError, setEmailError] = useState('');
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,4 +39,4 @@ const StepOne = ({ nextStep, emailAddress, setEmailAddress }: StepOneProps) => {
   );
 };
 
-export default StepOne;
+export default StepOneEmail;

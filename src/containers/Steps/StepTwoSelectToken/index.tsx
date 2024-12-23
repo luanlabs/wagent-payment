@@ -18,7 +18,7 @@ interface StepTwoProps {
   selectedToken: ITokenResponse | null;
 }
 
-const StepTwo = ({
+const StepTwoSelectToken = ({
   nextStep,
   prevStep,
   tokens,
@@ -96,4 +96,4 @@ const StepTwo = ({
   );
 };
 
-export default StepTwo;
+export default StepTwoSelectToken;
