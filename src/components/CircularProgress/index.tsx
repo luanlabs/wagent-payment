@@ -2,37 +2,33 @@ import React, { useEffect, useState } from 'react';
 
 interface CircularProgressProps {
   percentage: number;
+  duration: number;
   size?: number;
   strokeWidth?: number;
   color?: string;
   trailColor?: string;
-  duration?: number; // Animation duration in milliseconds
 }
 
 const CircularProgress: React.FC<CircularProgressProps> = ({
   percentage,
-  size = 172,
-  strokeWidth = 16,
+  duration,
+  size = 180,
+  strokeWidth = 15,
   color = '#05DC91',
   trailColor = '#E2FFF5',
-  duration = 1000, // Default duration: 1 second
 }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
+  const [currentPercentage, setCurrentPercentage] = useState(0);
 
-  const [animatedPercentage, setAnimatedPercentage] = useState(0);
-
-  // Animate percentage change
   useEffect(() => {
-    const startTime = performance.now();
-    const startPercentage = animatedPercentage;
+    let start: number | null = null;
 
-    const animate = (currentTime: number) => {
-      const elapsedTime = currentTime - startTime;
-      const progress = Math.min(elapsedTime / duration, 1); // Ensure progress stays between 0 and 1
-      const newPercentage = startPercentage + progress * (percentage - startPercentage);
-
-      setAnimatedPercentage(newPercentage);
+    const animate = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const elapsed = timestamp - start;
+      const progress = Math.min(elapsed / duration, 1);
+      setCurrentPercentage(progress * percentage);
 
       if (progress < 1) {
         requestAnimationFrame(animate);
@@ -40,16 +36,18 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
     };
 
     requestAnimationFrame(animate);
+
+    return () => setCurrentPercentage(0);
   }, [percentage, duration]);
 
-  const offset = circumference - (animatedPercentage / 100) * circumference;
+  const offset = circumference - (currentPercentage / 100) * circumference;
 
   return (
     <div
       className="relative flex items-center justify-center"
       style={{ width: size, height: size }}
     >
-      <svg className="absolute transform rotate-[-90deg]" width={size} height={size}>
+      <svg className="absolute transform -rotate-90" width={size} height={size}>
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -68,20 +66,10 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
           strokeDasharray={circumference}
           strokeDashoffset={offset}
           strokeLinecap="round"
-          style={{ transition: `stroke-dashoffset ${duration}ms ease` }}
         />
       </svg>
-
       <div className="text-center">
-        <p
-          className="text-xl font-bold text-gray-800"
-          style={{
-            transition: `all ${duration}ms ease`,
-            transform: 'scale(1.1)',
-          }}
-        >
-          {Math.round(animatedPercentage)}%
-        </p>
+        <div className="text-xl font-bold text-gray-800">{Math.round(currentPercentage)}%</div>
       </div>
     </div>
   );

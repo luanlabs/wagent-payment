@@ -1,10 +1,12 @@
 import { useState } from 'react';
 
 import CModal from '../../Modal';
-import rolling from '/images/rolling.svg';
-import useCancelOrder from '../../../utils/cancelOrder';
-import redCircleMultiplied from '/images/redCircleMultiplied.svg';
 import CButton from '../../CButton';
+
+import useCancelOrder from '../../../utils/cancelOrder';
+
+import rolling from '/images/rolling.svg';
+import redCircleMultiplied from '/images/redCircleMultiplied.svg';
 
 interface CancelOrderModalProps {
   isOpen: boolean;
@@ -27,9 +29,9 @@ const CancelOrderModal = ({ isOpen, onClose, orderId }: CancelOrderModalProps) =
   };
 
   return (
-    <CModal isOpen={isOpen} onClose={onClose} className="w-[404px]">
+    <CModal isOpen={isOpen} onClose={onClose} className="w-[404px] !z-[9999]">
       <div
-        className={`transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`transition-all duration-300 ease-in-out overflow-hidden !z-[9999] ${
           isConfirmed ? '!h-[200px] sm:!h-[230px]' : '!h-[152px] sm:!h-[178px]'
         }`}
       >
@@ -46,7 +48,7 @@ const CancelOrderModal = ({ isOpen, onClose, orderId }: CancelOrderModalProps) =
             <img src={rolling} alt="loading" draggable={false} />
           </div>
         ) : (
-          <div>
+          <div className="!z-[9999]">
             <p className="text-2xl mobile:text-xl text-[#D92D20] font-[Aeonik-m]">
               Cancel Your Order
             </p>

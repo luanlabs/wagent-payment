@@ -5,48 +5,47 @@ import CSelect from '../../../components/CSelect';
 import StepWrapper from '../../../components/StepWrapper';
 import CRadioButton from '../../../components/CRadioButton';
 
-import { OptionType } from '../../../models';
+import { IOrderTokens, ITokenResponse, OptionType } from '../../../models';
+import { networks as availableNetwork } from '../../PaymentGatewayMultiStep/network';
 
 interface StepTwoProps {
   nextStep: () => void;
   prevStep: () => void;
-  networks: OptionType[];
-  tokensByNetwork: Record<string, OptionType[]>;
+  tokens: IOrderTokens[];
   selectedNetwork: OptionType | null;
   setSelectedNetwork: (network: OptionType | null) => void;
-  selectedToken: OptionType | null;
-  setSelectedToken: (token: OptionType | null) => void;
+  setSelectedToken: (token: ITokenResponse | null) => void;
+  selectedToken: ITokenResponse | null;
 }
 
-const StepTwo = ({
+const StepTwoSelectToken = ({
   nextStep,
   prevStep,
-  networks,
-  tokensByNetwork,
+  tokens,
   selectedNetwork,
   setSelectedNetwork,
   selectedToken,
   setSelectedToken,
 }: StepTwoProps) => {
+  const networks = [availableNetwork.stellar];
+
+  const selectableTokens = tokens.map((token) => token.token);
+
   useEffect(() => {
     if (!selectedNetwork) {
       const defaultNetwork = networks.find((network) => network.value === 'stellar');
       setSelectedNetwork(defaultNetwork || null);
     }
-  }, [selectedNetwork, networks, setSelectedNetwork]);
+  }, [selectedNetwork, setSelectedNetwork]);
 
   const handleNetworkChange = (network: OptionType | null) => {
     setSelectedNetwork(network);
     setSelectedToken(null);
   };
 
-  const handleTokenChange = (token: OptionType) => {
+  const handleTokenChange = (token: ITokenResponse) => {
     setSelectedToken(token);
   };
-
-  const tokens = selectedNetwork
-    ? tokensByNetwork[selectedNetwork.value]
-    : tokensByNetwork['stellar'];
 
   return (
     <StepWrapper
@@ -68,25 +67,25 @@ const StepTwo = ({
           </div>
         </div>
 
-        {tokens.length > 0 && (
+        {selectableTokens && selectableTokens.length > 0 && (
           <div className="flex flex-col mt-4 border border-1 border-[#F2F4F7] bg-[#FCFCFD] p-4 rounded-lg space-y-2">
-            {tokens.map((token) => (
+            {selectableTokens.map((token) => (
               <CRadioButton
-                key={token.value}
+                key={token.symbol}
                 name="token"
                 type="secondary"
-                value={token.value}
-                checked={selectedToken?.value === token.value}
+                value={token.symbol}
+                checked={selectedToken?.symbol === token.symbol}
                 onChange={() => handleTokenChange(token)}
                 label={
                   <div className="w-full flex items-center">
-                    <img src={token.logo} alt={token.label} className="w-5 h-5 mr-2" />
-                    <span className="text-base font-[Aeonik-m]">{token.label}</span>
+                    <img src={token.logo} alt={token.symbol} className="w-5 h-5 mr-2" />
+                    <span className="text-base font-[Aeonik-m]">{token.symbol.toUpperCase()}</span>
                   </div>
                 }
                 className={clsx(
                   'w-full flex items-center justify-between flex-row-reverse py-[10px] px-3 cursor-pointer rounded-[10px] bg-white border-[1.7px] border-[#D0D5DD]',
-                  { '!border-[#073834]': selectedToken?.value === token.value },
+                  { '!border-[#073834]': selectedToken?.symbol === token.symbol },
                 )}
               />
             ))}
@@ -97,4 +96,4 @@ const StepTwo = ({
   );
 };
 
-export default StepTwo;
+export default StepTwoSelectToken;

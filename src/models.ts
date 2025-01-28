@@ -8,6 +8,11 @@ export interface iconProps {
   fill: string;
 }
 
+export interface IOrderTokens {
+  token: ITokenResponse;
+  amount: string;
+}
+
 export interface ITokenResponse {
   symbol: string;
   address: string;
@@ -26,20 +31,25 @@ interface IUser {
   logo?: string;
 }
 
-export type StatusType = 'pending' | 'complete' | 'expired';
+export type StatusType = 'pending' | 'completed' | 'expired' | 'cancelled' | 'success';
 
-export interface IPaymentDetailsResponse {
-  amount: string;
-  token: ITokenResponse[];
+export interface IOrderDetailsResponse {
+  memo: string;
   user: IUser;
+  amount: string;
+  currency: string;
   status: StatusType;
-  expiredTimestamp: number;
-  products?: IProducts[];
   redirectUrl: string;
+  tokens: IOrderTokens[];
+  products?: IProducts[];
+  expiredTimestamp: number;
+  transaction?: ITransactionDetails;
 }
 
 export type SvgProps = {
   fill?: string;
+  width?: string;
+  height?: string;
 };
 
 export interface IPaymentDetails {
@@ -49,4 +59,21 @@ export interface IPaymentDetails {
   amount: string;
   orderId: string;
   redirectUrl: string;
+}
+
+export interface IApiResponse<T> {
+  loading: boolean;
+  data: null | T;
+  error: null | boolean;
+}
+
+export interface ITransactionDetails {
+  hash: string;
+  method: string;
+  payerEmail?: string;
+  submittedAt: number;
+  payerAddress: string;
+  successful: boolean;
+  amount: string;
+  token: ITokenResponse;
 }
