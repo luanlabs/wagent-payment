@@ -30,7 +30,7 @@
 
 html,
 body {
-  font-family: Aeonik;
+  font-family: 'Inter', serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -47,30 +47,4 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-@layer base {
-  @font-face {
-    font-family: 'Aeonik';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(/font/Aeonik-Regular.ttf) format('truetype');
-  }
-
-  @font-face {
-    font-family: 'Aeonik';
-    font-style: normal;
-    font-weight: 500;
-    font-display: swap;
-    src: url(/font/Aeonik-Medium.ttf) format('truetype');
-  }
-
-  @font-face {
-    font-family: 'Aeonik';
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url(/font/Aeonik-Bold.ttf) format('truetype');
-  }
 }
