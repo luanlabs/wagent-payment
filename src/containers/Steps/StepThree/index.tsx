@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 
 import StepWrapper from '../../../components/StepWrapper';
+import CopyButton from '../../../components/CopyButton';
 
 import { useAppSelector } from '../../../hooks/useRedux';
 
-import copyText from '../../../utils/copyText';
 import generateQrCode from '../../../utils/generateQrCode';
 import { ITokenResponse, OptionType } from '../../../models';
-import Copy from '../../../assets/Copy';
 interface StepThreeProps {
   prevStep: () => void;
   setStep: (_: number) => void;
@@ -52,20 +51,12 @@ const StepThree = ({
     }
   }
 
-  const handleCopyAddress = () => {
-    copyText(paymentAddress);
-  };
-
-  const handleCopyMemo = () => {
-    copyText(data?.memo || '');
-  };
-
   return (
     <StepWrapper title="Pay for your order" prevStep={prevStep} showNext={false}>
       <div className="mt-0 flex flex-col items-center">
-        <h2 className="font-medium text-[#101828] font-[Aeonik-m]">
+        <h2 className="font-medium text-[#101828]">
           Please send{' '}
-          <span className="text-green-500 font-[Aeonik-b]">
+          <span className="text-green-500">
             {amount} {selectedToken?.symbol.toUpperCase()}{' '}
           </span>
           to Address below
@@ -80,13 +71,10 @@ const StepThree = ({
 
         <div className="flex justify-between border border-1 border-[#E4E7EC] mt-3 rounded-md">
           <div className="py-1 px-3 mobile:text-[14px]">
-            Memo:<span className="ml-1 font-[Aeonik-m]">{data?.memo}</span>
+            Memo:<span className="ml-1">{data?.memo}</span>
           </div>
-          <div
-            className="border-l border-1 border-[#E4E7EC] flex justify-center items-center py-2 px-3 cursor-pointer"
-            onClick={handleCopyMemo}
-          >
-            <Copy fill="#667085" />
+          <div className="border-l border-1 border-[#E4E7EC] flex justify-center items-center py-2 px-3 cursor-pointer">
+            <CopyButton text={data?.memo || ''} />
           </div>
         </div>
 
@@ -95,23 +83,20 @@ const StepThree = ({
             <div className="py-2 px-3 mobile:text-[14px]">
               <span className="break-all text-[15px]">{paymentAddress}</span>
             </div>
-            <div
-              className="border-l border-1 border-[#FEDF89] flex justify-center items-center py-2 px-3 cursor-pointer"
-              onClick={handleCopyAddress}
-            >
-              <Copy fill="#667085" />
+            <div className="border-l border-1 border-[#FEDF89] flex justify-center items-center py-2 px-3 cursor-pointer">
+              <CopyButton text={paymentAddress} />
             </div>
           </div>
 
           <div className="p-2 text-center text-[#DC6803] mobile:text-[14px]">
             <p className="flex justify-center items-center">
               Pay only in
-              <div className="text-[#475467] flex items-center font-[Aeonik-m] space-x-1 mx-1">
+              <div className="text-[#475467] flex items-center space-x-1 mx-1">
                 <img src={selectedToken?.logo} draggable={false} width={16} height={16} />
                 <p>{selectedToken?.symbol.toUpperCase()}</p>
               </div>
               on
-              <div className="text-[#475467] flex items-center font-[Aeonik-m] space-x-1 !mx-1">
+              <div className="text-[#475467] flex items-center space-x-1 !mx-1">
                 <img src={selectedNetwork?.logo} draggable={false} width={16} height={16} />
                 <p>{selectedNetwork?.label}</p>
               </div>

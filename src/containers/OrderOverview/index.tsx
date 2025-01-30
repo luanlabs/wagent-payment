@@ -15,6 +15,7 @@ import { IOrderDetailsResponse } from '../../models';
 
 import Copy from '../../assets/Copy';
 import defaultUserLogo from '../../../public/images/defaultUserLogo.png';
+import Tooltip from '../../components/Tooltip';
 
 interface IOrderOverview {
   data: IOrderDetailsResponse;
@@ -67,7 +68,9 @@ const OrderOverview = ({ data, orderId }: IOrderOverview) => {
                     {orderId.substring(0, 6)}...{orderId.slice(-4)}
                   </p>
                   <div>
-                    <Copy fill="#666" width="15px" height="15px" />
+                    <Tooltip text="Text copied">
+                      <Copy fill="#666" width="15px" height="15px" />
+                    </Tooltip>
                   </div>
                 </a>
               }
