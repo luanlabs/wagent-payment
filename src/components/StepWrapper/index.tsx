@@ -26,7 +26,7 @@ const StepWrapper = ({
     <div className="p-6 flex flex-col justify-between bg-white rounded-[12px] w-full h-full mobile:p-0 mobile:bg-transparent">
       <div className="mobile:bg-white rounded-[12px] mobile:p-3 mobile:mb-20 mobile:pb-10">
         <div className="flex justify-between relative">
-          <h2 className="text-[22px] mobile:text-[18px] font-[Aeonik-m] mb-4">{title}</h2>
+          <h2 className="text-[22px] mobile:text-[18px] font-medium mb-4">{title}</h2>
         </div>
 
         <div>{children}</div>

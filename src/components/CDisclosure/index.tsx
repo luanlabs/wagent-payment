@@ -26,7 +26,7 @@ const CDisclosure = ({ title, subTitle, content, icon, label }: CDisclosureProps
                   )}
                   <div className="w-full flex flex-col justify-center">
                     <div className="flex items-center justify-between w-full">
-                      <span className="text-lg mobile:text-base !font-[Aeonik-m] transition-colors group-data-[hover]:text-darkBlue/80">
+                      <span className="text-lg mobile:text-base transition-colors group-data-[hover]:text-darkBlue/80">
                         {title}
                       </span>
                       <BottomArrowIcon fill={open ? '#05DC91' : '#475467'} />

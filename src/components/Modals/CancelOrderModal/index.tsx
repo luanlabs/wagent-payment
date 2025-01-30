@@ -38,9 +38,7 @@ const CancelOrderModal = ({ isOpen, onClose, orderId }: CancelOrderModalProps) =
         {isConfirmed ? (
           <div className="center flex-col">
             <img src={redCircleMultiplied} alt="canceled" draggable={false} />
-            <p className="text-2xl mobile:text-xl text-[#D92D20] font-[Aeonik-m] mt-4">
-              Order Cancelled
-            </p>
+            <p className="text-2xl mobile:text-xl text-[#D92D20] mt-4">Order Cancelled</p>
             <p className="text-[#475467] text-center text-base my-2">
               Your order has been successfully cancelled. We’ll redirect you to the main website
               shortly.
@@ -49,9 +47,7 @@ const CancelOrderModal = ({ isOpen, onClose, orderId }: CancelOrderModalProps) =
           </div>
         ) : (
           <div className="!z-[9999]">
-            <p className="text-2xl mobile:text-xl text-[#D92D20] font-[Aeonik-m]">
-              Cancel Your Order
-            </p>
+            <p className="text-2xl mobile:text-xl text-[#D92D20]">Cancel Your Order</p>
             <p className="text-[#475467] my-4">Are you sure you want to cancel this order?</p>
             <div className="flex justify-between gap-4 mt-10">
               <CButton

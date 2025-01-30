@@ -50,16 +50,14 @@ const Successful = ({
       <div className="h-full center gap-5 flex-col py-6 px-8 mobile:px-4 mobile:w-full shadow-sm rounded-2xl bg-white">
         <div className="center flex-col">
           <img src={successLogo} alt="success" />
-          <p className="text-2xl text-center mt-4 mb-2 text-[#0B433E] font-[Aeonik-m]">
-            Transaction successful
-          </p>
+          <p className="text-2xl text-center mt-4 mb-2 text-[#0B433E]">Transaction successful</p>
           <p className="text-[#475467]">You will be redirected shortly</p>
         </div>
         <div className="w-[90%] rounded-[10px] py-3 px-4 mobile:w-full bg-lightGray mx-2">
           <div className="text-base mobile:text-sm text-[#667085] space-y-4 py-2">
             <div className="flex justify-between">
               <span>Amount</span>
-              <span className="font-[Aeonik-m]">
+              <span className="font-medium">
                 {humanizeAmount(amount)} {token.symbol.toLocaleUpperCase()}
               </span>
             </div>
@@ -77,7 +75,7 @@ const Successful = ({
             </div>
             <div className="flex justify-between">
               <span>Network</span>
-              <span className="font-[Aeonik-m] text-darkBlue gap-1 flex items-center">
+              <span className=" text-darkBlue gap-1 flex items-center">
                 <div className="w-[20px] h-[20px]">
                   <img src={networkImg} alt="network" className="w-full h-full object-cover" />
                 </div>

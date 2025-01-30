@@ -16,7 +16,7 @@ const CButton = ({ text, onClick, variant, className, children }: CButtonProps) 
         `w-full px-2 py-2 text-center cursor-pointer rounded-[10px] transition duration-300`,
         className,
         {
-          'font-[Aeonik-m] bg-white border-[1.4px] text-[#475467] border-[#F2F4F7] text-base font-medium hover:bg-lightestGray active:shadow':
+          'bg-white border-[1.4px] text-[#475467] border-[#F2F4F7] text-base font-medium hover:bg-lightestGray active:shadow':
             variant === 'bordered',
         },
         {

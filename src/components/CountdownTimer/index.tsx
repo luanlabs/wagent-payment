@@ -50,7 +50,7 @@ const CountdownTimer = ({ expiredTimeStamp }: CountdownTimerProps) => {
   return (
     <div className="relative w-full">
       <h1
-        className="absolute font-[Aeonik-m] left-[13px] top-[15px] flex items-center justify-center"
+        className="absolute left-[13px] top-[15px] flex items-center justify-center"
         style={{ color: progressBarColor }}
       >
         <Clock fill={progressBarColor} />

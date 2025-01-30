@@ -5,7 +5,7 @@ const customStyles = (): StylesConfig<OptionType, false> => ({
   option: (provided, state) => ({
     ...provided,
     color: state.isSelected ? '#000' : '#6b7280',
-    fontFamily: 'Aeonik-m',
+    fontFamily: 'Inter',
     display: 'flex',
     borderRadius: '10px',
     alignItems: 'center',
@@ -22,7 +22,7 @@ const customStyles = (): StylesConfig<OptionType, false> => ({
   control: (provided, state) => ({
     ...provided,
     width: '100%',
-    fontFamily: 'Aeonik-m',
+    fontFamily: 'Inter',
     backgroundColor: '',
     height: '42px',
     borderRadius: '8px',

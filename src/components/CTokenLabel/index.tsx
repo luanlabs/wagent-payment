@@ -26,7 +26,7 @@ const CTokenLabel = ({ symbol, imgSrc, className }: CTokenLabelProps) => {
     >
       <div className="flex items-center justify-between">
         <img src={imgSrc} alt={symbol} style={{ width: '18px', height: '18px' }} />
-        <span className="ml-2 font-medium text-base font-[Aeonik-m]">{symbol.toUpperCase()}</span>
+        <span className="ml-2 font-medium text-base">{symbol.toUpperCase()}</span>
       </div>
     </div>
   );

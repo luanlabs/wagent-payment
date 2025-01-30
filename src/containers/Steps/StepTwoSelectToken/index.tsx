@@ -56,7 +56,7 @@ const StepTwoSelectToken = ({
     >
       <div className="space-y-4">
         <div className="flex justify-between items-center mt-9">
-          <span className="w-[40%] font-[Aeonik-m] mobile:text-[15px]">Select Network</span>
+          <span className="w-[40%] mobile:text-[15px]">Select Network</span>
           <div className="w-[40%] desktopMax:w-[45%] mobile:!w-[60%]">
             <CSelect
               value={selectedNetwork || networks[0]}
@@ -80,7 +80,7 @@ const StepTwoSelectToken = ({
                 label={
                   <div className="w-full flex items-center">
                     <img src={token.logo} alt={token.symbol} className="w-5 h-5 mr-2" />
-                    <span className="text-base font-[Aeonik-m]">{token.symbol.toUpperCase()}</span>
+                    <span className="text-base">{token.symbol.toUpperCase()}</span>
                   </div>
                 }
                 className={clsx(

@@ -34,7 +34,7 @@ const downloadReceiptWithTemplate = async ({
   info.style.height = '100%';
   info.style.margin = '0 auto';
   info.innerHTML = /*html*/ `
-    <div style="font-family: Aeonik, sans-serif; background-color: #ffffff; border-radius: 15px; padding: 20px;">
+    <div style="font-family: Inter, sans-serif; background-color: #ffffff; border-radius: 15px; padding: 20px;">
       <!-- Header Section -->
       <div style="text-align: center; margin-bottom: 20px; width: 100%">
         <img 
